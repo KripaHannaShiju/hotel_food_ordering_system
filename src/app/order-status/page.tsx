@@ -38,6 +38,7 @@ interface Order {
     | "Ready"
     | "Delivered"
     | "Cancelled";
+  paymentStatus: string;
   createdAt: string;
   estimatedPrepTime: number;
   isDelayedCompensationApplied?: boolean;
@@ -54,8 +55,13 @@ function OrderStatusContent() {
   const [compensationNote, setCompensationNote] = useState("");
   const [isCompModalOpen, setIsCompModalOpen] = useState(false);
 
+  const [hasCompletedSession, setHasCompletedSession] = useState(false);
+
   const fetchOrders = async (sid: string) => {
-    if (!sid) return;
+    if (!sid) {
+      setLoading(false);
+      return;
+    }
     try {
       const params = new URLSearchParams({ tableNumber, sessionId: sid });
       const res = await fetch(`/api/orders?${params}`);
@@ -64,7 +70,16 @@ function OrderStatusContent() {
         const sessionOrders = data.filter(
           (o: Order) => !["Cancelled"].includes(o.status),
         );
-        setOrders(sessionOrders);
+        
+        const allPaid = sessionOrders.length > 0 && sessionOrders.every((o: Order) => o.paymentStatus === "Paid");
+        
+        if (allPaid) {
+          setHasCompletedSession(true);
+          sessionStorage.removeItem(`table_session_${tableNumber}`);
+          setOrders([]);
+        } else {
+          setOrders(sessionOrders);
+        }
       }
     } catch (error) {
       console.error("Failed to fetch orders", error);
@@ -77,6 +92,9 @@ function OrderStatusContent() {
     const key = `table_session_${tableNumber}`;
     const sid = sessionStorage.getItem(key) || "";
     setSessionId(sid);
+    if (!sid) {
+      setLoading(false);
+    }
   }, [tableNumber]);
 
   useEffect(() => {
@@ -171,6 +189,27 @@ function OrderStatusContent() {
                 Fetching your orders...
               </p>
             </div>
+          ) : hasCompletedSession ? (
+            <div className="flex flex-col gap-12">
+              <div className="text-center py-20 bg-white rounded-3xl border border-gray-200 px-6 shadow-sm">
+                <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-10 h-10 text-green-500" />
+                </div>
+                <h2 className="text-3xl font-black text-gray-900 mb-2 tracking-tight">
+                  Payment Complete
+                </h2>
+                <p className="text-gray-500 mb-8 max-w-sm mx-auto font-medium">
+                  Thank you for dining with us! Your session is complete.
+                </p>
+                <Link
+                  href={`/?table=${tableNumber}`}
+                  className="inline-flex items-center gap-2 bg-slate-900 text-white font-black px-8 py-4 rounded-2xl hover:scale-105 transition-all active:scale-95 text-lg shadow-xl shadow-slate-200"
+                >
+                  <span>Grab your Menu</span>
+                  <ChevronLeft className="w-5 h-5 rotate-180" />
+                </Link>
+              </div>
+            </div>
           ) : orders.length === 0 ? (
             <div className="flex flex-col gap-12">
               <div className="text-center py-20 bg-white rounded-3xl border border-gray-200 px-6 shadow-sm">
@@ -178,16 +217,17 @@ function OrderStatusContent() {
                   <ShoppingBag className="w-10 h-10 text-gray-300" />
                 </div>
                 <h2 className="text-2xl font-black text-gray-900 mb-2 tracking-tight">
-                  No orders yet
+                  No active orders
                 </h2>
                 <p className="text-gray-500 mb-8 max-w-sm mx-auto font-medium">
-                  Your session is active but no orders have been placed yet.
+                  You don't have any current orders.
                 </p>
                 <Link
                   href={`/?table=${tableNumber}`}
-                  className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-black px-8 py-4 rounded-2xl hover:scale-105 transition-all active:scale-95 text-lg"
+                  className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-black px-8 py-4 rounded-2xl hover:scale-105 transition-all active:scale-95 text-lg shadow-xl shadow-primary/20"
                 >
-                  <span>Order Now</span>
+                  <span>Grab your Menu</span>
+                  <ChevronLeft className="w-5 h-5 rotate-180" />
                 </Link>
               </div>
             </div>

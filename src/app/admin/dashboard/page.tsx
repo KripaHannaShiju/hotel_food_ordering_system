@@ -212,7 +212,7 @@ export default function AdminDashboard() {
     try {
       await fetch("/api/admin/logout", { method: "POST" });
       toast.success("Logged out successfully");
-      router.push("/admin/login");
+      router.replace("/admin/login");
     } catch (error) {
       toast.error("Logout failed");
       setIsLoggingOut(false);

@@ -30,7 +30,7 @@ const ROLES = {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { username, password } = body;
+        const { username, password, portal } = body;
 
         let user = null;
 
@@ -43,6 +43,10 @@ export async function POST(req: Request) {
         }
 
         if (user) {
+            // Reject cross-portal logins, except for admin who has full access
+            if (portal && user.role !== portal && user.role !== 'admin') {
+                return NextResponse.json({ error: `Access denied: Please use the ${user.role} portal to log in.` }, { status: 403 });
+            }
             const token = await new SignJWT({ username: user.username, role: user.role })
                 .setProtectedHeader({ alg: 'HS256' })
                 .setExpirationTime('24h')

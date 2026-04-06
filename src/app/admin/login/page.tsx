@@ -22,12 +22,12 @@ export default function AdminLogin() {
             const res = await fetch('/api/admin/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ username, password, portal: 'admin' }),
             });
 
             if (res.ok) {
                 // Redirecting to the secure admin dashboard upon valid credentials
-                router.push('/admin/dashboard');
+                router.replace('/admin/dashboard');
             } else {
                 setError('Invalid credentials');
             }
@@ -80,8 +80,8 @@ export default function AdminLogin() {
                         UNIFY ACCESS
                     </button>
                     <div className="text-center">
-                        <p className="text-xs text-gray-400 font-medium tracking-tight underline cursor-pointer hover:text-[var(--deep-burgundy)]" onClick={() => router.push('/login')}>
-                            Switch to Staff Login
+                        <p className="text-xs text-gray-400 font-medium tracking-tight">
+                            SECURE INTERNAL PORTAL
                         </p>
                     </div>
                 </form>

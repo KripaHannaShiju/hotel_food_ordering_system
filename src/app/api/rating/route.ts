@@ -1,6 +1,22 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { jwtVerify } from 'jose';
 import dbConnect from '@/lib/db';
 import Rating from '@/models/Rating';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+const SECRET_KEY = new TextEncoder().encode(JWT_SECRET);
+
+async function verifyAdmin() {
+    const token = (await cookies()).get('auth_token')?.value;
+    if (!token) return false;
+    try {
+        const { payload } = await jwtVerify(token, SECRET_KEY);
+        return payload.role === 'admin';
+    } catch {
+        return false;
+    }
+}
 
 export async function POST(req: Request) {
     try {
@@ -29,6 +45,9 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
+    if (!(await verifyAdmin())) {
+        return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 401 });
+    }
     try {
         await dbConnect();
         const ratings = await Rating.find().sort({ createdAt: -1 });

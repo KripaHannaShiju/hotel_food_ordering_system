@@ -221,7 +221,7 @@ function BillContent() {
               )}
 
               <Link href={`/?table=${tableNumber}`} className="inline-flex items-center gap-3 bg-slate-900 text-white font-black px-10 py-5 rounded-2xl hover:bg-slate-800 transition-all text-lg shadow-xl shadow-slate-200 justify-center group active:scale-95">
-                <span>Grab Our Menu</span>
+                <span>Grab your Menu</span>
                 <ChevronLeft className="w-5 h-5 rotate-180 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

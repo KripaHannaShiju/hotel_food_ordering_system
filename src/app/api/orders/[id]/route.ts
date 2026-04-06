@@ -2,6 +2,23 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
+import { cookies } from 'next/headers';
+import { jwtVerify } from 'jose';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+const SECRET_KEY = new TextEncoder().encode(JWT_SECRET);
+
+async function verifyStaff() {
+    const token = (await cookies()).get('auth_token')?.value;
+    if (!token) return false;
+    try {
+        const { payload } = await jwtVerify(token, SECRET_KEY);
+        const role = payload.role as string;
+        return ['admin', 'kitchen', 'billing'].includes(role);
+    } catch {
+        return false;
+    }
+}
 
 export async function PATCH(
     request: Request,
@@ -9,6 +26,11 @@ export async function PATCH(
 ) {
     try {
         await dbConnect();
+        
+        if (!(await verifyStaff())) {
+            return NextResponse.json({ error: 'Unauthorized: Staff access required' }, { status: 401 });
+        }
+
         const { id } = await params;
         const body = await request.json();
 

@@ -1,8 +1,24 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { jwtVerify } from 'jose';
 import dbConnect from '@/lib/db';
 import Menu from '@/models/Menu';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+const SECRET_KEY = new TextEncoder().encode(JWT_SECRET);
+
+async function verifyAdmin() {
+    const token = (await cookies()).get('auth_token')?.value;
+    if (!token) return false;
+    try {
+        const { payload } = await jwtVerify(token, SECRET_KEY);
+        return payload.role === 'admin';
+    } catch {
+        return false;
+    }
+}
 
 // GET - Fetch all menu items
 export async function GET() {
@@ -18,6 +34,9 @@ export async function GET() {
 
 // POST - Create a new menu item
 export async function POST(request: NextRequest) {
+    if (!(await verifyAdmin())) {
+        return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 401 });
+    }
     try {
         await dbConnect();
         const body = await request.json();
@@ -36,6 +55,9 @@ export async function POST(request: NextRequest) {
 
 // PUT - Update a menu item
 export async function PUT(request: NextRequest) {
+    if (!(await verifyAdmin())) {
+        return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 401 });
+    }
     try {
         await dbConnect();
         const body = await request.json();
@@ -65,6 +87,9 @@ export async function PUT(request: NextRequest) {
 
 // DELETE - Delete a menu item
 export async function DELETE(request: NextRequest) {
+    if (!(await verifyAdmin())) {
+        return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 401 });
+    }
     try {
         await dbConnect();
         const { searchParams } = new URL(request.url);
