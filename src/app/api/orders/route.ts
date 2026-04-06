@@ -4,6 +4,11 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Order from '@/models/Order';
 import Menu from '@/models/Menu';
+import { cookies } from 'next/headers';
+import { jwtVerify } from 'jose';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+const SECRET_KEY = new TextEncoder().encode(JWT_SECRET);
 
 export async function POST(req: Request) {
     try {
@@ -41,6 +46,28 @@ export async function GET(req: Request) {
         const { searchParams } = new URL(req.url);
         const tableNumber = searchParams.get('tableNumber');
         const sessionId = searchParams.get('sessionId');
+
+        // Security logic: if no table or session filter is provided, we check for a management role
+        const isSelfOrderFetch = tableNumber && sessionId;
+        
+        if (!isSelfOrderFetch) {
+            const token = (await cookies()).get('auth_token')?.value;
+            if (!token) {
+                return NextResponse.json({ error: 'Unauthorized: Management access required to fetch all orders' }, { status: 401 });
+            }
+
+            try {
+                const { payload } = await jwtVerify(token, SECRET_KEY);
+                const role = payload.role;
+                const allowedRoles = ['admin', 'kitchen', 'billing'];
+                
+                if (!allowedRoles.includes(role as string)) {
+                    return NextResponse.json({ error: 'Forbidden: Insufficient privileges' }, { status: 403 });
+                }
+            } catch (e) {
+                return NextResponse.json({ error: 'Invalid authentication token' }, { status: 401 });
+            }
+        }
 
         // Build filter: always scope by tableNumber if given
         const filter: Record<string, string> = {};

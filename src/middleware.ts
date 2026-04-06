@@ -13,9 +13,15 @@ export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
 
     if (path.startsWith('/admin') || path.startsWith('/kitchen') || path.startsWith('/billing')) {
-        // Redirect /admin to /admin/dashboard
+        // Automatic redirection to dashboards
         if (path === '/admin') {
             return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+        }
+        if (path === '/kitchen') {
+            return NextResponse.redirect(new URL('/kitchen/dashboard', request.url));
+        }
+        if (path === '/billing') {
+            return NextResponse.redirect(new URL('/billing/dashboard', request.url));
         }
 
         // Allow access to admin login if it exists, or redirect to generic login
@@ -46,10 +52,10 @@ export async function middleware(request: NextRequest) {
             if (path.startsWith('/admin') && role !== 'admin') {
                 return NextResponse.redirect(new URL('/login?error=unauthorized', request.url));
             }
-            if (path.startsWith('/kitchen') && role !== 'kitchen') {
+            if (path.startsWith('/kitchen') && (role !== 'kitchen' && role !== 'admin')) {
                 return NextResponse.redirect(new URL('/login?error=unauthorized', request.url));
             }
-            if (path.startsWith('/billing') && role !== 'billing') {
+            if (path.startsWith('/billing') && (role !== 'billing' && role !== 'admin')) {
                 return NextResponse.redirect(new URL('/login?error=unauthorized', request.url));
             }
         } catch (e) {
