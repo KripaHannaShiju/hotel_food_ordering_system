@@ -15,6 +15,7 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
 
+    
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
