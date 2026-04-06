@@ -1,14 +1,4 @@
 import mongoose from 'mongoose';
-import dns from 'dns';
-
-// Explicitly set DNS servers to bypass ISP-related resolution issues with MongoDB Atlas (SRV records)
-if (process.env.NODE_ENV === 'development') {
-  try {
-    dns.setServers(['8.8.8.8', '8.8.4.4']);
-  } catch (e) {
-    console.warn('Could not set custom DNS servers, using system default.');
-  }
-}
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
