@@ -1,6 +1,6 @@
 import { MenuItem } from "@/types";
 import { Plus } from "lucide-react";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
 interface MenuCardProps {
   item: MenuItem;
@@ -10,6 +10,8 @@ interface MenuCardProps {
 
 const MenuCard = forwardRef<HTMLDivElement, MenuCardProps>(
   ({ item, onAdd, onViewDetail }, ref) => {
+    const [imageLoaded, setImageLoaded] = useState(false);
+
     return (
       <div
         ref={ref}
@@ -18,11 +20,17 @@ const MenuCard = forwardRef<HTMLDivElement, MenuCardProps>(
       >
         <div className="aspect-[16/10] relative w-full overflow-hidden bg-muted">
           {item.image ? (
-            <img
-              src={item.image}
-              alt={item.name}
-              className={`object-cover w-full h-full transition-transform duration-500 group-hover:scale-105 ${!item.isAvailable && 'grayscale opacity-60'}`}
-            />
+            <>
+              {!imageLoaded && (
+                <div className="absolute inset-0 bg-muted animate-pulse" />
+              )}
+              <img
+                src={item.image}
+                alt={item.name}
+                onLoad={() => setImageLoaded(true)}
+                className={`object-cover w-full h-full transition-all duration-700 group-hover:scale-105 ${!item.isAvailable && 'grayscale opacity-60'} ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              />
+            </>
           ) : (
             <div className="flex h-full items-center justify-center bg-secondary/50 text-muted-foreground text-sm font-medium">
               No Images
