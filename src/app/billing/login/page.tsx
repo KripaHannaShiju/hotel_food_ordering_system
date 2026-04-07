@@ -54,7 +54,7 @@ export default function BillingLogin() {
                     <div className="inline-flex p-4 rounded-full bg-slate-50 text-indigo-700 mb-4 border border-slate-100">
                         <CreditCard className="w-8 h-8" />
                     </div>
-                    <h2 className="text-3xl font-black text-indigo-900">Billing Access</h2>
+                    <h2 className="text-3xl font-bold text-indigo-900">Billing Access</h2>
                     <p className="text-gray-500 text-sm mt-1 font-medium">Please verify your staff identity</p>
                 </div>
                 <form onSubmit={handleLogin} className="space-y-6">
@@ -88,7 +88,7 @@ export default function BillingLogin() {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full relative flex justify-center items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-700 to-indigo-900 px-6 py-4 text-white font-black shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full relative flex justify-center items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-700 to-indigo-900 px-6 py-4 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                         {isLoading ? (
                             <>

@@ -38,11 +38,11 @@ export default function AdminLogin() {
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-[var(--warm-ivory)]">
-            <div className="w-full max-w-md rounded-2xl bg-white p-10 shadow-2xl border-t-8 border-[var(--deep-burgundy)]">
+        <div className="flex min-h-screen items-center justify-center bg-rose-50">
+            <div className="w-full max-w-md rounded-2xl bg-white p-10 shadow-2xl border-t-8 border-rose-900">
                 <div className="mb-8 text-center">
-                    <div className="inline-block p-4 rounded-full bg-[var(--warm-ivory)] text-4xl mb-2">🔐</div>
-                    <h2 className="text-3xl font-black text-[var(--deep-burgundy)]">Admin Access</h2>
+                    <div className="inline-block p-4 rounded-full bg-rose-50 text-4xl mb-2">🔐</div>
+                    <h2 className="text-3xl font-bold text-rose-900">Admin Access</h2>
                     <p className="text-gray-500 text-sm mt-1 font-medium">Please verify your identity</p>
                 </div>
                 <form onSubmit={handleLogin} className="space-y-6">
@@ -52,10 +52,10 @@ export default function AdminLogin() {
                         </div>
                     )}
                     <div>
-                        <label className="block text-xs font-bold text-[var(--charcoal)] uppercase tracking-widest mb-2">Admin Username</label>
+                        <label className="block text-xs font-bold text-slate-900 uppercase tracking-widest mb-2">Admin Username</label>
                         <input
                             type="text"
-                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-[var(--deep-burgundy)] focus:bg-white focus:outline-none transition-all font-medium text-gray-900"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-rose-900 focus:bg-white focus:outline-none transition-all font-medium text-gray-900"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
@@ -63,10 +63,10 @@ export default function AdminLogin() {
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold text-[var(--charcoal)] uppercase tracking-widest mb-2">Password</label>
+                        <label className="block text-xs font-bold text-slate-900 uppercase tracking-widest mb-2">Password</label>
                         <input
                             type="password"
-                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-[var(--deep-burgundy)] focus:bg-white focus:outline-none transition-all font-medium text-gray-900"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-rose-900 focus:bg-white focus:outline-none transition-all font-medium text-gray-900"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -75,7 +75,7 @@ export default function AdminLogin() {
                     </div>
                     <button
                         type="submit"
-                        className="w-full rounded-xl bg-gradient-to-r from-[var(--deep-burgundy)] to-[var(--charcoal)] px-6 py-4 text-white font-black shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                        className="w-full rounded-xl bg-gradient-to-r from-rose-800 to-slate-900 px-6 py-4 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                     >
                         UNIFY ACCESS
                     </button>
