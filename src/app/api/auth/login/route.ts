@@ -43,8 +43,8 @@ export async function POST(req: Request) {
         }
 
         if (user) {
-            // Reject cross-portal logins, except for admin who has full access
-            if (portal && user.role !== portal && user.role !== 'admin') {
+            // Reject cross-portal logins
+            if (portal && user.role !== portal) {
                 return NextResponse.json({ error: `Access denied: Please use the ${user.role} portal to log in.` }, { status: 403 });
             }
             const token = await new SignJWT({ username: user.username, role: user.role })

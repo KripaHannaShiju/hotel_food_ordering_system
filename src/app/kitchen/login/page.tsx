@@ -28,7 +28,7 @@ export default function KitchenLogin() {
             const data = await res.json();
 
             if (res.ok) {
-                if (data.role === 'kitchen' || data.role === 'admin') {
+                if (data.role === 'kitchen') {
                     toast.success('Welcome to the Kitchen!');
                     router.replace('/kitchen/dashboard');
                 } else {

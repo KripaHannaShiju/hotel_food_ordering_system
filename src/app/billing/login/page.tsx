@@ -28,7 +28,7 @@ export default function BillingLogin() {
             const data = await res.json();
 
             if (res.ok) {
-                if (data.role === 'billing' || data.role === 'admin') {
+                if (data.role === 'billing') {
                     toast.success('Welcome to the Billing Deck!');
                     router.replace('/billing/dashboard');
                 } else {
