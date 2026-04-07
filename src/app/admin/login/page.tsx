@@ -55,7 +55,7 @@ export default function AdminLogin() {
                         <label className="block text-xs font-bold text-[var(--charcoal)] uppercase tracking-widest mb-2">Admin Username</label>
                         <input
                             type="text"
-                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-[var(--deep-burgundy)] focus:bg-white focus:outline-none transition-all font-medium"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-[var(--deep-burgundy)] focus:bg-white focus:outline-none transition-all font-medium text-gray-900"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
@@ -66,7 +66,7 @@ export default function AdminLogin() {
                         <label className="block text-xs font-bold text-[var(--charcoal)] uppercase tracking-widest mb-2">Password</label>
                         <input
                             type="password"
-                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-[var(--deep-burgundy)] focus:bg-white focus:outline-none transition-all font-medium"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-[var(--deep-burgundy)] focus:bg-white focus:outline-none transition-all font-medium text-gray-900"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required

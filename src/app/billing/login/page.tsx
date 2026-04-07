@@ -67,7 +67,7 @@ export default function BillingLogin() {
                         <label className="block text-xs font-bold text-slate-800 uppercase tracking-widest mb-2">Staff ID</label>
                         <input
                             type="text"
-                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-medium"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-medium text-slate-900"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
@@ -78,7 +78,7 @@ export default function BillingLogin() {
                         <label className="block text-xs font-bold text-slate-800 uppercase tracking-widest mb-2">Access Key</label>
                         <input
                             type="password"
-                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-medium"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-100 bg-gray-50 focus:border-indigo-600 focus:bg-white focus:outline-none transition-all font-medium text-slate-900"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
