@@ -1,0 +1,4867 @@
+[
+  {
+    "index": 91,
+    "line": 4,
+    "context": "eRouter } from \"next/navigation\";\\nimport"
+  },
+  {
+    "index": 172,
+    "line": 6,
+    "context": "hemeToggle } from \"@/components/ThemeTog"
+  },
+  {
+    "index": 183,
+    "line": 6,
+    "context": "} from \"@/components/ThemeToggle\";\\nimpor"
+  },
+  {
+    "index": 493,
+    "line": 9,
+    "context": "om \"lucide-react\";\\n\\n// Modular Component"
+  },
+  {
+    "index": 494,
+    "line": 9,
+    "context": "m \"lucide-react\";\\n\\n// Modular Components"
+  },
+  {
+    "index": 542,
+    "line": 10,
+    "context": "AdminSidebar from \"@/components/admin/Ad"
+  },
+  {
+    "index": 553,
+    "line": 10,
+    "context": "r from \"@/components/admin/AdminSidebar\""
+  },
+  {
+    "index": 559,
+    "line": 10,
+    "context": " \"@/components/admin/AdminSidebar\";\\nimpo"
+  },
+  {
+    "index": 601,
+    "line": 11,
+    "context": " AdminTopNav from \"@/components/admin/Ad"
+  },
+  {
+    "index": 612,
+    "line": 11,
+    "context": "v from \"@/components/admin/AdminTopNav\";"
+  },
+  {
+    "index": 618,
+    "line": 11,
+    "context": " \"@/components/admin/AdminTopNav\";\\nimpor"
+  },
+  {
+    "index": 1232,
+    "line": 41,
+    "context": "r = useRouter();\\n\\n  // State to manage t"
+  },
+  {
+    "index": 1233,
+    "line": 41,
+    "context": " = useRouter();\\n\\n  // State to manage th"
+  },
+  {
+    "index": 1291,
+    "line": 41,
+    "context": "e sidebar for mobile/responsive behavior"
+  },
+  {
+    "index": 1370,
+    "line": 43,
+    "context": "= useState(true);\\n  // Current active vi"
+  },
+  {
+    "index": 1371,
+    "line": 43,
+    "context": " useState(true);\\n  // Current active vie"
+  },
+  {
+    "index": 1529,
+    "line": 45,
+    "context": "ate(\"dashboard\");\\n  // Filter for orders"
+  },
+  {
+    "index": 1530,
+    "line": 45,
+    "context": "te(\"dashboard\");\\n  // Filter for orders "
+  },
+  {
+    "index": 1648,
+    "line": 48,
+    "context": "<string>(\"all\");\\n\\n  // Stores all orders"
+  },
+  {
+    "index": 1649,
+    "line": 48,
+    "context": "string>(\"all\");\\n\\n  // Stores all orders "
+  },
+  {
+    "index": 1745,
+    "line": 50,
+    "context": "ate<Order[]>([]);\\n  // Tracking previous"
+  },
+  {
+    "index": 1746,
+    "line": 50,
+    "context": "te<Order[]>([]);\\n  // Tracking previousl"
+  },
+  {
+    "index": 1893,
+    "line": 53,
+    "context": "e<string[]>([]);\\n\\n  // Menu selection an"
+  },
+  {
+    "index": 1894,
+    "line": 53,
+    "context": "<string[]>([]);\\n\\n  // Menu selection and"
+  },
+  {
+    "index": 2578,
+    "line": 73,
+    "context": "] = useState(0);\\n\\n  // Inline editing st"
+  },
+  {
+    "index": 2579,
+    "line": 73,
+    "context": " = useState(0);\\n\\n  // Inline editing sta"
+  },
+  {
+    "index": 2903,
+    "line": 79,
+    "context": "ate<string>(\"\");\\n\\n  // Kitchen module st"
+  },
+  {
+    "index": 2904,
+    "line": 79,
+    "context": "te<string>(\"\");\\n\\n  // Kitchen module sta"
+  },
+  {
+    "index": 3306,
+    "line": 86,
+    "context": "e<string[]>([]);\\n\\n  // Billing module st"
+  },
+  {
+    "index": 3307,
+    "line": 86,
+    "context": "<string[]>([]);\\n\\n  // Billing module sta"
+  },
+  {
+    "index": 4057,
+    "line": 98,
+    "context": "useState(false);\\n\\n  /**\\n   * Fetches act"
+  },
+  {
+    "index": 4180,
+    "line": 101,
+    "context": "e browser data.\\n   */\\n  const fetchOrder"
+  },
+  {
+    "index": 4259,
+    "line": 104,
+    "context": " res = await fetch(`/api/orders?t=${Date"
+  },
+  {
+    "index": 4263,
+    "line": 104,
+    "context": " = await fetch(`/api/orders?t=${Date.now"
+  },
+  {
+    "index": 4608,
+    "line": 117,
+    "context": " res = await fetch(`/api/rating?t=${Date"
+  },
+  {
+    "index": 4612,
+    "line": 117,
+    "context": " = await fetch(`/api/rating?t=${Date.now"
+  },
+  {
+    "index": 4877,
+    "line": 129,
+    "context": "lse);\\n    }\\n  };\\n\\n  // Initial data fetc"
+  },
+  {
+    "index": 4878,
+    "line": 129,
+    "context": "se);\\n    }\\n  };\\n\\n  // Initial data fetch"
+  },
+  {
+    "index": 5193,
+    "line": 138,
+    "context": "   }\\n    }, 10000); // 10s polling inter"
+  },
+  {
+    "index": 5194,
+    "line": 138,
+    "context": "  }\\n    }, 10000); // 10s polling interv"
+  },
+  {
+    "index": 5607,
+    "line": 155,
+    "context": "size);\\n  }, []);\\n\\n  // Kitchen live cloc"
+  },
+  {
+    "index": 5608,
+    "line": 155,
+    "context": "ize);\\n  }, []);\\n\\n  // Kitchen live clock"
+  },
+  {
+    "index": 5797,
+    "line": 161,
+    "context": "tick);\\n  }, []);\\n\\n  // Detect new orders"
+  },
+  {
+    "index": 5798,
+    "line": 161,
+    "context": "ick);\\n  }, []);\\n\\n  // Detect new orders "
+  },
+  {
+    "index": 5831,
+    "line": 162,
+    "context": "orders and notify\\n  // Compares incoming"
+  },
+  {
+    "index": 5832,
+    "line": 162,
+    "context": "rders and notify\\n  // Compares incoming "
+  },
+  {
+    "index": 6498,
+    "line": 176,
+    "context": " res = await fetch(`/api/orders/${id}`, "
+  },
+  {
+    "index": 6502,
+    "line": 176,
+    "context": " = await fetch(`/api/orders/${id}`, {\\n  "
+  },
+  {
+    "index": 6509,
+    "line": 176,
+    "context": "t fetch(`/api/orders/${id}`, {\\n        m"
+  },
+  {
+    "index": 6592,
+    "line": 178,
+    "context": "-Type\": \"application/json\" },\\n        bo"
+  },
+  {
+    "index": 6918,
+    "line": 191,
+    "context": " res = await fetch(`/api/orders/${id}`, "
+  },
+  {
+    "index": 6922,
+    "line": 191,
+    "context": " = await fetch(`/api/orders/${id}`, {\\n  "
+  },
+  {
+    "index": 6929,
+    "line": 191,
+    "context": "t fetch(`/api/orders/${id}`, {\\n        m"
+  },
+  {
+    "index": 7012,
+    "line": 193,
+    "context": "-Type\": \"application/json\" },\\n        bo"
+  },
+  {
+    "index": 7742,
+    "line": 218,
+    "context": "\\n      await fetch(\"/api/admin/logout\", "
+  },
+  {
+    "index": 7746,
+    "line": 218,
+    "context": "   await fetch(\"/api/admin/logout\", { me"
+  },
+  {
+    "index": 7752,
+    "line": 218,
+    "context": "it fetch(\"/api/admin/logout\", { method: "
+  },
+  {
+    "index": 7850,
+    "line": 220,
+    "context": "\\n      router.push(\"/admin/login\");\\n    "
+  },
+  {
+    "index": 7856,
+    "line": 220,
+    "context": " router.push(\"/admin/login\");\\n    } catc"
+  },
+  {
+    "index": 7968,
+    "line": 227,
+    "context": "lse);\\n    }\\n  };\\n\\n  /**\\n   * Orchestrate"
+  },
+  {
+    "index": 8042,
+    "line": 228,
+    "context": "ing validation (type/size),\\n   * instant"
+  },
+  {
+    "index": 8114,
+    "line": 230,
+    "context": "acking via XHR.\\n   */\\n  const handleImag"
+  },
+  {
+    "index": 8262,
+    "line": 235,
+    "context": "!file) return;\\n\\n    // Validate file typ"
+  },
+  {
+    "index": 8263,
+    "line": 235,
+    "context": "file) return;\\n\\n    // Validate file type"
+  },
+  {
+    "index": 8320,
+    "line": 236,
+    "context": "pe.startsWith(\"image/\")) {\\n      toast.e"
+  },
+  {
+    "index": 8402,
+    "line": 241,
+    "context": " return;\\n    }\\n\\n    // Validate file siz"
+  },
+  {
+    "index": 8403,
+    "line": 241,
+    "context": "return;\\n    }\\n\\n    // Validate file size"
+  },
+  {
+    "index": 8611,
+    "line": 250,
+    "context": "adProgress(0);\\n\\n    // Create preview im"
+  },
+  {
+    "index": 8612,
+    "line": 250,
+    "context": "dProgress(0);\\n\\n    // Create preview imm"
+  },
+  {
+    "index": 9057,
+    "line": 262,
+    "context": " API key from https://api.imgbb.com/\",\\n "
+  },
+  {
+    "index": 9058,
+    "line": 262,
+    "context": "API key from https://api.imgbb.com/\",\\n  "
+  },
+  {
+    "index": 9072,
+    "line": 262,
+    "context": "ttps://api.imgbb.com/\",\\n        );\\n     "
+  },
+  {
+    "index": 9230,
+    "line": 271,
+    "context": "age\", file);\\n\\n      // Use XMLHttpReques"
+  },
+  {
+    "index": 9231,
+    "line": 271,
+    "context": "ge\", file);\\n\\n      // Use XMLHttpRequest"
+  },
+  {
+    "index": 9344,
+    "line": 273,
+    "context": "open(\"POST\", `https://api.imgbb.com/1/up"
+  },
+  {
+    "index": 9345,
+    "line": 273,
+    "context": "pen(\"POST\", `https://api.imgbb.com/1/upl"
+  },
+  {
+    "index": 9359,
+    "line": 273,
+    "context": "ttps://api.imgbb.com/1/upload?key=${API_"
+  },
+  {
+    "index": 9361,
+    "line": 273,
+    "context": "ps://api.imgbb.com/1/upload?key=${API_KE"
+  },
+  {
+    "index": 9517,
+    "line": 277,
+    "context": "ete = (event.loaded / event.total) * 100"
+  },
+  {
+    "index": 10600,
+    "line": 314,
+    "context": "n.\");\\n    }\\n  };\\n\\n  // Fetch menu items\\n"
+  },
+  {
+    "index": 10601,
+    "line": 314,
+    "context": ".\");\\n    }\\n  };\\n\\n  // Fetch menu items\\n "
+  },
+  {
+    "index": 10700,
+    "line": 317,
+    "context": " res = await fetch(`/api/menu?t=${Date.n"
+  },
+  {
+    "index": 10704,
+    "line": 317,
+    "context": " = await fetch(`/api/menu?t=${Date.now()"
+  },
+  {
+    "index": 11081,
+    "line": 333,
+    "context": "activeSection]);\\n\\n  // Handle menu form "
+  },
+  {
+    "index": 11082,
+    "line": 333,
+    "context": "ctiveSection]);\\n\\n  // Handle menu form s"
+  },
+  {
+    "index": 11200,
+    "line": 337,
+    "context": "ventDefault();\\n\\n    // Check for duplica"
+  },
+  {
+    "index": 11201,
+    "line": 337,
+    "context": "entDefault();\\n\\n    // Check for duplicat"
+  },
+  {
+    "index": 12376,
+    "line": 372,
+    "context": " res = await fetch(\"/api/menu\", {\\n      "
+  },
+  {
+    "index": 12380,
+    "line": 372,
+    "context": " = await fetch(\"/api/menu\", {\\n        me"
+  },
+  {
+    "index": 12453,
+    "line": 374,
+    "context": "-Type\": \"application/json\" },\\n        bo"
+  },
+  {
+    "index": 12966,
+    "line": 396,
+    "context": "em\");\\n    }\\n  };\\n\\n  // Reset menu form\\n "
+  },
+  {
+    "index": 12967,
+    "line": 396,
+    "context": "m\");\\n    }\\n  };\\n\\n  // Reset menu form\\n  "
+  },
+  {
+    "index": 13311,
+    "line": 414,
+    "context": "review(\"\");\\n  };\\n\\n  // Edit menu item\\n  "
+  },
+  {
+    "index": 13312,
+    "line": 414,
+    "context": "eview(\"\");\\n  };\\n\\n  // Edit menu item\\n  c"
+  },
+  {
+    "index": 13876,
+    "line": 433,
+    "context": "odal(true);\\n  };\\n\\n  // Delete menu item\\n"
+  },
+  {
+    "index": 13877,
+    "line": 433,
+    "context": "dal(true);\\n  };\\n\\n  // Delete menu item\\n "
+  },
+  {
+    "index": 14070,
+    "line": 438,
+    "context": " res = await fetch(`/api/menu?id=${id}`,"
+  },
+  {
+    "index": 14074,
+    "line": 438,
+    "context": " = await fetch(`/api/menu?id=${id}`, { m"
+  },
+  {
+    "index": 14420,
+    "line": 451,
+    "context": "em\");\\n    }\\n  };\\n\\n  // Save inline price"
+  },
+  {
+    "index": 14421,
+    "line": 451,
+    "context": "m\");\\n    }\\n  };\\n\\n  // Save inline price "
+  },
+  {
+    "index": 14706,
+    "line": 460,
+    "context": "  }\\n    try {\\n      // Optimistic update"
+  },
+  {
+    "index": 14707,
+    "line": 460,
+    "context": " }\\n    try {\\n      // Optimistic update\\n"
+  },
+  {
+    "index": 14854,
+    "line": 463,
+    "context": " res = await fetch(\"/api/menu\", {\\n      "
+  },
+  {
+    "index": 14858,
+    "line": 463,
+    "context": " = await fetch(\"/api/menu\", {\\n        me"
+  },
+  {
+    "index": 14938,
+    "line": 465,
+    "context": "-Type\": \"application/json\" },\\n        bo"
+  },
+  {
+    "index": 15171,
+    "line": 472,
+    "context": "  fetchMenuItems(); // Rollback/Refresh "
+  },
+  {
+    "index": 15172,
+    "line": 472,
+    "context": " fetchMenuItems(); // Rollback/Refresh o"
+  },
+  {
+    "index": 15182,
+    "line": 472,
+    "context": "Items(); // Rollback/Refresh on error\\n  "
+  },
+  {
+    "index": 15301,
+    "line": 476,
+    "context": "  fetchMenuItems(); // Rollback/Refresh "
+  },
+  {
+    "index": 15302,
+    "line": 476,
+    "context": " fetchMenuItems(); // Rollback/Refresh o"
+  },
+  {
+    "index": 15312,
+    "line": 476,
+    "context": "Items(); // Rollback/Refresh on error\\n  "
+  },
+  {
+    "index": 15485,
+    "line": 484,
+    "context": "ull);\\n    }\\n  };\\n\\n  // Save inline prep "
+  },
+  {
+    "index": 15486,
+    "line": 484,
+    "context": "ll);\\n    }\\n  };\\n\\n  // Save inline prep t"
+  },
+  {
+    "index": 15778,
+    "line": 493,
+    "context": "  }\\n    try {\\n      // Optimistic update"
+  },
+  {
+    "index": 15779,
+    "line": 493,
+    "context": " }\\n    try {\\n      // Optimistic update\\n"
+  },
+  {
+    "index": 15928,
+    "line": 496,
+    "context": " res = await fetch(\"/api/menu\", {\\n      "
+  },
+  {
+    "index": 15932,
+    "line": 496,
+    "context": " = await fetch(\"/api/menu\", {\\n        me"
+  },
+  {
+    "index": 16012,
+    "line": 498,
+    "context": "-Type\": \"application/json\" },\\n        bo"
+  },
+  {
+    "index": 16251,
+    "line": 505,
+    "context": "  fetchMenuItems(); // Rollback/Refresh "
+  },
+  {
+    "index": 16252,
+    "line": 505,
+    "context": " fetchMenuItems(); // Rollback/Refresh o"
+  },
+  {
+    "index": 16262,
+    "line": 505,
+    "context": "Items(); // Rollback/Refresh on error\\n  "
+  },
+  {
+    "index": 16385,
+    "line": 509,
+    "context": "  fetchMenuItems(); // Rollback/Refresh "
+  },
+  {
+    "index": 16386,
+    "line": 509,
+    "context": " fetchMenuItems(); // Rollback/Refresh o"
+  },
+  {
+    "index": 16396,
+    "line": 509,
+    "context": "Items(); // Rollback/Refresh on error\\n  "
+  },
+  {
+    "index": 16576,
+    "line": 517,
+    "context": "ull);\\n    }\\n  };\\n\\n  // Toggle availabili"
+  },
+  {
+    "index": 16577,
+    "line": 517,
+    "context": "ll);\\n    }\\n  };\\n\\n  // Toggle availabilit"
+  },
+  {
+    "index": 16692,
+    "line": 520,
+    "context": " res = await fetch(\"/api/menu\", {\\n      "
+  },
+  {
+    "index": 16696,
+    "line": 520,
+    "context": " = await fetch(\"/api/menu\", {\\n        me"
+  },
+  {
+    "index": 16776,
+    "line": 522,
+    "context": "-Type\": \"application/json\" },\\n        bo"
+  },
+  {
+    "index": 17591,
+    "line": 546,
+    "context": "on: \"⚙️\" },\\n  ];\\n\\n  // Get unique table "
+  },
+  {
+    "index": 17592,
+    "line": 546,
+    "context": "n: \"⚙️\" },\\n  ];\\n\\n  // Get unique table n"
+  },
+  {
+    "index": 17835,
+    "line": 555,
+    "context": "mA - numB;\\n  });\\n\\n  // Filter orders bas"
+  },
+  {
+    "index": 17836,
+    "line": 555,
+    "context": "A - numB;\\n  });\\n\\n  // Filter orders base"
+  },
+  {
+    "index": 18391,
+    "line": 571,
+    "context": "isLoggingOut}\\n      />\\n\\n      {/* Main C"
+  },
+  {
+    "index": 18402,
+    "line": 573,
+    "context": "t}\\n      />\\n\\n      {/* Main Content */}\\n"
+  },
+  {
+    "index": 18419,
+    "line": 573,
+    "context": "  {/* Main Content */}\\n      <div classN"
+  },
+  {
+    "index": 18725,
+    "line": 580,
+    "context": "ut={logout}\\n        />\\n\\n        {/* Main"
+  },
+  {
+    "index": 18738,
+    "line": 582,
+    "context": "       />\\n\\n        {/* Main Content Area"
+  },
+  {
+    "index": 18760,
+    "line": 582,
+    "context": " Main Content Area */}\\n        <main cla"
+  },
+  {
+    "index": 18826,
+    "line": 583,
+    "context": "w-y-auto bg-slate-50/50 print:p-0 print:"
+  },
+  {
+    "index": 18975,
+    "line": 586,
+    "context": "-8\">\\n              {/* Table Selector */"
+  },
+  {
+    "index": 18994,
+    "line": 586,
+    "context": "{/* Table Selector */}\\n              <di"
+  },
+  {
+    "index": 19317,
+    "line": 592,
+    "context": "                   </h3>\\n               "
+  },
+  {
+    "index": 19470,
+    "line": 595,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 19493,
+    "line": 596,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 19691,
+    "line": 600,
+    "context": "                   </label>\\n            "
+  },
+  {
+    "index": 20063,
+    "line": 605,
+    "context": "4 focus:ring-primary/5 focus:outline-non"
+  },
+  {
+    "index": 20213,
+    "line": 607,
+    "context": "ue=\"all\">All Tables</option>\\n           "
+  },
+  {
+    "index": 20408,
+    "line": 611,
+    "context": "                   </option>\\n           "
+  },
+  {
+    "index": 20468,
+    "line": 613,
+    "context": "                   </select>\\n           "
+  },
+  {
+    "index": 20545,
+    "line": 614,
+    "context": "solute right-3 top-1/2 -translate-y-1/2 "
+  },
+  {
+    "index": 20562,
+    "line": 614,
+    "context": "p-1/2 -translate-y-1/2 w-4 h-4 text-mute"
+  },
+  {
+    "index": 20659,
+    "line": 614,
+    "context": " transition-colors\" />\\n                 "
+  },
+  {
+    "index": 20683,
+    "line": 615,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 21051,
+    "line": 622,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 21102,
+    "line": 624,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 21125,
+    "line": 625,
+    "context": "v>\\n                </div>\\n              "
+  },
+  {
+    "index": 21146,
+    "line": 626,
+    "context": "div>\\n              </div>\\n\\n             "
+  },
+  {
+    "index": 21168,
+    "line": 628,
+    "context": "iv>\\n\\n              {/* Stats Cards */}\\n "
+  },
+  {
+    "index": 21184,
+    "line": 628,
+    "context": "   {/* Stats Cards */}\\n              <di"
+  },
+  {
+    "index": 21367,
+    "line": 630,
+    "context": "hover:border-primary/20 transition-all h"
+  },
+  {
+    "index": 21668,
+    "line": 635,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 21821,
+    "line": 638,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 22038,
+    "line": 642,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 22088,
+    "line": 644,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 22256,
+    "line": 647,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 22281,
+    "line": 648,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 22304,
+    "line": 649,
+    "context": "v>\\n                </div>\\n              "
+  },
+  {
+    "index": 22698,
+    "line": 655,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 23051,
+    "line": 663,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 23268,
+    "line": 667,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 23318,
+    "line": 669,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 23486,
+    "line": 672,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 23511,
+    "line": 673,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 23534,
+    "line": 674,
+    "context": "v>\\n                </div>\\n              "
+  },
+  {
+    "index": 24028,
+    "line": 682,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 24309,
+    "line": 688,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 24526,
+    "line": 692,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 24576,
+    "line": 694,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 24743,
+    "line": 697,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 24768,
+    "line": 698,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 24791,
+    "line": 699,
+    "context": "v>\\n                </div>\\n              "
+  },
+  {
+    "index": 25182,
+    "line": 705,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 25545,
+    "line": 713,
+    "context": "                  ) / filteredOrders.len"
+  },
+  {
+    "index": 25667,
+    "line": 716,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 25884,
+    "line": 720,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 25934,
+    "line": 722,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 26102,
+    "line": 725,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 26127,
+    "line": 726,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 26150,
+    "line": 727,
+    "context": "v>\\n                </div>\\n              "
+  },
+  {
+    "index": 26171,
+    "line": 728,
+    "context": "div>\\n              </div>\\n\\n             "
+  },
+  {
+    "index": 26193,
+    "line": 730,
+    "context": "iv>\\n\\n              {/* Orders Section */"
+  },
+  {
+    "index": 26212,
+    "line": 730,
+    "context": "{/* Orders Section */}\\n              <di"
+  },
+  {
+    "index": 26527,
+    "line": 736,
+    "context": "`}\\n                </h2>\\n               "
+  },
+  {
+    "index": 26689,
+    "line": 739,
+    "context": "=\"text-5xl mb-3\">📭</div>\\n              "
+  },
+  {
+    "index": 26955,
+    "line": 744,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 26978,
+    "line": 745,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 27306,
+    "line": 751,
+    "context": "hover:border-primary/50 transition-color"
+  },
+  {
+    "index": 27401,
+    "line": 753,
+    "context": " className=\"bg-muted/30 px-4 py-3 flex j"
+  },
+  {
+    "index": 27637,
+    "line": 756,
+    "context": "                   </h3>\\n               "
+  },
+  {
+    "index": 28459,
+    "line": 770,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 28491,
+    "line": 771,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 28840,
+    "line": 777,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 28876,
+    "line": 778,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 29477,
+    "line": 789,
+    "context": "                   </span>{\" \"}\\n        "
+  },
+  {
+    "index": 29568,
+    "line": 791,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 29606,
+    "line": 792,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 29671,
+    "line": 794,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 29826,
+    "line": 796,
+    "context": "       <span>Total:</span>\\n             "
+  },
+  {
+    "index": 29899,
+    "line": 797,
+    "context": "lAmount.toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 29933,
+    "line": 798,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 30116,
+    "line": 801,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 30145,
+    "line": 802,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 30199,
+    "line": 803,
+    "context": " className=\"bg-muted/10 px-4 py-3 border"
+  },
+  {
+    "index": 30555,
+    "line": 809,
+    "context": "order border-primary/20 text-primary hov"
+  },
+  {
+    "index": 30588,
+    "line": 809,
+    "context": "ary hover:bg-primary/5 font-bold py-2 ro"
+  },
+  {
+    "index": 30808,
+    "line": 811,
+    "context": "sName=\"w-3.5 h-3.5\" />\\n                 "
+  },
+  {
+    "index": 30876,
+    "line": 813,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 30941,
+    "line": 814,
+    "context": "Name=\"relative group/select flex-[1.5]\">"
+  },
+  {
+    "index": 31310,
+    "line": 820,
+    "context": "rder-border bg-muted/50 py-2 pl-3 pr-8 t"
+  },
+  {
+    "index": 31541,
+    "line": 822,
+    "context": "\"Pending\">🕒 Status</option>\\n           "
+  },
+  {
+    "index": 31618,
+    "line": 823,
+    "context": "firmed\">✅ Confirmed</option>\\n           "
+  },
+  {
+    "index": 31699,
+    "line": 824,
+    "context": "ng\">👨‍🍳 Preparing</option>\\n           "
+  },
+  {
+    "index": 31770,
+    "line": 825,
+    "context": "e=\"Ready\">🛎️ Ready</option>\\n           "
+  },
+  {
+    "index": 31848,
+    "line": 826,
+    "context": "vered\">🚚 Delivered</option>\\n           "
+  },
+  {
+    "index": 31925,
+    "line": 827,
+    "context": "celled\">❌ Cancelled</option>\\n           "
+  },
+  {
+    "index": 31963,
+    "line": 828,
+    "context": "                   </select>\\n           "
+  },
+  {
+    "index": 32046,
+    "line": 829,
+    "context": "solute right-2 top-1/2 -translate-y-1/2 "
+  },
+  {
+    "index": 32063,
+    "line": 829,
+    "context": "p-1/2 -translate-y-1/2 w-3 h-3 text-mute"
+  },
+  {
+    "index": 32127,
+    "line": 829,
+    "context": "nts-none group-hover/select:text-primary"
+  },
+  {
+    "index": 32167,
+    "line": 829,
+    "context": " transition-colors\" />\\n                 "
+  },
+  {
+    "index": 32197,
+    "line": 830,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 32228,
+    "line": 831,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 32257,
+    "line": 832,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 32306,
+    "line": 834,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 32346,
+    "line": 836,
+    "context": "  )}\\n              </div>\\n            </"
+  },
+  {
+    "index": 32365,
+    "line": 837,
+    "context": "</div>\\n            </div>\\n          )}\\n\\n"
+  },
+  {
+    "index": 32482,
+    "line": 842,
+    "context": "-6\">\\n              {/* Stock Controls He"
+  },
+  {
+    "index": 32508,
+    "line": 842,
+    "context": "ck Controls Header */}\\n              <di"
+  },
+  {
+    "index": 32824,
+    "line": 846,
+    "context": ">Live Stock Control</h2>\\n               "
+  },
+  {
+    "index": 32952,
+    "line": 847,
+    "context": "bility in real-time</p>\\n                "
+  },
+  {
+    "index": 32975,
+    "line": 848,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 33101,
+    "line": 850,
+    "context": "bsolute left-4 top-1/2 -translate-y-1/2 "
+  },
+  {
+    "index": 33118,
+    "line": 850,
+    "context": "p-1/2 -translate-y-1/2 w-4 h-4 text-mute"
+  },
+  {
+    "index": 33152,
+    "line": 850,
+    "context": "t-muted-foreground\" />\\n                 "
+  },
+  {
+    "index": 33604,
+    "line": 857,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 33626,
+    "line": 858,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 33649,
+    "line": 859,
+    "context": "v>\\n                </div>\\n              "
+  },
+  {
+    "index": 33670,
+    "line": 860,
+    "context": "div>\\n              </div>\\n\\n             "
+  },
+  {
+    "index": 33692,
+    "line": 862,
+    "context": "iv>\\n\\n              {/* Stock Grid */}\\n  "
+  },
+  {
+    "index": 33707,
+    "line": 862,
+    "context": "    {/* Stock Grid */}\\n              <di"
+  },
+  {
+    "index": 34346,
+    "line": 873,
+    "context": "hover:border-primary/30 hover:shadow-sm\""
+  },
+  {
+    "index": 34404,
+    "line": 874,
+    "context": "         : \"bg-muted/40 border-dashed bo"
+  },
+  {
+    "index": 34445,
+    "line": 874,
+    "context": "der-muted-foreground/20 opacity-70\"\\n    "
+  },
+  {
+    "index": 34816,
+    "line": 879,
+    "context": "-full object-cover\" />}\\n                "
+  },
+  {
+    "index": 34845,
+    "line": 880,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 35005,
+    "line": 882,
+    "context": "uncate\">{item.name}</p>\\n                "
+  },
+  {
+    "index": 35143,
+    "line": 883,
+    "context": ".5\">{item.category}</p>\\n\\n               "
+  },
+  {
+    "index": 35582,
+    "line": 889,
+    "context": "                   </span>\\n\\n            "
+  },
+  {
+    "index": 35992,
+    "line": 897,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 36421,
+    "line": 898,
+    "context": "ed:bg-emerald-500\"></div>\\n              "
+  },
+  {
+    "index": 36456,
+    "line": 899,
+    "context": "                   </label>\\n            "
+  },
+  {
+    "index": 36491,
+    "line": 900,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 36522,
+    "line": 901,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 36551,
+    "line": 902,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 36578,
+    "line": 903,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 36621,
+    "line": 905,
+    "context": " ))}\\n              </div>\\n\\n             "
+  },
+  {
+    "index": 37074,
+    "line": 912,
+    "context": "atching items found</p>\\n                "
+  },
+  {
+    "index": 37097,
+    "line": 913,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 37135,
+    "line": 915,
+    "context": "    )}\\n            </div>\\n          )}\\n\\n"
+  },
+  {
+    "index": 37251,
+    "line": 920,
+    "context": "-4\">\\n              {/* Menu Header */}\\n "
+  },
+  {
+    "index": 37267,
+    "line": 920,
+    "context": "   {/* Menu Header */}\\n              <di"
+  },
+  {
+    "index": 37574,
+    "line": 926,
+    "context": "                   </h2>\\n               "
+  },
+  {
+    "index": 37736,
+    "line": 929,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 37759,
+    "line": 930,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 38154,
+    "line": 939,
+    "context": "\\n                  </button>\\n           "
+  },
+  {
+    "index": 38180,
+    "line": 940,
+    "context": "n>\\n                </div>\\n              "
+  },
+  {
+    "index": 38201,
+    "line": 941,
+    "context": "div>\\n              </div>\\n\\n             "
+  },
+  {
+    "index": 38223,
+    "line": 943,
+    "context": "iv>\\n\\n              {/* Menu Items Table "
+  },
+  {
+    "index": 38244,
+    "line": 943,
+    "context": "* Menu Items Table */}\\n              <di"
+  },
+  {
+    "index": 38488,
+    "line": 947,
+    "context": "\"text-5xl mb-3\">🍽️</div>\\n              "
+  },
+  {
+    "index": 38645,
+    "line": 950,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 38668,
+    "line": 951,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 38843,
+    "line": 955,
+    "context": " className=\"bg-muted/30 border-b border-"
+  },
+  {
+    "index": 39068,
+    "line": 959,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 39244,
+    "line": 962,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 39417,
+    "line": 965,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 39589,
+    "line": 968,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 39762,
+    "line": 971,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 39939,
+    "line": 974,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 40113,
+    "line": 977,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 40290,
+    "line": 980,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 40320,
+    "line": 981,
+    "context": "                   </tr>\\n               "
+  },
+  {
+    "index": 40348,
+    "line": 982,
+    "context": "                   </thead>\\n            "
+  },
+  {
+    "index": 40598,
+    "line": 987,
+    "context": "Name=\"hover:bg-muted/30 transition-color"
+  },
+  {
+    "index": 40897,
+    "line": 993,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 41083,
+    "line": 996,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 41118,
+    "line": 997,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 41153,
+    "line": 998,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 41425,
+    "line": 1002,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 41461,
+    "line": 1003,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 42461,
+    "line": 1018,
+    "context": "2 focus:ring-primary/30\"\\n               "
+  },
+  {
+    "index": 42498,
+    "line": 1019,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 43239,
+    "line": 1030,
+    "context": " transition-colors\" />\\n                 "
+  },
+  {
+    "index": 43275,
+    "line": 1031,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 43346,
+    "line": 1033,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 43844,
+    "line": 1042,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 43880,
+    "line": 1043,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 44073,
+    "line": 1046,
+    "context": "tem.spiceLevel || \"N/A\"}\\n               "
+  },
+  {
+    "index": 44109,
+    "line": 1047,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 44145,
+    "line": 1048,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 45093,
+    "line": 1062,
+    "context": "2 focus:ring-primary/30\"\\n               "
+  },
+  {
+    "index": 45130,
+    "line": 1063,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 45648,
+    "line": 1071,
+    "context": "t-primary bg-primary/5 px-3 py-1.5 round"
+  },
+  {
+    "index": 45690,
+    "line": 1071,
+    "context": "-xl hover:bg-primary/10 transition-all c"
+  },
+  {
+    "index": 45815,
+    "line": 1073,
+    "context": "{item.prepTime || \"N/A\"}m\\n              "
+  },
+  {
+    "index": 45893,
+    "line": 1074,
+    "context": "w-3 h-3 text-primary/30 group-hover:text"
+  },
+  {
+    "index": 45941,
+    "line": 1074,
+    "context": " transition-colors\" />\\n                 "
+  },
+  {
+    "index": 45977,
+    "line": 1075,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 46048,
+    "line": 1077,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 46767,
+    "line": 1089,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 46805,
+    "line": 1090,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 47380,
+    "line": 1099,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 47784,
+    "line": 1106,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 47824,
+    "line": 1107,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 47859,
+    "line": 1108,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 47891,
+    "line": 1109,
+    "context": "                   </tr>\\n               "
+  },
+  {
+    "index": 47947,
+    "line": 1111,
+    "context": "                   </tbody>\\n            "
+  },
+  {
+    "index": 47976,
+    "line": 1112,
+    "context": "                   </table>\\n            "
+  },
+  {
+    "index": 48003,
+    "line": 1113,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 48043,
+    "line": 1115,
+    "context": "  )}\\n              </div>\\n            </"
+  },
+  {
+    "index": 48062,
+    "line": 1116,
+    "context": "</div>\\n            </div>\\n          )}\\n\\n"
+  },
+  {
+    "index": 48425,
+    "line": 1125,
+    "context": "\\n                  </h2>\\n               "
+  },
+  {
+    "index": 48579,
+    "line": 1128,
+    "context": "\\n                  </p>\\n                "
+  },
+  {
+    "index": 48600,
+    "line": 1129,
+    "context": "p>\\n                </div>\\n              "
+  },
+  {
+    "index": 48914,
+    "line": 1137,
+    "context": "\\n                  </button>\\n           "
+  },
+  {
+    "index": 48940,
+    "line": 1138,
+    "context": "n>\\n                </div>\\n              "
+  },
+  {
+    "index": 48961,
+    "line": 1139,
+    "context": "div>\\n              </div>\\n\\n             "
+  },
+  {
+    "index": 49433,
+    "line": 1148,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 49621,
+    "line": 1151,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 49812,
+    "line": 1154,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 50000,
+    "line": 1157,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 50188,
+    "line": 1160,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 50377,
+    "line": 1163,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 50564,
+    "line": 1166,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 50751,
+    "line": 1169,
+    "context": "                   </th>\\n               "
+  },
+  {
+    "index": 50779,
+    "line": 1170,
+    "context": "                   </tr>\\n               "
+  },
+  {
+    "index": 50805,
+    "line": 1171,
+    "context": "                   </thead>\\n            "
+  },
+  {
+    "index": 51263,
+    "line": 1180,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 51428,
+    "line": 1183,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 51603,
+    "line": 1186,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 51944,
+    "line": 1192,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 51977,
+    "line": 1193,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 52160,
+    "line": 1196,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 52276,
+    "line": 1198,
+    "context": "Name=\"relative group/mini\">\\n            "
+  },
+  {
+    "index": 53198,
+    "line": 1211,
+    "context": "e=\"Pending\">Pending</option>\\n           "
+  },
+  {
+    "index": 53275,
+    "line": 1212,
+    "context": "onfirmed\">Confirmed</option>\\n           "
+  },
+  {
+    "index": 53352,
+    "line": 1213,
+    "context": "reparing\">Preparing</option>\\n           "
+  },
+  {
+    "index": 53421,
+    "line": 1214,
+    "context": "value=\"Ready\">Ready</option>\\n           "
+  },
+  {
+    "index": 53498,
+    "line": 1215,
+    "context": "elivered\">Delivered</option>\\n           "
+  },
+  {
+    "index": 53575,
+    "line": 1216,
+    "context": "ancelled\">Cancelled</option>\\n           "
+  },
+  {
+    "index": 53615,
+    "line": 1217,
+    "context": "                   </select>\\n           "
+  },
+  {
+    "index": 53700,
+    "line": 1218,
+    "context": "solute right-2 top-1/2 -translate-y-1/2 "
+  },
+  {
+    "index": 53717,
+    "line": 1218,
+    "context": "p-1/2 -translate-y-1/2 w-3 h-3 text-mute"
+  },
+  {
+    "index": 53771,
+    "line": 1218,
+    "context": "ointer-events-none\" />\\n                 "
+  },
+  {
+    "index": 53803,
+    "line": 1219,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 53836,
+    "line": 1220,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 54221,
+    "line": 1224,
+    "context": "eatedAt).getTime()) / 60000) >= (order.e"
+  },
+  {
+    "index": 54585,
+    "line": 1228,
+    "context": "eatedAt).getTime()) / 60000))}m\\n        "
+  },
+  {
+    "index": 54630,
+    "line": 1229,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 54668,
+    "line": 1230,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 54816,
+    "line": 1232,
+    "context": "ld uppercase\">Ready</span>\\n             "
+  },
+  {
+    "index": 54881,
+    "line": 1234,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 55228,
+    "line": 1240,
+    "context": "                   </td>\\n               "
+  },
+  {
+    "index": 55258,
+    "line": 1241,
+    "context": "                   </tr>\\n               "
+  },
+  {
+    "index": 55310,
+    "line": 1243,
+    "context": "                   </tbody>\\n            "
+  },
+  {
+    "index": 55337,
+    "line": 1244,
+    "context": "\\n                  </table>\\n            "
+  },
+  {
+    "index": 55362,
+    "line": 1245,
+    "context": "e>\\n                </div>\\n              "
+  },
+  {
+    "index": 55383,
+    "line": 1246,
+    "context": "div>\\n              </div>\\n            </"
+  },
+  {
+    "index": 55402,
+    "line": 1247,
+    "context": "</div>\\n            </div>\\n          )}\\n\\n"
+  },
+  {
+    "index": 55485,
+    "line": 1251,
+    "context": "() => {\\n            // Kitchen helper fu"
+  },
+  {
+    "index": 55486,
+    "line": 1251,
+    "context": ") => {\\n            // Kitchen helper fun"
+  },
+  {
+    "index": 55885,
+    "line": 1258,
+    "context": "eatedAt).getTime()) / 60000);\\n\\n         "
+  },
+  {
+    "index": 56019,
+    "line": 1261,
+    "context": "tartedAt) return 0; // Timer hasn't star"
+  },
+  {
+    "index": 56020,
+    "line": 1261,
+    "context": "artedAt) return 0; // Timer hasn't start"
+  },
+  {
+    "index": 56134,
+    "line": 1262,
+    "context": "artedAt).getTime()) / 60000);\\n          "
+  },
+  {
+    "index": 56432,
+    "line": 1268,
+    "context": "tedAt) return prep; // Show full time if"
+  },
+  {
+    "index": 56433,
+    "line": 1268,
+    "context": "edAt) return prep; // Show full time if "
+  },
+  {
+    "index": 56936,
+    "line": 1280,
+    "context": ": { bg: \"bg-amber-50/40 border-amber-200"
+  },
+  {
+    "index": 56956,
+    "line": 1280,
+    "context": "/40 border-amber-200/50\", text: \"text-am"
+  },
+  {
+    "index": 57070,
+    "line": 1281,
+    "context": "ed: { bg: \"bg-sky-50/40 border-sky-200/5"
+  },
+  {
+    "index": 57088,
+    "line": 1281,
+    "context": "50/40 border-sky-200/50\", text: \"text-sk"
+  },
+  {
+    "index": 57203,
+    "line": 1282,
+    "context": " { bg: \"bg-orange-50/40 border-orange-20"
+  },
+  {
+    "index": 57224,
+    "line": 1282,
+    "context": "40 border-orange-200/50\", text: \"text-or"
+  },
+  {
+    "index": 57343,
+    "line": 1283,
+    "context": "{ bg: \"bg-emerald-50/40 border-emerald-2"
+  },
+  {
+    "index": 57365,
+    "line": 1283,
+    "context": "0 border-emerald-200/50\", text: \"text-em"
+  },
+  {
+    "index": 59041,
+    "line": 1322,
+    "context": "\">\\n                {/* Top stats bar */}"
+  },
+  {
+    "index": 59059,
+    "line": 1322,
+    "context": " {/* Top stats bar */}\\n                <"
+  },
+  {
+    "index": 60311,
+    "line": 1332,
+    "context": "xt-2xl\">{stat.icon}</span>\\n             "
+  },
+  {
+    "index": 60431,
+    "line": 1334,
+    "context": "-none\">{stat.count}</p>\\n                "
+  },
+  {
+    "index": 60527,
+    "line": 1335,
+    "context": "t-0.5\">{stat.label}</p>\\n                "
+  },
+  {
+    "index": 60554,
+    "line": 1336,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 60581,
+    "line": 1337,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 60626,
+    "line": 1339,
+    "context": ")}\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 60650,
+    "line": 1341,
+    "context": ">\\n\\n                {/* Notification bann"
+  },
+  {
+    "index": 60674,
+    "line": 1341,
+    "context": "otification banner */}\\n                {"
+  },
+  {
+    "index": 60775,
+    "line": 1343,
+    "context": "lassName=\"bg-sky-500/90 text-white round"
+  },
+  {
+    "index": 60957,
+    "line": 1344,
+    "context": "enNotifications[0]}</span>\\n             "
+  },
+  {
+    "index": 61057,
+    "line": 1345,
+    "context": "lassName=\"text-white/70 hover:text-white"
+  },
+  {
+    "index": 61117,
+    "line": 1345,
+    "context": "ransition-colors\">✕</button>\\n           "
+  },
+  {
+    "index": 61145,
+    "line": 1346,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 61188,
+    "line": 1349,
+    "context": "}\\n\\n                {/* Filters & Sort */"
+  },
+  {
+    "index": 61207,
+    "line": 1349,
+    "context": "{/* Filters & Sort */}\\n                <"
+  },
+  {
+    "index": 62035,
+    "line": 1362,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 62087,
+    "line": 1364,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 62241,
+    "line": 1366,
+    "context": "d-foreground\">Sort:</span>\\n             "
+  },
+  {
+    "index": 62612,
+    "line": 1372,
+    "context": "est\">⬆ Oldest First</option>\\n           "
+  },
+  {
+    "index": 62681,
+    "line": 1373,
+    "context": "est\">⬇ Newest First</option>\\n           "
+  },
+  {
+    "index": 62746,
+    "line": 1374,
+    "context": "\"table\">🪑 By Table</option>\\n           "
+  },
+  {
+    "index": 62776,
+    "line": 1375,
+    "context": "                   </select>\\n           "
+  },
+  {
+    "index": 63033,
+    "line": 1380,
+    "context": "                >🔄</button>\\n           "
+  },
+  {
+    "index": 63061,
+    "line": 1381,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 63084,
+    "line": 1382,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 63108,
+    "line": 1384,
+    "context": ">\\n\\n                {/* Order Cards Grid "
+  },
+  {
+    "index": 63129,
+    "line": 1384,
+    "context": "* Order Cards Grid */}\\n                {"
+  },
+  {
+    "index": 63351,
+    "line": 1387,
+    "context": "\"text-6xl mb-3\">🍽️</div>\\n              "
+  },
+  {
+    "index": 63457,
+    "line": 1388,
+    "context": "o orders to display</p>\\n                "
+  },
+  {
+    "index": 63572,
+    "line": 1389,
+    "context": "r here in real time</p>\\n                "
+  },
+  {
+    "index": 63595,
+    "line": 1390,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 64332,
+    "line": 1400,
+    "context": "ath.max(0, (elapsed / prep) * 100));\\n\\n  "
+  },
+  {
+    "index": 64757,
+    "line": 1407,
+    "context": "ng-4 ring-indigo-500/10\" : \"border-slate"
+  },
+  {
+    "index": 65133,
+    "line": 1413,
+    "context": "acking-tight\">Table</span>\\n             "
+  },
+  {
+    "index": 65263,
+    "line": 1414,
+    "context": "{order.tableNumber}</h3>\\n               "
+  },
+  {
+    "index": 65301,
+    "line": 1415,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 65537,
+    "line": 1418,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 65574,
+    "line": 1419,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 65831,
+    "line": 1422,
+    "context": "rder._id.slice(-6)}</span>\\n             "
+  },
+  {
+    "index": 65878,
+    "line": 1423,
+    "context": "            <span>•</span>\\n             "
+  },
+  {
+    "index": 65940,
+    "line": 1424,
+    "context": "an>{totalWait}m ago</span>\\n             "
+  },
+  {
+    "index": 65978,
+    "line": 1425,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 66013,
+    "line": 1426,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 66047,
+    "line": 1428,
+    "context": "                   {/* Status Badge & Pr"
+  },
+  {
+    "index": 66075,
+    "line": 1428,
+    "context": "s Badge & Progress */}\\n                 "
+  },
+  {
+    "index": 66328,
+    "line": 1431,
+    "context": "ot} inline-block`}></span>\\n             "
+  },
+  {
+    "index": 66427,
+    "line": 1432,
+    "context": "text}`}>{cfg.label}</span>\\n             "
+  },
+  {
+    "index": 66707,
+    "line": 1436,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 66776,
+    "line": 1438,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 66928,
+    "line": 1440,
+    "context": "font-bold bg-rose-50/50 p-2 rounded-lg b"
+  },
+  {
+    "index": 67078,
+    "line": 1441,
+    "context": "ing-none mt-0.5\">📝</span>\\n             "
+  },
+  {
+    "index": 67144,
+    "line": 1442,
+    "context": "order.customerNote}</span>\\n             "
+  },
+  {
+    "index": 67182,
+    "line": 1443,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 67283,
+    "line": 1445,
+    "context": "mt-2 w-full bg-black/5 rounded-full h-1."
+  },
+  {
+    "index": 67626,
+    "line": 1449,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 67658,
+    "line": 1450,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 67691,
+    "line": 1451,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 67725,
+    "line": 1453,
+    "context": "                   {/* Items */}\\n       "
+  },
+  {
+    "index": 67735,
+    "line": 1453,
+    "context": "         {/* Items */}\\n                 "
+  },
+  {
+    "index": 68295,
+    "line": 1459,
+    "context": "00\">{item.quantity}</span>\\n             "
+  },
+  {
+    "index": 68401,
+    "line": 1460,
+    "context": "te-700\">{item.name}</span>\\n             "
+  },
+  {
+    "index": 68443,
+    "line": 1461,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 68653,
+    "line": 1463,
+    "context": "-0\">📝 {item.notes}</span>\\n             "
+  },
+  {
+    "index": 68730,
+    "line": 1465,
+    "context": "                   </li>\\n               "
+  },
+  {
+    "index": 68798,
+    "line": 1467,
+    "context": "                   </ul>\\n               "
+  },
+  {
+    "index": 69155,
+    "line": 1470,
+    "context": "nute: \"2-digit\" })}</span>\\n             "
+  },
+  {
+    "index": 69488,
+    "line": 1474,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 69561,
+    "line": 1476,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 69722,
+    "line": 1477,
+    "context": "? \"item\" : \"items\"}</span>\\n             "
+  },
+  {
+    "index": 69758,
+    "line": 1478,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 69791,
+    "line": 1479,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 69825,
+    "line": 1481,
+    "context": "                   {/* Action Buttons */"
+  },
+  {
+    "index": 69844,
+    "line": 1481,
+    "context": "{/* Action Buttons */}\\n                 "
+  },
+  {
+    "index": 70471,
+    "line": 1489,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 71058,
+    "line": 1498,
+    "context": "className=\"w-4 h-4\" />\\n                 "
+  },
+  {
+    "index": 71130,
+    "line": 1500,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 71481,
+    "line": 1505,
+    "context": "                 >✕</button>\\n           "
+  },
+  {
+    "index": 71517,
+    "line": 1506,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 71548,
+    "line": 1507,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 71622,
+    "line": 1510,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 71665,
+    "line": 1513,
+    "context": "}\\n\\n                {/* Order Detail Draw"
+  },
+  {
+    "index": 71689,
+    "line": 1513,
+    "context": "rder Detail Drawer */}\\n                {"
+  },
+  {
+    "index": 72185,
+    "line": 1521,
+    "context": "tify-center bg-black/50 p-4\" onClick={()"
+  },
+  {
+    "index": 72490,
+    "line": 1526,
+    "context": "                   {/* Drawer Header */}"
+  },
+  {
+    "index": 72508,
+    "line": 1526,
+    "context": " {/* Drawer Header */}\\n                 "
+  },
+  {
+    "index": 73087,
+    "line": 1533,
+    "context": "ble {o.tableNumber}</h2>\\n               "
+  },
+  {
+    "index": 73146,
+    "line": 1534,
+    "context": "n className=\"bg-card/20 text-[10px] font"
+  },
+  {
+    "index": 73244,
+    "line": 1534,
+    "context": ">#{o._id.slice(-8)}</span>\\n             "
+  },
+  {
+    "index": 73280,
+    "line": 1535,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 73374,
+    "line": 1536,
+    "context": "d {elapsed} min ago</p>\\n                "
+  },
+  {
+    "index": 73405,
+    "line": 1537,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 73512,
+    "line": 1538,
+    "context": "lassName=\"text-white/70 hover:text-white"
+  },
+  {
+    "index": 73545,
+    "line": 1538,
+    "context": "t-white text-2xl\">✕</button>\\n           "
+  },
+  {
+    "index": 73579,
+    "line": 1539,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 73611,
+    "line": 1541,
+    "context": "                   {/* Status strip */}\\n"
+  },
+  {
+    "index": 73628,
+    "line": 1541,
+    "context": "  {/* Status strip */}\\n                 "
+  },
+  {
+    "index": 73807,
+    "line": 1543,
+    "context": "-full ${cfg.dot}`}></span>\\n             "
+  },
+  {
+    "index": 73894,
+    "line": 1544,
+    "context": "text}`}>{cfg.label}</span>\\n\\n            "
+  },
+  {
+    "index": 74007,
+    "line": 1547,
+    "context": "                   {/* Prep Time Adjustm"
+  },
+  {
+    "index": 74032,
+    "line": 1547,
+    "context": "ep Time Adjustment */}\\n                 "
+  },
+  {
+    "index": 74110,
+    "line": 1548,
+    "context": "center gap-2 bg-card/40 rounded-lg px-2 "
+  },
+  {
+    "index": 74154,
+    "line": 1548,
+    "context": " border border-black/5\">\\n               "
+  },
+  {
+    "index": 74272,
+    "line": 1549,
+    "context": "reground mr-1\">Time</span>\\n             "
+  },
+  {
+    "index": 74651,
+    "line": 1553,
+    "context": "                 >-</button>\\n           "
+  },
+  {
+    "index": 74781,
+    "line": 1554,
+    "context": "tedPrepTime || 15}m</span>\\n             "
+  },
+  {
+    "index": 75147,
+    "line": 1558,
+    "context": "                 >+</button>\\n           "
+  },
+  {
+    "index": 75185,
+    "line": 1559,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 75581,
+    "line": 1564,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 75695,
+    "line": 1566,
+    "context": "s font-black bg-card/50 text-muted-foreg"
+  },
+  {
+    "index": 75763,
+    "line": 1566,
+    "context": " border border-black/5\">\\n               "
+  },
+  {
+    "index": 75851,
+    "line": 1568,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 75916,
+    "line": 1570,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 75947,
+    "line": 1571,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 75979,
+    "line": 1573,
+    "context": "                   {/* Items */}\\n       "
+  },
+  {
+    "index": 75989,
+    "line": 1573,
+    "context": "         {/* Items */}\\n                 "
+  },
+  {
+    "index": 76197,
+    "line": 1576,
+    "context": "ng>{o.customerName}</strong></p>\\n       "
+  },
+  {
+    "index": 76206,
+    "line": 1576,
+    "context": "tomerName}</strong></p>\\n                "
+  },
+  {
+    "index": 76541,
+    "line": 1580,
+    "context": "ing-none mt-0.5\">📝</span>\\n             "
+  },
+  {
+    "index": 76627,
+    "line": 1581,
+    "context": ">\"{o.customerNote}\"</span>\\n             "
+  },
+  {
+    "index": 76663,
+    "line": 1582,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 76822,
+    "line": 1584,
+    "context": "r mb-3\">Order Items</h3>\\n               "
+  },
+  {
+    "index": 77288,
+    "line": 1589,
+    "context": "0\">{item.quantity}×</span>\\n             "
+  },
+  {
+    "index": 77453,
+    "line": 1591,
+    "context": "t-base\">{item.name}</p>\\n                "
+  },
+  {
+    "index": 77608,
+    "line": 1593,
+    "context": "-1\">📝 {item.notes}</p>\\n                "
+  },
+  {
+    "index": 77686,
+    "line": 1595,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 77827,
+    "line": 1596,
+    "context": "antity).toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 77867,
+    "line": 1597,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 77904,
+    "line": 1598,
+    "context": "                   </li>\\n               "
+  },
+  {
+    "index": 77968,
+    "line": 1600,
+    "context": "                   </ul>\\n               "
+  },
+  {
+    "index": 78130,
+    "line": 1602,
+    "context": "        <span>Total</span>\\n             "
+  },
+  {
+    "index": 78199,
+    "line": 1603,
+    "context": "lAmount.toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 78233,
+    "line": 1604,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 78264,
+    "line": 1605,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 78296,
+    "line": 1607,
+    "context": "                   {/* Quick action butt"
+  },
+  {
+    "index": 78321,
+    "line": 1607,
+    "context": "ick action buttons */}\\n                 "
+  },
+  {
+    "index": 78912,
+    "line": 1615,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 79334,
+    "line": 1622,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 79368,
+    "line": 1623,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 79397,
+    "line": 1624,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 79424,
+    "line": 1625,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 79488,
+    "line": 1628,
+    "context": ")()}\\n              </div>\\n            );"
+  },
+  {
+    "index": 80222,
+    "line": 1642,
+    "context": "tedSubtotal * 0.05; // 5% GST\\n          "
+  },
+  {
+    "index": 80223,
+    "line": 1642,
+    "context": "edSubtotal * 0.05; // 5% GST\\n           "
+  },
+  {
+    "index": 80293,
+    "line": 1643,
+    "context": "tedSubtotal * 0.02; // 2% Service Charge"
+  },
+  {
+    "index": 80294,
+    "line": 1643,
+    "context": "edSubtotal * 0.02; // 2% Service Charge\\n"
+  },
+  {
+    "index": 81156,
+    "line": 1668,
+    "context": "\">\\n                {/* Left: Orders List"
+  },
+  {
+    "index": 81178,
+    "line": 1668,
+    "context": " Left: Orders List */}\\n                <"
+  },
+  {
+    "index": 81577,
+    "line": 1672,
+    "context": "bsolute left-3 top-1/2 -translate-y-1/2 "
+  },
+  {
+    "index": 81594,
+    "line": 1672,
+    "context": "p-1/2 -translate-y-1/2 w-4 h-4 text-slat"
+  },
+  {
+    "index": 81621,
+    "line": 1672,
+    "context": "h-4 text-slate-400\" />\\n                 "
+  },
+  {
+    "index": 82050,
+    "line": 1678,
+    "context": "2 focus:ring-primary/5 transition-shadow"
+  },
+  {
+    "index": 82094,
+    "line": 1679,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 82118,
+    "line": 1680,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 82143,
+    "line": 1681,
+    "context": "\\n                  </div>\\n\\n             "
+  },
+  {
+    "index": 82428,
+    "line": 1686,
+    "context": "b-3 text-slate-400\" />\\n                 "
+  },
+  {
+    "index": 82485,
+    "line": 1687,
+    "context": "onable orders found</p>\\n                "
+  },
+  {
+    "index": 82512,
+    "line": 1688,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 83114,
+    "line": 1699,
+    "context": "r-primary bg-primary/5'\\n                "
+  },
+  {
+    "index": 83491,
+    "line": 1705,
+    "context": "{order.tableNumber}</h3>\\n               "
+  },
+  {
+    "index": 83602,
+    "line": 1706,
+    "context": "rder._id.slice(-6)}</p>\\n                "
+  },
+  {
+    "index": 83635,
+    "line": 1707,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 84088,
+    "line": 1713,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 84122,
+    "line": 1714,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 84314,
+    "line": 1716,
+    "context": "items.length} items</span>\\n             "
+  },
+  {
+    "index": 84474,
+    "line": 1717,
+    "context": "lAmount.toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 84508,
+    "line": 1718,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 84539,
+    "line": 1719,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 84612,
+    "line": 1722,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 84635,
+    "line": 1723,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 84659,
+    "line": 1725,
+    "context": ">\\n\\n                {/* Right: Bill Previ"
+  },
+  {
+    "index": 84693,
+    "line": 1725,
+    "context": " Preview & Actions */}\\n                <"
+  },
+  {
+    "index": 84953,
+    "line": 1729,
+    "context": "                   {/* Receipt Column */"
+  },
+  {
+    "index": 84972,
+    "line": 1729,
+    "context": "{/* Receipt Column */}\\n                 "
+  },
+  {
+    "index": 85363,
+    "line": 1732,
+    "context": "elish - Fine Dining</h2>\\n               "
+  },
+  {
+    "index": 85460,
+    "line": 1733,
+    "context": "et Avenue, Downtown</p>\\n                "
+  },
+  {
+    "index": 85578,
+    "line": 1734,
+    "context": "www.hoteldelish.com</p>\\n                "
+  },
+  {
+    "index": 85715,
+    "line": 1735,
+    "context": "[10px]\">Tax Invoice / Receipt</p>\\n      "
+  },
+  {
+    "index": 85725,
+    "line": 1735,
+    "context": "x Invoice / Receipt</p>\\n                "
+  },
+  {
+    "index": 85754,
+    "line": 1736,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 85786,
+    "line": 1738,
+    "context": "                   {/* Order Info */}\\n  "
+  },
+  {
+    "index": 85801,
+    "line": 1738,
+    "context": "    {/* Order Info */}\\n                 "
+  },
+  {
+    "index": 86193,
+    "line": 1741,
+    "context": "rder._id.slice(-8)}</span></p>\\n         "
+  },
+  {
+    "index": 86200,
+    "line": 1741,
+    "context": "d.slice(-8)}</span></p>\\n                "
+  },
+  {
+    "index": 86380,
+    "line": 1742,
+    "context": "LocaleDateString()}</span></p>\\n         "
+  },
+  {
+    "index": 86387,
+    "line": 1742,
+    "context": "ateString()}</span></p>\\n                "
+  },
+  {
+    "index": 86418,
+    "line": 1743,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 86640,
+    "line": 1745,
+    "context": "dOrder.tableNumber}</span></p>\\n         "
+  },
+  {
+    "index": 86647,
+    "line": 1745,
+    "context": "tableNumber}</span></p>\\n                "
+  },
+  {
+    "index": 86869,
+    "line": 1746,
+    "context": "nute: '2-digit' })}</span></p>\\n         "
+  },
+  {
+    "index": 86876,
+    "line": 1746,
+    "context": "2-digit' })}</span></p>\\n                "
+  },
+  {
+    "index": 86907,
+    "line": 1747,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 86938,
+    "line": 1748,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 86970,
+    "line": 1750,
+    "context": "                   {/* Itemized List */}"
+  },
+  {
+    "index": 86988,
+    "line": 1750,
+    "context": " {/* Itemized List */}\\n                 "
+  },
+  {
+    "index": 87357,
+    "line": 1755,
+    "context": "late-500\">Item Name</th>\\n               "
+  },
+  {
+    "index": 87498,
+    "line": 1756,
+    "context": "text-slate-500\">Qty</th>\\n               "
+  },
+  {
+    "index": 87639,
+    "line": 1757,
+    "context": "ext-slate-500\">Rate</th>\\n               "
+  },
+  {
+    "index": 87782,
+    "line": 1758,
+    "context": "t-slate-500\">Amount</th>\\n               "
+  },
+  {
+    "index": 87818,
+    "line": 1759,
+    "context": "                   </tr>\\n               "
+  },
+  {
+    "index": 87852,
+    "line": 1760,
+    "context": "                   </thead>\\n            "
+  },
+  {
+    "index": 88280,
+    "line": 1766,
+    "context": "up hover:bg-slate-50/50 transition-color"
+  },
+  {
+    "index": 88402,
+    "line": 1767,
+    "context": "te-800\">{item.name}</td>\\n               "
+  },
+  {
+    "index": 88519,
+    "line": 1768,
+    "context": "um\">{item.quantity}</td>\\n               "
+  },
+  {
+    "index": 88631,
+    "line": 1769,
+    "context": "emPrice.toFixed(2)}</td>\\n               "
+  },
+  {
+    "index": 88753,
+    "line": 1770,
+    "context": "neTotal.toFixed(2)}</td>\\n               "
+  },
+  {
+    "index": 88793,
+    "line": 1771,
+    "context": "                   </tr>\\n               "
+  },
+  {
+    "index": 88896,
+    "line": 1774,
+    "context": "                   </tbody>\\n            "
+  },
+  {
+    "index": 88931,
+    "line": 1775,
+    "context": "                   </table>\\n            "
+  },
+  {
+    "index": 88964,
+    "line": 1776,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 88996,
+    "line": 1778,
+    "context": "                   {/* Calculations */}\\n"
+  },
+  {
+    "index": 89013,
+    "line": 1778,
+    "context": "  {/* Calculations */}\\n                 "
+  },
+  {
+    "index": 89250,
+    "line": 1781,
+    "context": "     <span>Subtotal</span>\\n             "
+  },
+  {
+    "index": 89324,
+    "line": 1782,
+    "context": "ubtotal.toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 89358,
+    "line": 1783,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 89507,
+    "line": 1785,
+    "context": "     <span>GST (5%)</span>\\n             "
+  },
+  {
+    "index": 89572,
+    "line": 1786,
+    "context": "xAmount.toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 89606,
+    "line": 1787,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 89766,
+    "line": 1789,
+    "context": "Service Charge (2%)</span>\\n             "
+  },
+  {
+    "index": 89835,
+    "line": 1790,
+    "context": "eCharge.toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 89869,
+    "line": 1791,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 90079,
+    "line": 1794,
+    "context": "an>Discount Applied</span>\\n             "
+  },
+  {
+    "index": 90161,
+    "line": 1795,
+    "context": "iscount.toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 90197,
+    "line": 1796,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 90466,
+    "line": 1799,
+    "context": "widest\">Grand Total</span>\\n             "
+  },
+  {
+    "index": 90579,
+    "line": 1800,
+    "context": "alTotal.toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 90613,
+    "line": 1801,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 90647,
+    "line": 1803,
+    "context": "                   {/* Print Mode paymen"
+  },
+  {
+    "index": 90677,
+    "line": 1803,
+    "context": "ode payment status */}\\n                 "
+  },
+  {
+    "index": 90900,
+    "line": 1805,
+    "context": "pan>Payment Status:</span>\\n             "
+  },
+  {
+    "index": 90987,
+    "line": 1806,
+    "context": ">Pending Settlement</span>\\n             "
+  },
+  {
+    "index": 91021,
+    "line": 1807,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 91052,
+    "line": 1808,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 91255,
+    "line": 1811,
+    "context": "for dining with us!</p>\\n                "
+  },
+  {
+    "index": 91358,
+    "line": 1812,
+    "context": ">Please visit again</p>\\n                "
+  },
+  {
+    "index": 91387,
+    "line": 1813,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 91416,
+    "line": 1814,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 91446,
+    "line": 1816,
+    "context": "                   {/* Actions Area */}\\n"
+  },
+  {
+    "index": 91463,
+    "line": 1816,
+    "context": "  {/* Actions Area */}\\n                 "
+  },
+  {
+    "index": 91564,
+    "line": 1818,
+    "context": "                   {/* Discount Section "
+  },
+  {
+    "index": 91585,
+    "line": 1818,
+    "context": "* Discount Section */}\\n                 "
+  },
+  {
+    "index": 91875,
+    "line": 1821,
+    "context": "className=\"w-4 h-4\" /> Apply Discount\\n  "
+  },
+  {
+    "index": 91920,
+    "line": 1822,
+    "context": "                   </h3>\\n               "
+  },
+  {
+    "index": 92110,
+    "line": 1825,
+    "context": "bsolute left-3 top-1/2 -translate-y-1/2 "
+  },
+  {
+    "index": 92127,
+    "line": 1825,
+    "context": "p-1/2 -translate-y-1/2 font-bold text-sl"
+  },
+  {
+    "index": 92158,
+    "line": 1825,
+    "context": "d text-slate-400\">₹</span>\\n             "
+  },
+  {
+    "index": 92604,
+    "line": 1831,
+    "context": "2 focus:ring-primary/10 font-semibold tr"
+  },
+  {
+    "index": 92668,
+    "line": 1832,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 92700,
+    "line": 1833,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 93041,
+    "line": 1839,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 93077,
+    "line": 1840,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 93108,
+    "line": 1841,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 93140,
+    "line": 1843,
+    "context": "                   {/* Payment Options *"
+  },
+  {
+    "index": 93160,
+    "line": 1843,
+    "context": "/* Payment Options */}\\n                 "
+  },
+  {
+    "index": 93383,
+    "line": 1845,
+    "context": "b-4\">Payment Method</h3>\\n               "
+  },
+  {
+    "index": 93754,
+    "line": 1849,
+    "context": "r-primary bg-primary/5 text-primary' : '"
+  },
+  {
+    "index": 93961,
+    "line": 1852,
+    "context": "Name=\"w-5 h-5 mb-1\" />\\n                 "
+  },
+  {
+    "index": 94035,
+    "line": 1853,
+    "context": "-bold text-xs\">Cash</span>\\n             "
+  },
+  {
+    "index": 94071,
+    "line": 1854,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 94377,
+    "line": 1857,
+    "context": "r-primary bg-primary/5 text-primary' : '"
+  },
+  {
+    "index": 94586,
+    "line": 1860,
+    "context": "Name=\"w-5 h-5 mb-1\" />\\n                 "
+  },
+  {
+    "index": 94659,
+    "line": 1861,
+    "context": "t-bold text-xs\">UPI</span>\\n             "
+  },
+  {
+    "index": 94695,
+    "line": 1862,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 95003,
+    "line": 1865,
+    "context": "r-primary bg-primary/5 text-primary' : '"
+  },
+  {
+    "index": 95212,
+    "line": 1868,
+    "context": "Name=\"w-5 h-5 mb-1\" />\\n                 "
+  },
+  {
+    "index": 95286,
+    "line": 1869,
+    "context": "-bold text-xs\">Card</span>\\n             "
+  },
+  {
+    "index": 95322,
+    "line": 1870,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 95358,
+    "line": 1871,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 95389,
+    "line": 1872,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 95852,
+    "line": 1879,
+    "context": "className=\"w-5 h-5\" />\\n                 "
+  },
+  {
+    "index": 95921,
+    "line": 1881,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 96301,
+    "line": 1886,
+    "context": "className=\"w-5 h-5\" />\\n                 "
+  },
+  {
+    "index": 96376,
+    "line": 1888,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 96410,
+    "line": 1889,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 96439,
+    "line": 1890,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 96466,
+    "line": 1891,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 96832,
+    "line": 1895,
+    "context": "ty-40 text-primary\" />\\n                 "
+  },
+  {
+    "index": 96858,
+    "line": 1896,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 96960,
+    "line": 1897,
+    "context": ">Ready for Checkout</h2>\\n               "
+  },
+  {
+    "index": 97133,
+    "line": 1898,
+    "context": "nd process payment.</p>\\n                "
+  },
+  {
+    "index": 97158,
+    "line": 1899,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 97202,
+    "line": 1901,
+    "context": ")}\\n                </div>\\n              "
+  },
+  {
+    "index": 97223,
+    "line": 1902,
+    "context": "div>\\n              </div>\\n            );"
+  },
+  {
+    "index": 97897,
+    "line": 1919,
+    "context": "dAt);\\n              // Format to YYYY-MM"
+  },
+  {
+    "index": 97898,
+    "line": 1919,
+    "context": "At);\\n              // Format to YYYY-MM-"
+  },
+  {
+    "index": 98477,
+    "line": 1933,
+    "context": "0, 5);\\n\\n            // Sort dates descen"
+  },
+  {
+    "index": 98478,
+    "line": 1933,
+    "context": ", 5);\\n\\n            // Sort dates descend"
+  },
+  {
+    "index": 98617,
+    "line": 1936,
+    "context": "[0]));\\n\\n            // Prepare data for "
+  },
+  {
+    "index": 98618,
+    "line": 1936,
+    "context": "0]));\\n\\n            // Prepare data for c"
+  },
+  {
+    "index": 99171,
+    "line": 1945,
+    "context": " sum + r.rating, 0) / ratings.length).to"
+  },
+  {
+    "index": 99304,
+    "line": 1950,
+    "context": "\">\\n                {/* Summary Cards */}"
+  },
+  {
+    "index": 99322,
+    "line": 1950,
+    "context": " {/* Summary Cards */}\\n                <"
+  },
+  {
+    "index": 99502,
+    "line": 1952,
+    "context": " Experience Reports</h2>\\n               "
+  },
+  {
+    "index": 99630,
+    "line": 1953,
+    "context": "stomer satisfaction</p>\\n\\n               "
+  },
+  {
+    "index": 99773,
+    "line": 1956,
+    "context": " className=\"bg-muted/50 p-6 rounded-xl b"
+  },
+  {
+    "index": 99990,
+    "line": 1959,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 100147,
+    "line": 1962,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 100172,
+    "line": 1963,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 100222,
+    "line": 1964,
+    "context": " className=\"bg-muted/50 p-6 rounded-xl b"
+  },
+  {
+    "index": 100438,
+    "line": 1967,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 100592,
+    "line": 1970,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 100617,
+    "line": 1971,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 100667,
+    "line": 1972,
+    "context": " className=\"bg-muted/50 p-6 rounded-xl b"
+  },
+  {
+    "index": 100886,
+    "line": 1975,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 101030,
+    "line": 1977,
+    "context": "gth ? (totalRevenue / deliveredOrders.le"
+  },
+  {
+    "index": 101100,
+    "line": 1978,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 101125,
+    "line": 1979,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 101175,
+    "line": 1980,
+    "context": " className=\"bg-muted/50 p-6 rounded-xl b"
+  },
+  {
+    "index": 101425,
+    "line": 1983,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 101584,
+    "line": 1985,
+    "context": "ow-500\">{avgRating}</p>\\n                "
+  },
+  {
+    "index": 101640,
+    "line": 1986,
+    "context": "assName=\"text-xl\">⭐</span>\\n             "
+  },
+  {
+    "index": 101761,
+    "line": 1987,
+    "context": "gs.length} reviews)</span>\\n             "
+  },
+  {
+    "index": 101791,
+    "line": 1988,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 101818,
+    "line": 1989,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 101843,
+    "line": 1990,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 101866,
+    "line": 1991,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 101890,
+    "line": 1993,
+    "context": ">\\n\\n                {/* Sales Analytics G"
+  },
+  {
+    "index": 101916,
+    "line": 1993,
+    "context": "es Analytics Graph */}\\n                <"
+  },
+  {
+    "index": 102188,
+    "line": 1997,
+    "context": "\">Sales Performance</h2>\\n               "
+  },
+  {
+    "index": 102309,
+    "line": 1998,
+    "context": "me trends over time</p>\\n                "
+  },
+  {
+    "index": 102334,
+    "line": 1999,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 102628,
+    "line": 2002,
+    "context": "full bg-green-500\"></span>\\n             "
+  },
+  {
+    "index": 102690,
+    "line": 2004,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 102939,
+    "line": 2006,
+    "context": "ull bg-indigo-500\"></span>\\n             "
+  },
+  {
+    "index": 103000,
+    "line": 2008,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 103027,
+    "line": 2009,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 103052,
+    "line": 2010,
+    "context": "\\n                  </div>\\n\\n             "
+  },
+  {
+    "index": 103496,
+    "line": 2018,
+    "context": "\" stopOpacity={0.1} />\\n                 "
+  },
+  {
+    "index": 103584,
+    "line": 2019,
+    "context": "81\" stopOpacity={0} />\\n                 "
+  },
+  {
+    "index": 103616,
+    "line": 2020,
+    "context": "                   </linearGradient>\\n   "
+  },
+  {
+    "index": 103660,
+    "line": 2021,
+    "context": "                   </defs>\\n             "
+  },
+  {
+    "index": 103764,
+    "line": 2022,
+    "context": "e} stroke=\"#e2e8f0\" />\\n                 "
+  },
+  {
+    "index": 104081,
+    "line": 2029,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 104429,
+    "line": 2036,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 104759,
+    "line": 2043,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 105079,
+    "line": 2049,
+    "context": "15px -3px rgb(0 0 0 / 0.1)',\\n           "
+  },
+  {
+    "index": 105241,
+    "line": 2053,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 105665,
+    "line": 2063,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 105990,
+    "line": 2071,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 106018,
+    "line": 2072,
+    "context": "                   </ComposedChart>\\n    "
+  },
+  {
+    "index": 106057,
+    "line": 2073,
+    "context": "                   </ResponsiveContainer"
+  },
+  {
+    "index": 106200,
+    "line": 2075,
+    "context": "tify-center bg-muted/30 rounded-xl borde"
+  },
+  {
+    "index": 106348,
+    "line": 2076,
+    "context": "t-muted-foreground\" />\\n                 "
+  },
+  {
+    "index": 106458,
+    "line": 2077,
+    "context": "ient data for chart</p>\\n                "
+  },
+  {
+    "index": 106485,
+    "line": 2078,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 106533,
+    "line": 2080,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 106556,
+    "line": 2081,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 106654,
+    "line": 2084,
+    "context": "\\n                  {/* Daily Reports Bre"
+  },
+  {
+    "index": 106682,
+    "line": 2084,
+    "context": " Reports Breakdown */}\\n                 "
+  },
+  {
+    "index": 106856,
+    "line": 2086,
+    "context": "-4\">Daily Breakdown</h2>\\n               "
+  },
+  {
+    "index": 107178,
+    "line": 2091,
+    "context": "hover:border-primary/30 transition-color"
+  },
+  {
+    "index": 107461,
+    "line": 2094,
+    "context": " day: 'numeric' })}</span>\\n             "
+  },
+  {
+    "index": 107587,
+    "line": 2095,
+    "context": "tats.orders} orders</span>\\n             "
+  },
+  {
+    "index": 107621,
+    "line": 2096,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 107782,
+    "line": 2098,
+    "context": "revenue.toFixed(2)}</span>\\n             "
+  },
+  {
+    "index": 107903,
+    "line": 2099,
+    "context": "g: ₹{(stats.revenue / stats.orders).toFi"
+  },
+  {
+    "index": 107931,
+    "line": 2099,
+    "context": "orders).toFixed(0)}</div>\\n              "
+  },
+  {
+    "index": 107964,
+    "line": 2100,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 107995,
+    "line": 2101,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 108179,
+    "line": 2104,
+    "context": "data available yet.</p>\\n                "
+  },
+  {
+    "index": 108229,
+    "line": 2106,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 108254,
+    "line": 2107,
+    "context": "\\n                  </div>\\n\\n             "
+  },
+  {
+    "index": 108280,
+    "line": 2109,
+    "context": "\\n                  {/* Top Performing It"
+  },
+  {
+    "index": 108305,
+    "line": 2109,
+    "context": "p Performing Items */}\\n                 "
+  },
+  {
+    "index": 108484,
+    "line": 2111,
+    "context": "op Performing Items</h2>\\n               "
+  },
+  {
+    "index": 108974,
+    "line": 2119,
+    "context": "eground\">#{idx + 1}</span>\\n             "
+  },
+  {
+    "index": 109060,
+    "line": 2120,
+    "context": "-foreground\">{name}</span>\\n             "
+  },
+  {
+    "index": 109094,
+    "line": 2121,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 109163,
+    "line": 2122,
+    "context": "font-bold bg-primary/10 text-primary px-"
+  },
+  {
+    "index": 109281,
+    "line": 2124,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 109313,
+    "line": 2125,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 109488,
+    "line": 2128,
+    "context": "elivered items yet.</p>\\n                "
+  },
+  {
+    "index": 109538,
+    "line": 2130,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 109563,
+    "line": 2131,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 109586,
+    "line": 2132,
+    "context": "v>\\n                </div>\\n              "
+  },
+  {
+    "index": 109607,
+    "line": 2133,
+    "context": "div>\\n              </div>\\n            );"
+  },
+  {
+    "index": 109948,
+    "line": 2141,
+    "context": "\">Customer Feedback</h2>\\n               "
+  },
+  {
+    "index": 110060,
+    "line": 2142,
+    "context": "to customer reviews</p>\\n                "
+  },
+  {
+    "index": 110081,
+    "line": 2143,
+    "context": "p>\\n                </div>\\n              "
+  },
+  {
+    "index": 110476,
+    "line": 2150,
+    "context": "\"}\\n                </button>\\n           "
+  },
+  {
+    "index": 110500,
+    "line": 2151,
+    "context": "ton>\\n              </div>\\n\\n             "
+  },
+  {
+    "index": 110739,
+    "line": 2156,
+    "context": "=\"text-4xl mb-4\">💬</div>\\n              "
+  },
+  {
+    "index": 110828,
+    "line": 2157,
+    "context": "dback received yet.</p>\\n                "
+  },
+  {
+    "index": 110851,
+    "line": 2158,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 111045,
+    "line": 2161,
+    "context": "hover:border-primary/30 transition-color"
+  },
+  {
+    "index": 111459,
+    "line": 2166,
+    "context": "ext-slate-200\"}`}>★</span>\\n             "
+  },
+  {
+    "index": 111594,
+    "line": 2168,
+    "context": "reground\">{r.rating}/5</span>\\n          "
+  },
+  {
+    "index": 111597,
+    "line": 2168,
+    "context": "round\">{r.rating}/5</span>\\n             "
+  },
+  {
+    "index": 111631,
+    "line": 2169,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 111855,
+    "line": 2171,
+    "context": "{r.tableNumber || \"N/A\"}\\n               "
+  },
+  {
+    "index": 111887,
+    "line": 2172,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 111919,
+    "line": 2173,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 112131,
+    "line": 2176,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 112161,
+    "line": 2177,
+    "context": "                   </div>\\n\\n             "
+  },
+  {
+    "index": 112298,
+    "line": 2180,
+    "context": "axed italic bg-muted/50 p-4 rounded-xl b"
+  },
+  {
+    "index": 112405,
+    "line": 2182,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 112542,
+    "line": 2184,
+    "context": "n comment provided.</p>\\n                "
+  },
+  {
+    "index": 112772,
+    "line": 2188,
+    "context": "ce(-8) || \"Direct\"}</span>\\n             "
+  },
+  {
+    "index": 112802,
+    "line": 2189,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 112829,
+    "line": 2190,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 112890,
+    "line": 2193,
+    "context": "  )}\\n              </div>\\n            </"
+  },
+  {
+    "index": 112909,
+    "line": 2194,
+    "context": "</div>\\n            </div>\\n          )}\\n\\n"
+  },
+  {
+    "index": 113039,
+    "line": 2199,
+    "context": "-6\">\\n              {/* Admin Details Sec"
+  },
+  {
+    "index": 113065,
+    "line": 2199,
+    "context": "in Details Section */}\\n              <di"
+  },
+  {
+    "index": 113240,
+    "line": 2201,
+    "context": "ound\">Admin Details</h2>\\n               "
+  },
+  {
+    "index": 113405,
+    "line": 2204,
+    "context": "ls\\n                </p>\\n\\n               "
+  },
+  {
+    "index": 113675,
+    "line": 2210,
+    "context": "                   </label>\\n            "
+  },
+  {
+    "index": 113983,
+    "line": 2216,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 114005,
+    "line": 2217,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 114200,
+    "line": 2221,
+    "context": "                   </label>\\n            "
+  },
+  {
+    "index": 114519,
+    "line": 2227,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 114541,
+    "line": 2228,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 114745,
+    "line": 2232,
+    "context": "                   </label>\\n            "
+  },
+  {
+    "index": 115108,
+    "line": 2237,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 115130,
+    "line": 2238,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 115334,
+    "line": 2242,
+    "context": "                   </label>\\n            "
+  },
+  {
+    "index": 115689,
+    "line": 2247,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 115711,
+    "line": 2248,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 115734,
+    "line": 2249,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 115945,
+    "line": 2253,
+    "context": "oreground\">Security</h3>\\n               "
+  },
+  {
+    "index": 116040,
+    "line": 2254,
+    "context": "your account secure</p>\\n                "
+  },
+  {
+    "index": 116063,
+    "line": 2255,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 116354,
+    "line": 2258,
+    "context": "\\n                  </button>\\n           "
+  },
+  {
+    "index": 116380,
+    "line": 2259,
+    "context": "n>\\n                </div>\\n              "
+  },
+  {
+    "index": 116401,
+    "line": 2260,
+    "context": "div>\\n              </div>\\n\\n             "
+  },
+  {
+    "index": 116423,
+    "line": 2262,
+    "context": "iv>\\n\\n              {/* System Configurat"
+  },
+  {
+    "index": 116448,
+    "line": 2262,
+    "context": "stem Configuration */}\\n              <di"
+  },
+  {
+    "index": 116614,
+    "line": 2264,
+    "context": "ystem Configuration</h2>\\n               "
+  },
+  {
+    "index": 116785,
+    "line": 2267,
+    "context": "ms\\n                </p>\\n\\n               "
+  },
+  {
+    "index": 117053,
+    "line": 2272,
+    "context": "und\">Tax Rate (GST)</p>\\n                "
+  },
+  {
+    "index": 117242,
+    "line": 2275,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 117267,
+    "line": 2276,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 117551,
+    "line": 2281,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 117573,
+    "line": 2282,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 117798,
+    "line": 2285,
+    "context": "und\">Service Charge</p>\\n                "
+  },
+  {
+    "index": 117988,
+    "line": 2288,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 118013,
+    "line": 2289,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 118297,
+    "line": 2294,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 118319,
+    "line": 2295,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 118342,
+    "line": 2296,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 118796,
+    "line": 2304,
+    "context": "\\n                  </button>\\n           "
+  },
+  {
+    "index": 118822,
+    "line": 2305,
+    "context": "n>\\n                </div>\\n              "
+  },
+  {
+    "index": 118843,
+    "line": 2306,
+    "context": "div>\\n              </div>\\n            </"
+  },
+  {
+    "index": 118862,
+    "line": 2307,
+    "context": "</div>\\n            </div>\\n          )}\\n\\n"
+  },
+  {
+    "index": 118893,
+    "line": 2310,
+    "context": "     )}\\n\\n          {/* Fallback for comp"
+  },
+  {
+    "index": 118938,
+    "line": 2310,
+    "context": "y unknown sections */}\\n          {active"
+  },
+  {
+    "index": 119498,
+    "line": 2321,
+    "context": "\"}\\n                </div>\\n              "
+  },
+  {
+    "index": 119702,
+    "line": 2324,
+    "context": "\"}\\n                </h2>\\n               "
+  },
+  {
+    "index": 119866,
+    "line": 2327,
+    "context": "r.\\n                </p>\\n              </"
+  },
+  {
+    "index": 119885,
+    "line": 2328,
+    "context": "</p>\\n              </div>\\n            )}"
+  },
+  {
+    "index": 119915,
+    "line": 2330,
+    "context": "        )}\\n        </main>\\n      </div>\\n"
+  },
+  {
+    "index": 119929,
+    "line": 2331,
+    "context": "     </main>\\n      </div>\\n\\n      {/* Men"
+  },
+  {
+    "index": 119943,
+    "line": 2333,
+    "context": "     </div>\\n\\n      {/* Menu Modal */}\\n  "
+  },
+  {
+    "index": 119958,
+    "line": 2333,
+    "context": "    {/* Menu Modal */}\\n      {showMenuMo"
+  },
+  {
+    "index": 120033,
+    "line": 2335,
+    "context": "xed inset-0 bg-black/50 flex items-cente"
+  },
+  {
+    "index": 120447,
+    "line": 2339,
+    "context": "e=\"w-10 h-10 bg-card/20 rounded-xl flex "
+  },
+  {
+    "index": 120567,
+    "line": 2341,
+    "context": "\"}\\n                </span>\\n             "
+  },
+  {
+    "index": 120658,
+    "line": 2343,
+    "context": "sh\"}\\n              </h3>\\n              <"
+  },
+  {
+    "index": 120866,
+    "line": 2349,
+    "context": "-white hover:bg-card/20 rounded-full p-2"
+  },
+  {
+    "index": 120961,
+    "line": 2351,
+    "context": "className=\"w-5 h-5\" />\\n              </b"
+  },
+  {
+    "index": 120979,
+    "line": 2352,
+    "context": "\" />\\n              </button>\\n           "
+  },
+  {
+    "index": 121001,
+    "line": 2353,
+    "context": "utton>\\n            </div>\\n\\n            <"
+  },
+  {
+    "index": 121375,
+    "line": 2360,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 121796,
+    "line": 2368,
+    "context": "4 focus:ring-primary/5 focus:outline-non"
+  },
+  {
+    "index": 121955,
+    "line": 2370,
+    "context": "\"\\n                  />\\n                <"
+  },
+  {
+    "index": 121975,
+    "line": 2371,
+    "context": "/>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 122208,
+    "line": 2376,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 122685,
+    "line": 2386,
+    "context": "4 focus:ring-primary/5 focus:outline-non"
+  },
+  {
+    "index": 122888,
+    "line": 2389,
+    "context": "\"\\n                  />\\n                <"
+  },
+  {
+    "index": 122908,
+    "line": 2390,
+    "context": "/>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 123113,
+    "line": 2395,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 123638,
+    "line": 2402,
+    "context": "className=\"w-4 h-4\" />\\n                 "
+  },
+  {
+    "index": 123662,
+    "line": 2403,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 124227,
+    "line": 2415,
+    "context": "4 focus:ring-primary/5 focus:outline-non"
+  },
+  {
+    "index": 124344,
+    "line": 2417,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 124792,
+    "line": 2423,
+    "context": "className=\"w-4 h-4\" />\\n                 "
+  },
+  {
+    "index": 124816,
+    "line": 2424,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 124844,
+    "line": 2425,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 124867,
+    "line": 2426,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 125079,
+    "line": 2431,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 125608,
+    "line": 2438,
+    "context": "className=\"w-4 h-4\" />\\n                 "
+  },
+  {
+    "index": 125632,
+    "line": 2439,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 126199,
+    "line": 2451,
+    "context": "4 focus:ring-primary/5 focus:outline-non"
+  },
+  {
+    "index": 126314,
+    "line": 2453,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 126766,
+    "line": 2459,
+    "context": "className=\"w-4 h-4\" />\\n                 "
+  },
+  {
+    "index": 126790,
+    "line": 2460,
+    "context": "                   </button>\\n           "
+  },
+  {
+    "index": 126818,
+    "line": 2461,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 126841,
+    "line": 2462,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 127045,
+    "line": 2467,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 127601,
+    "line": 2478,
+    "context": "4 focus:ring-primary/5 focus:outline-non"
+  },
+  {
+    "index": 127743,
+    "line": 2480,
+    "context": "=\"\">Select category</option>\\n           "
+  },
+  {
+    "index": 127808,
+    "line": 2481,
+    "context": "\"Starters\">Starters</option>\\n           "
+  },
+  {
+    "index": 127879,
+    "line": 2482,
+    "context": "Course\">Main Course</option>\\n           "
+  },
+  {
+    "index": 127944,
+    "line": 2483,
+    "context": "\"Desserts\">Desserts</option>\\n           "
+  },
+  {
+    "index": 128011,
+    "line": 2484,
+    "context": "everages\">Beverages</option>\\n           "
+  },
+  {
+    "index": 128072,
+    "line": 2485,
+    "context": "lue=\"Breads\">Breads</option>\\n           "
+  },
+  {
+    "index": 128129,
+    "line": 2486,
+    "context": "n value=\"Rice\">Rice</option>\\n           "
+  },
+  {
+    "index": 128159,
+    "line": 2487,
+    "context": "                   </select>\\n           "
+  },
+  {
+    "index": 128234,
+    "line": 2488,
+    "context": "solute right-4 top-1/2 -translate-y-1/2 "
+  },
+  {
+    "index": 128251,
+    "line": 2488,
+    "context": "p-1/2 -translate-y-1/2 w-4 h-4 text-mute"
+  },
+  {
+    "index": 128348,
+    "line": 2488,
+    "context": " transition-colors\" />\\n                 "
+  },
+  {
+    "index": 128370,
+    "line": 2489,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 128393,
+    "line": 2490,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 128601,
+    "line": 2495,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 129078,
+    "line": 2505,
+    "context": "4 focus:ring-primary/5 focus:outline-non"
+  },
+  {
+    "index": 129232,
+    "line": 2507,
+    "context": "\"\\n                  />\\n                <"
+  },
+  {
+    "index": 129252,
+    "line": 2508,
+    "context": "/>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 129459,
+    "line": 2513,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 130025,
+    "line": 2523,
+    "context": "4 focus:ring-primary/5 focus:outline-non"
+  },
+  {
+    "index": 130161,
+    "line": 2525,
+    "context": " value=\"Nil\">🌿 Nil</option>\\n           "
+  },
+  {
+    "index": 130222,
+    "line": 2526,
+    "context": "lue=\"Mild\">🌶️ Mild</option>\\n           "
+  },
+  {
+    "index": 130290,
+    "line": 2527,
+    "context": "dium\">🌶️🌶️ Medium</option>\\n           "
+  },
+  {
+    "index": 130355,
+    "line": 2528,
+    "context": "\"Hot\">🌶️🌶️🌶️ Hot</option>\\n           "
+  },
+  {
+    "index": 130385,
+    "line": 2529,
+    "context": "                   </select>\\n           "
+  },
+  {
+    "index": 130460,
+    "line": 2530,
+    "context": "solute right-4 top-1/2 -translate-y-1/2 "
+  },
+  {
+    "index": 130477,
+    "line": 2530,
+    "context": "p-1/2 -translate-y-1/2 w-4 h-4 text-mute"
+  },
+  {
+    "index": 130574,
+    "line": 2530,
+    "context": " transition-colors\" />\\n                 "
+  },
+  {
+    "index": 130596,
+    "line": 2531,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 130619,
+    "line": 2532,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 130808,
+    "line": 2537,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 131218,
+    "line": 2545,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 131244,
+    "line": 2546,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 131420,
+    "line": 2551,
+    "context": "       accept=\"image/*\"\\n                "
+  },
+  {
+    "index": 131709,
+    "line": 2553,
+    "context": "over:file:bg-primary/90 cursor-pointer\"\\n"
+  },
+  {
+    "index": 131801,
+    "line": 2555,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 132137,
+    "line": 2561,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 132303,
+    "line": 2564,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 132337,
+    "line": 2565,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 132658,
+    "line": 2570,
+    "context": "                  ></div>\\n              "
+  },
+  {
+    "index": 132691,
+    "line": 2571,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 132722,
+    "line": 2572,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 132906,
+    "line": 2576,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 132956,
+    "line": 2578,
+    "context": "                   </div>\\n              "
+  },
+  {
+    "index": 132981,
+    "line": 2579,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 133163,
+    "line": 2583,
+    "context": "                   </p>\\n                "
+  },
+  {
+    "index": 133702,
+    "line": 2595,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 133724,
+    "line": 2596,
+    "context": "\\n                  </div>\\n              "
+  },
+  {
+    "index": 133747,
+    "line": 2597,
+    "context": "v>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 133818,
+    "line": 2599,
+    "context": "enter gap-4 bg-muted/30 p-4 rounded-xl b"
+  },
+  {
+    "index": 134385,
+    "line": 2611,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 134592,
+    "line": 2614,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 134618,
+    "line": 2615,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 134643,
+    "line": 2616,
+    "context": "l>\\n                </div>\\n\\n             "
+  },
+  {
+    "index": 134714,
+    "line": 2618,
+    "context": "enter gap-4 bg-muted/30 p-4 rounded-xl b"
+  },
+  {
+    "index": 135293,
+    "line": 2630,
+    "context": "                    />\\n                 "
+  },
+  {
+    "index": 135497,
+    "line": 2633,
+    "context": "                   </span>\\n             "
+  },
+  {
+    "index": 135523,
+    "line": 2634,
+    "context": "\\n                  </label>\\n            "
+  },
+  {
+    "index": 135548,
+    "line": 2635,
+    "context": "l>\\n                </div>\\n              "
+  },
+  {
+    "index": 135569,
+    "line": 2636,
+    "context": "div>\\n              </div>\\n\\n             "
+  },
+  {
+    "index": 136057,
+    "line": 2644,
+    "context": "ite hover:bg-primary/90 shadow-md active"
+  },
+  {
+    "index": 136331,
+    "line": 2652,
+    "context": "\"}\\n                </button>\\n           "
+  },
+  {
+    "index": 136674,
+    "line": 2659,
+    "context": "ed-xl hover:bg-muted/80 transition-all\"\\n"
+  },
+  {
+    "index": 136754,
+    "line": 2662,
+    "context": "el\\n                </button>\\n           "
+  },
+  {
+    "index": 136778,
+    "line": 2663,
+    "context": "ton>\\n              </div>\\n            </"
+  },
+  {
+    "index": 136797,
+    "line": 2664,
+    "context": "</div>\\n            </form>\\n          </d"
+  },
+  {
+    "index": 136815,
+    "line": 2665,
+    "context": " </form>\\n          </div>\\n        </div>"
+  },
+  {
+    "index": 136830,
+    "line": 2666,
+    "context": "    </div>\\n        </div>\\n      )}\\n     "
+  },
+  {
+    "index": 136852,
+    "line": 2668,
+    "context": "iv>\\n      )}\\n      {/* Logout Confirmati"
+  },
+  {
+    "index": 136882,
+    "line": 2668,
+    "context": "Confirmation Modal */}\\n      {showLogout"
+  },
+  {
+    "index": 136959,
+    "line": 2670,
+    "context": "xed inset-0 bg-black/60 backdrop-blur-sm"
+  },
+  {
+    "index": 137422,
+    "line": 2674,
+    "context": "className=\"w-8 h-8\" />\\n              </d"
+  },
+  {
+    "index": 137440,
+    "line": 2675,
+    "context": "\" />\\n              </div>\\n              "
+  },
+  {
+    "index": 137530,
+    "line": 2676,
+    "context": "b-2\">Wait a moment!</h3>\\n              <"
+  },
+  {
+    "index": 137659,
+    "line": 2677,
+    "context": "of the admin panel?</p>\\n            </di"
+  },
+  {
+    "index": 137676,
+    "line": 2678,
+    "context": "l?</p>\\n            </div>\\n            <d"
+  },
+  {
+    "index": 137733,
+    "line": 2679,
+    "context": "x p-4 gap-3 bg-muted/50 border-t border-"
+  },
+  {
+    "index": 138056,
+    "line": 2685,
+    "context": "Stay\\n              </button>\\n           "
+  },
+  {
+    "index": 138262,
+    "line": 2688,
+    "context": "ow-lg shadow-red-600/20 transition-all a"
+  },
+  {
+    "index": 138357,
+    "line": 2691,
+    "context": "gout\\n              </button>\\n           "
+  },
+  {
+    "index": 138379,
+    "line": 2692,
+    "context": "utton>\\n            </div>\\n          </di"
+  },
+  {
+    "index": 138396,
+    "line": 2693,
+    "context": "  </div>\\n          </div>\\n        </div>"
+  },
+  {
+    "index": 138411,
+    "line": 2694,
+    "context": "    </div>\\n        </div>\\n      )}\\n     "
+  },
+  {
+    "index": 138433,
+    "line": 2696,
+    "context": "iv>\\n      )}\\n      {/* Build Error Fix: "
+  },
+  {
+    "index": 138497,
+    "line": 2696,
+    "context": "v for main wrapper */}\\n      </div>\\n    "
+  },
+  {
+    "index": 138507,
+    "line": 2697,
+    "context": " wrapper */}\\n      </div>\\n    </div>\\n  )"
+  },
+  {
+    "index": 138518,
+    "line": 2698,
+    "context": "}\\n      </div>\\n    </div>\\n  );\\n}\\n"
+  }
+]

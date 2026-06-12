@@ -18,7 +18,6 @@ export default function ItemDetailModal({
   onAddToCart,
 }: ItemDetailModalProps) {
   const [quantity, setQuantity] = useState(1);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -51,19 +50,13 @@ export default function ItemDetailModal({
           <X className="h-5 w-5 text-foreground" />
         </button>
 
-        <div className="aspect-video w-full relative overflow-hidden bg-muted">
+        <div className="aspect-video w-full overflow-hidden bg-muted">
           {item.image ? (
-            <>
-              {!imageLoaded && (
-                <div className="absolute inset-0 bg-muted animate-pulse" />
-              )}
-              <img
-                src={item.image}
-                alt={item.name}
-                onLoad={() => setImageLoaded(true)}
-                className={`h-full w-full object-cover transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-              />
-            </>
+            <img
+              src={item.image}
+              alt={item.name}
+              className="h-full w-full object-cover"
+            />
           ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground">
               No Images
@@ -140,19 +133,12 @@ export default function ItemDetailModal({
 
           <button
             onClick={() => {
-              if (item.isAvailable) {
-                onAddToCart(item, quantity);
-                onClose();
-              }
+              onAddToCart(item, quantity);
+              onClose();
             }}
-            disabled={!item.isAvailable}
-            className={`w-full h-11 rounded-lg font-medium transition-colors ${
-              item.isAvailable 
-                ? "bg-primary text-primary-foreground hover:bg-primary/90" 
-                : "bg-muted text-muted-foreground cursor-not-allowed border border-border"
-            }`}
+            className="w-full bg-primary text-primary-foreground h-11 rounded-lg font-medium hover:bg-primary/90 transition-colors"
           >
-            {item.isAvailable ? "Add to Order" : "Currently Out of Stock"}
+            Add to Order
           </button>
         </div>
       </div>

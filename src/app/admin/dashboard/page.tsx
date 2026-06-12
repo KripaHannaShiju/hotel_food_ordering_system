@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { ChevronDown, Plus, Minus, Trash2, Edit3, Camera, X, Printer, CreditCard, Banknote, Smartphone, Percent, CheckCircle2, Receipt, Search, LogOut, User, BarChart2, TrendingUp, Calendar } from "lucide-react";
-import { 
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, 
-    AreaChart, Area, ComposedChart, Line
+import { ChevronDown, Plus, Minus, Trash2, Edit3, Camera, X, Printer, CreditCard, Banknote, Smartphone, Percent, CheckCircle2, Receipt, Search, LogOut, User, BarChart2, TrendingUp, Calendar, Menu, LayoutDashboard, Utensils, ShoppingBag, PieChart, Settings, MessageSquare, IndianRupee, Clock, Tag, AlignLeft, Leaf, Sparkles, Flame } from "lucide-react";
+
+// Modular Components
+import AdminSidebar from "@/components/admin/AdminSidebar";
+import AdminTopNav from "@/components/admin/AdminTopNav";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  AreaChart, Area, ComposedChart, Line
 } from 'recharts';
 
 interface OrderItem {
@@ -85,6 +89,7 @@ export default function AdminDashboard() {
   const [billingAppliedDiscount, setBillingAppliedDiscount] = useState<number>(0);
   const [billingPaymentMethod, setBillingPaymentMethod] = useState<'Cash' | 'UPI' | 'Card'>('Cash');
   const [billingSearchQuery, setBillingSearchQuery] = useState('');
+  const [stockSearchQuery, setStockSearchQuery] = useState('');
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [ratings, setRatings] = useState<any[]>([]);
@@ -212,7 +217,7 @@ export default function AdminDashboard() {
     try {
       await fetch("/api/admin/logout", { method: "POST" });
       toast.success("Logged out successfully");
-      router.replace("/admin/login");
+      router.push("/admin/login");
     } catch (error) {
       toast.error("Logout failed");
       setIsLoggingOut(false);
@@ -554,149 +559,30 @@ export default function AdminDashboard() {
       : orders.filter((order) => order.tableNumber === selectedTable);
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Sidebar Mobile Overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm transition-opacity"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 bg-card border-r border-border transition-all duration-300 lg:relative flex flex-col h-full print:hidden ${sidebarOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0 lg:w-20"
-          }`}
-      >
-        {/* Sidebar Header */}
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center justify-between">
-            {sidebarOpen && (
-              <div>
-                <h2 className="text-lg font-bold text-foreground">Admin Panel</h2>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  Restaurant Management
-                </p>
-              </div>
-            )}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 rounded hover:bg-background transition-colors text-muted-foreground"
-              aria-label="Toggle sidebar"
-            >
-              <span className="text-lg">{sidebarOpen ? "◀" : "▶"}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
-          {navigationItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => {
-                setActiveSection(item.id);
-                if (window.innerWidth < 1024) setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${activeSection === item.id
-                ? "bg-primary text-primary-foreground font-medium"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
-            >
-              <span className="text-xl">{item.icon}</span>
-              {sidebarOpen && (
-                <>
-                  <span className="flex-1 text-left text-sm">{item.name}</span>
-                  {item.badge !== undefined && item.badge > 0 && (
-                    <span
-                      className={`${activeSection === item.id ? "bg-background text-foreground" : "bg-primary text-primary-foreground"} text-xs font-bold px-2 py-0.5 rounded-full`}
-                    >
-                      {item.badge}
-                    </span>
-                  )}
-                </>
-              )}
-            </button>
-          ))}
-        </nav>
-
-        <div className="p-3 border-t border-border">
-          <button
-            onClick={logout}
-            disabled={isLoggingOut}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
-              isLoggingOut 
-                ? "bg-muted text-muted-foreground cursor-not-allowed" 
-                : "text-red-500 hover:bg-red-500/10 active:scale-95"
-            }`}
-          >
-            <LogOut className={`w-5 h-5 ${isLoggingOut ? "animate-pulse" : ""}`} />
-            {sidebarOpen && (
-              <span className="text-sm font-semibold">
-                {isLoggingOut ? "Logging out..." : "Logout"}
-              </span>
-            )}
-          </button>
-        </div>
-      </aside>
+    <div className="flex min-h-screen bg-background relative overflow-hidden">
+      <AdminSidebar 
+        sidebarOpen={sidebarOpen}
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+        setSidebarOpen={setSidebarOpen}
+        navigationItems={navigationItems}
+        logout={logout}
+        isLoggingOut={isLoggingOut}
+      />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-screen">
-        {/* Top Navigation Bar */}
-        <nav className="bg-card border-b border-border print:hidden">
-          <div className="px-6 py-3">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => setSidebarOpen(!sidebarOpen)}
-                  className="p-2 -ml-2 rounded-lg hover:bg-muted transition-colors lg:hidden"
-                  aria-label="Toggle Menu"
-                >
-                  <span className="text-xl">{sidebarOpen ? "✕" : "☰"}</span>
-                </button>
-                <div>
-                  <h1 className="text-xl font-bold text-foreground">
-                    {navigationItems.find((item) => item.id === activeSection)
-                      ?.name || "Dashboard"}
-                  </h1>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    {new Date().toLocaleDateString("en-US", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="hidden sm:block text-right">
-                  <p className="text-sm font-medium text-foreground">
-                    Administrator
-                  </p>
-                  <p className="text-xs text-muted-foreground">Online</p>
-                </div>
-                <ThemeToggle />
-                <button 
-                  onClick={logout}
-                  className="w-10 h-10 rounded-xl bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center group relative"
-                  title="Logout"
-                >
-                  <User className="w-5 h-5 group-hover:hidden" />
-                  <LogOut className="w-5 h-5 hidden group-hover:block" />
-                  
-                  {/* Tooltip-like effect or label for mobile if needed */}
-                  <span className="sr-only">Logout</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </nav>
+      <div className="flex-1 flex flex-col min-h-screen min-w-0">
+        <AdminTopNav 
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          activeSectionName={navigationItems.find(i => i.id === activeSection)?.name || "Dashboard"}
+          onLogout={logout}
+        />
 
         {/* Main Content Area */}
-        <main className="flex-1 p-6 overflow-y-auto bg-background print:p-0 print:bg-card print:overflow-visible">
+        <main className="flex-1 p-8 overflow-y-auto bg-slate-50/50 print:p-0 print:bg-card">
           {activeSection === "dashboard" && (
-            <div className="space-y-6">
+            <div className="max-w-7xl mx-auto space-y-8">
               {/* Table Selector */}
               <div className="bg-card border border-border rounded-xl p-4">
                 <div className="flex items-center justify-between flex-wrap gap-4">
@@ -741,13 +627,13 @@ export default function AdminDashboard() {
 
               {/* Stats Cards */}
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <div className="bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-colors">
+                <div className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:border-primary/20 transition-all hover:shadow-md">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
+                      <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
                         Total Orders
                       </p>
-                      <p className="text-3xl font-black text-primary mt-1">
+                      <p className="text-2xl font-bold text-foreground mt-1">
                         {filteredOrders.length}
                       </p>
                       {selectedTable !== "all" && (
@@ -761,13 +647,13 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-card border border-border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                <div className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
+                      <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
                         Active Orders
                       </p>
-                      <p className="text-3xl font-black text-orange-600 mt-1">
+                      <p className="text-2xl font-bold text-amber-600 mt-1">
                         {
                           filteredOrders.filter(
                             (o) =>
@@ -786,15 +672,15 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-card border border-border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                <div className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
+                      <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
                         {selectedTable === "all"
                           ? "Revenue Today"
                           : "Table Revenue"}
                       </p>
-                      <p className="text-3xl font-black text-green-700 mt-1">
+                      <p className="text-2xl font-bold text-emerald-600 mt-1">
                         ₹
                         {filteredOrders
                           .reduce((sum, o) => sum + o.totalAmount, 0)
@@ -811,13 +697,13 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-card border border-border rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                <div className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
                         Avg Order Value
                       </p>
-                      <p className="text-3xl font-black text-primary mt-1">
+                      <p className="text-2xl font-bold text-primary mt-1">
                         ₹
                         {filteredOrders.length > 0
                           ? (
@@ -915,12 +801,12 @@ export default function AdminDashboard() {
                           </p>
                         </div>
                         <div className="bg-muted/10 px-4 py-3 border-t border-border flex gap-2">
-                          <button 
+                          <button
                             onClick={() => {
                               setActiveSection("billing");
                               setBillingSelectedOrder(order);
                             }}
-                            className="flex-1 bg-card border border-indigo-200 text-indigo-600 hover:bg-indigo-50 font-bold py-2 rounded-xl text-[10px] uppercase tracking-wider flex items-center justify-center gap-2 transition-all"
+                            className="flex-1 bg-card border border-primary/20 text-primary hover:bg-primary/5 font-bold py-2 rounded-xl text-[10px] uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-sm"
                           >
                             <Receipt className="w-3.5 h-3.5" />
                             View Bill
@@ -931,7 +817,7 @@ export default function AdminDashboard() {
                               onChange={(e) =>
                                 updateStatus(order._id, e.target.value)
                               }
-                              className="appearance-none block w-full rounded-xl border border-border bg-muted/50 py-2 pl-3 pr-8 text-[10px] font-black uppercase tracking-wider focus:border-primary focus:outline-none transition-all cursor-pointer"
+                              className="appearance-none block w-full rounded-xl border border-border bg-muted/50 py-2 pl-3 pr-8 text-[10px] font-bold uppercase tracking-wider focus:border-primary focus:outline-none transition-all cursor-pointer"
                             >
                               <option value="Pending">🕒 Status</option>
                               <option value="Confirmed">✅ Confirmed</option>
@@ -948,6 +834,84 @@ export default function AdminDashboard() {
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {activeSection === "stock" && (
+            <div className="space-y-6">
+              {/* Stock Controls Header */}
+              <div className="bg-card border border-border rounded-[2rem] p-8 shadow-sm">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-foreground">Live Stock Control</h2>
+                    <p className="text-xs text-muted-foreground font-medium mt-1">Manage kitchen availability in real-time</p>
+                  </div>
+                  <div className="w-full md:w-96 relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input
+                      type="text"
+                      placeholder="Search items to toggle..."
+                      value={stockSearchQuery}
+                      onChange={(e) => setStockSearchQuery(e.target.value)}
+                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-muted border border-border focus:border-primary focus:bg-card transition-all outline-none font-semibold text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Stock Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {menuItems
+                  .filter(item =>
+                    item.name.toLowerCase().includes(stockSearchQuery.toLowerCase()) ||
+                    item.category.toLowerCase().includes(stockSearchQuery.toLowerCase())
+                  )
+                  .map((item) => (
+                    <div
+                      key={item._id}
+                      className={`p-5 rounded-2xl border transition-all duration-300 group ${item.isAvailable
+                          ? "bg-card border-border hover:border-primary/30 hover:shadow-sm"
+                          : "bg-muted/40 border-dashed border-muted-foreground/20 opacity-70"
+                        }`}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="w-16 h-16 rounded-2xl overflow-hidden bg-muted flex-shrink-0 border border-border">
+                          {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-black text-foreground truncate">{item.name}</p>
+                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-0.5">{item.category}</p>
+
+                          <div className="mt-4 flex items-center justify-between">
+                            <span className={`text-[10px] font-black px-2 py-1 rounded-full uppercase tracking-tighter ${item.isAvailable ? "bg-emerald-100 text-emerald-700" : "bg-gray-200 text-gray-500"
+                              }`}>
+                              {item.isAvailable ? "● In Stock" : "○ Out of Stock"}
+                            </span>
+
+                            <label className="relative inline-flex items-center cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={item.isAvailable}
+                                onChange={() => toggleAvailability(item)}
+                                className="sr-only peer"
+                              />
+                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              {menuItems.filter(item =>
+                item.name.toLowerCase().includes(stockSearchQuery.toLowerCase()) ||
+                item.category.toLowerCase().includes(stockSearchQuery.toLowerCase())
+              ).length === 0 && (
+                  <div className="text-center py-20 bg-card rounded-[2rem] border border-dashed border-border">
+                    <p className="text-muted-foreground font-bold">No matching items found</p>
+                  </div>
+                )}
             </div>
           )}
 
@@ -1148,79 +1112,6 @@ export default function AdminDashboard() {
                     </table>
                   </div>
                 )}
-              </div>
-            </div>
-          )}
-
-
-          {activeSection === "stock" && (
-            <div className="space-y-6">
-              <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <div>
-                    <h2 className="text-2xl font-black text-foreground tracking-tight">Live Stock Management</h2>
-                    <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Real-time Kitchen Availability Control</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <div className="flex flex-col items-center bg-emerald-50 text-emerald-700 px-4 py-2 rounded-2xl border border-emerald-100 min-w-[100px]">
-                      <span className="text-xl font-black">{menuItems.filter(i => i.isAvailable).length}</span>
-                      <span className="text-[10px] font-bold uppercase">In Stock</span>
-                    </div>
-                    <div className="flex flex-col items-center bg-rose-50 text-rose-700 px-4 py-2 rounded-2xl border border-rose-100 min-w-[100px]">
-                      <span className="text-xl font-black">{menuItems.filter(i => !i.isAvailable).length}</span>
-                      <span className="text-[10px] font-bold uppercase">Sold Out</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pb-12">
-                {menuItems.map((item) => (
-                  <div 
-                    key={item._id}
-                    className={`group bg-card border-2 rounded-[2rem] p-5 transition-all duration-500 hover:scale-[1.03] ${
-                      item.isAvailable 
-                        ? 'border-emerald-100/50 shadow-sm hover:shadow-emerald-100/50 hover:shadow-xl' 
-                        : 'border-rose-100/50 bg-rose-50/5 grayscale shadow-none'
-                    }`}
-                  >
-                    <div className="relative mb-5">
-                      <div className={`aspect-square rounded-3xl overflow-hidden bg-muted shadow-inner ring-4 ring-white transition-all duration-500 ${!item.isAvailable && 'opacity-60 grayscale-[0.8]'}`}>
-                        {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />}
-                      </div>
-                      <div className={`absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl flex items-center justify-center shadow-2xl transition-transform duration-500 group-hover:rotate-12 ${item.isAvailable ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'}`}>
-                        {item.isAvailable ? '✓' : '✗'}
-                      </div>
-                    </div>
-
-                    <div className="space-y-1 mb-6">
-                      <h4 className={`text-lg font-black tracking-tight truncate ${!item.isAvailable ? 'text-gray-400' : 'text-foreground'}`}>{item.name}</h4>
-                      <div className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${item.isVeg ? 'bg-green-500' : 'bg-red-500'}`}></span>
-                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">{item.category}</span>
-                      </div>
-                    </div>
-
-                    <div className="pt-4 border-t border-dashed border-border flex flex-col gap-3">
-                      <div className="flex justify-between items-center px-1">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Status</span>
-                        <span className={`text-[10px] font-black uppercase tracking-widest ${item.isAvailable ? 'text-emerald-500' : 'text-rose-500'}`}>
-                          {item.isAvailable ? 'Available' : 'Out of Stock'}
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => toggleAvailability(item)}
-                        className={`w-full py-4 rounded-[1.5rem] text-[11px] font-black uppercase tracking-widest transition-all duration-300 shadow-lg active:scale-95 ${
-                          item.isAvailable 
-                            ? 'bg-rose-500 text-white hover:bg-rose-600 shadow-rose-200' 
-                            : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-200'
-                        }`}
-                      >
-                        {item.isAvailable ? 'Mark Sold Out' : 'Restore Stock'}
-                      </button>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           )}
@@ -1498,56 +1389,41 @@ export default function AdminDashboard() {
                     <p className="text-muted-foreground text-sm mt-1">New orders will appear here in real time</p>
                   </div>
                 ) : (
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                    {filteredKitchenOrders.map((order) => {
-                      const totalWait = getWaitMinutes(order.createdAt);
-                      const elapsed = getElapsedMinutes(order.createdAt, order.preparationStartedAt);
-                      const remaining = getRemainingMinutes(order);
-                      const delay = getDelayLevel(order);
-                      const cfg = statusConfig[order.status] || statusConfig["Pending"];
-                      const isSelected = selectedKitchenOrder?._id === order._id;
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                      {filteredKitchenOrders.map((order) => {
+                        const totalWait = getWaitMinutes(order.createdAt);
+                        const isSelected = selectedKitchenOrder?._id === order._id;
+                        const cfg = statusConfig[order.status] || statusConfig["Pending"];
+                        const remaining = getRemainingMinutes(order);
+                        const prep = order.estimatedPrepTime || 15;
+                        const elapsed = getElapsedMinutes(order.createdAt, order.preparationStartedAt);
+                        const progress = Math.min(100, Math.max(0, (elapsed / prep) * 100));
 
-                      const progress = order.preparationStartedAt 
-                         ? Math.min(100, Math.max(0, (elapsed / (order.estimatedPrepTime || 15)) * 100))
-                         : 0;
-
-                      return (
-                        <div
-                          key={order._id}
-                          onClick={() => setSelectedKitchenOrder(isSelected ? null : order)}
-                          className={`rounded-2xl border-2 overflow-hidden cursor-pointer transition-all duration-300 ${delay === "critical" ? "border-rose-300 shadow-rose-100 shadow-xl" :
-                            delay === "warning" ? "border-orange-200 shadow-orange-50 shadow-lg" :
-                              isSelected ? "border-slate-400 shadow-xl" : "border-slate-100/80 shadow-sm"
-                            } ${isSelected ? "ring-4 ring-slate-400/10 scale-[1.02]" : "hover:shadow-md hover:scale-[1.01]"}`}
-                        >
-                          {/* Card Header */}
-                          <div className={`px-5 py-3 flex items-center justify-between ${delay === "critical" ? "bg-rose-50 text-rose-900 border-b border-rose-100" :
-                            delay === "warning" ? "bg-orange-50 text-orange-900 border-b border-orange-100" :
-                              "bg-slate-50 text-slate-800 border-b border-slate-100"
-                            }`}>
-                            <div className="flex items-center gap-2">
-                              <span className="text-xl font-black tracking-tight italic">T-{order.tableNumber}</span>
-                              <span className="text-[10px] font-bold bg-card/60 border border-black/5 rounded-full px-2 py-0.5 text-muted-foreground uppercase tracking-widest">#{order._id.slice(-5)}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {!order.preparationStartedAt ? (
-                                <span className="text-[10px] font-black tracking-widest bg-slate-900/5 text-slate-400 px-2.5 py-1 rounded-full border border-slate-900/5 uppercase">
-                                  ⏳ Not Started
-                                </span>
-                              ) : remaining <= 0 ? (
-                                <span className={`text-[10px] font-black tracking-widest px-2.5 py-1 rounded-full animate-pulse ${remaining <= -10 ? 'bg-rose-500 text-white' : 'bg-orange-500 text-white'}`}>
-                                  {remaining <= -10 ? '🚨 CRITICAL' : '⚠️ DELAYED'}
-                                </span>
-                              ) : (
-                                <span className="text-[10px] font-black tracking-widest bg-slate-900/5 text-slate-500 px-2.5 py-1 rounded-full border border-slate-900/5 uppercase">
-                                  ⏱ {remaining}m left
-                                </span>
-                              )}
-                              <div className="flex items-center gap-1 text-sm font-bold">
-                                <span>{totalWait}m</span>
+                        return (
+                          <div
+                            key={order._id}
+                            onClick={() => setSelectedKitchenOrder(isSelected ? null : order)}
+                            className={`group bg-card rounded-2xl border transition-all duration-300 hover:shadow-lg ${
+                              isSelected ? "border-indigo-500 ring-4 ring-indigo-500/10" : "border-slate-200"
+                            }`}
+                          >
+                            <div className="p-5">
+                              <div className="flex justify-between items-start mb-4">
+                                <div>
+                                  <span className="text-xs font-bold text-slate-400 uppercase tracking-tight">Table</span>
+                                  <h3 className="text-2xl font-black text-slate-900 leading-none mt-1">{order.tableNumber}</h3>
+                                </div>
+                                <div className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${cfg.bg} ${cfg.text} border`}>
+                                  {cfg.label}
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-6">
+                                <span className="bg-slate-100 px-2 py-0.5 rounded">#{order._id.slice(-6)}</span>
+                                <span>•</span>
+                                <span>{totalWait}m ago</span>
                               </div>
                             </div>
-                          </div>
 
                           {/* Status Badge & Progress */}
                           <div className={`px-5 py-2 border-b ${cfg.bg}`}>
@@ -1612,7 +1488,7 @@ export default function AdminDashboard() {
                                 {nextStatusLabel[order.status]}
                               </button>
                             )}
-                            <button 
+                            <button
                               onClick={() => {
                                 setActiveSection("billing");
                                 setBillingSelectedOrder(order);
@@ -1754,282 +1630,277 @@ export default function AdminDashboard() {
           })()}
 
           {activeSection === "billing" && (() => {
-              const billingOrders = orders.filter((o) => ['Preparing', 'Ready', 'Delivered'].includes(o.status));
-              const filteredOrders = billingOrders.filter(o => 
-                  o.tableNumber.toString().includes(billingSearchQuery) ||
-                  o._id.toLowerCase().includes(billingSearchQuery.toLowerCase())
-              );
-              
-              const itemSubtotal = billingSelectedOrder?.items.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0) || 0;
-              const calculatedSubtotal = itemSubtotal > 0 ? itemSubtotal : (billingSelectedOrder?.totalAmount || 0);
+            const billingOrders = orders.filter((o) => ['Preparing', 'Ready', 'Delivered'].includes(o.status));
+            const filteredOrders = billingOrders.filter(o =>
+              o.tableNumber.toString().includes(billingSearchQuery) ||
+              o._id.toLowerCase().includes(billingSearchQuery.toLowerCase())
+            );
 
-              const taxAmount = calculatedSubtotal * 0.05; // 5% GST
-              const serviceCharge = calculatedSubtotal * 0.02; // 2% Service Charge
-              const finalTotal = Math.max(0, calculatedSubtotal + taxAmount + serviceCharge - billingAppliedDiscount);
+            const itemSubtotal = billingSelectedOrder?.items.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0) || 0;
+            const calculatedSubtotal = itemSubtotal > 0 ? itemSubtotal : (billingSelectedOrder?.totalAmount || 0);
 
-              const handleApplyDiscount = () => {
-                  const d = parseFloat(billingDiscount);
-                  if (!isNaN(d) && d >= 0) {
-                      setBillingAppliedDiscount(d);
-                  } else {
-                      setBillingAppliedDiscount(0);
-                  }
-              };
+            const taxAmount = calculatedSubtotal * 0.05; // 5% GST
+            const serviceCharge = calculatedSubtotal * 0.02; // 2% Service Charge
+            const finalTotal = Math.max(0, calculatedSubtotal + taxAmount + serviceCharge - billingAppliedDiscount);
 
-              const handlePrint = () => {
-                  window.print();
-              };
+            const handleApplyDiscount = () => {
+              const d = parseFloat(billingDiscount);
+              if (!isNaN(d) && d >= 0) {
+                setBillingAppliedDiscount(d);
+              } else {
+                setBillingAppliedDiscount(0);
+              }
+            };
 
-              const handleMarkPaid = () => {
-                  if (billingSelectedOrder) {
-                      updateStatus(billingSelectedOrder._id, 'Paid');
-                      setBillingSelectedOrder(null);
-                  }
-              };
+            const handlePrint = () => {
+              window.print();
+            };
 
-              return (
-                  <div className="flex flex-col lg:flex-row gap-6 h-full print:block">
-                      {/* Left: Orders List */}
-                      <div className="w-full lg:w-[350px] bg-card border border-slate-200 rounded-2xl flex flex-col shrink-0 overflow-hidden print:hidden" style={{ maxHeight: 'calc(100vh - 120px)' }}>
-                          <div className="p-4 border-b border-slate-200 bg-card sticky top-0 z-10">
-                              <div className="relative">
-                                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                  <input 
-                                      type="text" 
-                                      placeholder="Search table or order ID..."
-                                      value={billingSearchQuery}
-                                      onChange={(e) => setBillingSearchQuery(e.target.value)}
-                                      className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/5 transition-shadow"
-                                  />
-                              </div>
-                          </div>
+            const handleMarkPaid = () => {
+              if (billingSelectedOrder) {
+                updateStatus(billingSelectedOrder._id, 'Paid');
+                setBillingSelectedOrder(null);
+              }
+            };
 
-                          <div className="flex-1 overflow-y-auto p-3 space-y-2">
-                              {filteredOrders.length === 0 ? (
-                                  <div className="text-center py-10 opacity-50">
-                                      <Receipt className="w-12 h-12 mx-auto mb-3 text-slate-400" />
-                                      <p>No actionable orders found</p>
-                                  </div>
-                              ) : (
-                                  filteredOrders.map(order => (
-                                      <div 
-                                          key={order._id}
-                                          onClick={() => {
-                                              setBillingSelectedOrder(order);
-                                              setBillingAppliedDiscount(0);
-                                              setBillingDiscount('');
-                                          }}
-                                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
-                                              billingSelectedOrder?._id === order._id 
-                                                  ? 'border-primary bg-primary/5' 
-                                                  : 'border-transparent bg-slate-50 hover:border-border shadow-sm'
-                                          }`}
-                                      >
-                                          <div className="flex justify-between items-start mb-2">
-                                              <div>
-                                                  <h3 className="font-bold text-lg leading-tight">Table {order.tableNumber}</h3>
-                                                  <p className="text-xs text-slate-500 font-mono mt-1">#{order._id.slice(-6)}</p>
-                                              </div>
-                                              <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full ${
-                                                  order.status === 'Delivered' ? 'bg-green-100 text-green-700' :
-                                                  order.status === 'Ready' ? 'bg-blue-100 text-blue-700' :
-                                                  'bg-orange-100 text-orange-700'
-                                              }`}>
-                                                  {order.status}
-                                              </span>
-                                          </div>
-                                          <div className="flex justify-between items-center text-sm">
-                                              <span className="text-slate-600 font-medium">{order.items.length} items</span>
-                                              <span className="font-bold text-slate-900 border border-slate-200 px-2 py-1 rounded bg-card">₹{order.totalAmount.toFixed(2)}</span>
-                                          </div>
-                                      </div>
-                                  ))
-                              )}
-                          </div>
-                      </div>
-                      
-                      {/* Right: Bill Preview & Actions */}
-                      <div className="flex-1 overflow-y-auto print:overflow-visible print:block">
-                        {billingSelectedOrder ? (
-                            <div className="grid grid-cols-1 xl:grid-cols-[1.2fr_1fr] gap-6 print:block">
-                                {/* Receipt Column */}
-                                <div className="bg-card rounded-2xl shadow-sm border border-slate-200 p-8 flex flex-col print:shadow-none print:border-none print:p-0">
-                                    <div className="text-center mb-6 pb-6 border-b-2 border-dashed border-slate-200">
-                                        <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-2">Hotel Delish - Fine Dining</h2>
-                                        <p className="text-slate-500 text-sm">45 Gourmet Avenue, Downtown</p>
-                                        <p className="text-slate-500 text-sm">Phone: +91 98765 12345 | Web: www.hoteldelish.com</p>
-                                        <p className="text-slate-500 text-sm font-semibold mt-4 uppercase tracking-widest text-[10px]">Tax Invoice / Receipt</p>
-                                    </div>
-
-                                    {/* Order Info */}
-                                    <div className="flex justify-between text-sm mb-6 bg-slate-50 rounded-lg p-4 font-medium print:bg-transparent print:p-0 print:border-none border border-slate-100">
-                                        <div>
-                                            <p className="text-slate-500 mb-1">Order ID: <span className="text-slate-900 font-bold ml-1 font-mono">#{billingSelectedOrder._id.slice(-8)}</span></p>
-                                            <p className="text-slate-500">Date: <span className="text-slate-900 font-bold ml-1">{new Date(billingSelectedOrder.createdAt).toLocaleDateString()}</span></p>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="text-slate-500 mb-1">Table: <span className="text-slate-900 font-bold text-xl ml-1">{billingSelectedOrder.tableNumber}</span></p>
-                                            <p className="text-slate-500">Time: <span className="text-slate-900 font-bold ml-1">{new Date(billingSelectedOrder.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span></p>
-                                        </div>
-                                    </div>
-
-                                    {/* Itemized List */}
-                                    <div className="flex-1 mb-6">
-                                        <table className="w-full text-sm">
-                                            <thead>
-                                                <tr className="border-b-2 border-slate-900 text-left">
-                                                    <th className="pb-3 pt-2 font-bold uppercase text-[11px] tracking-wider text-slate-500">Item Name</th>
-                                                    <th className="pb-3 pt-2 text-center font-bold uppercase text-[11px] tracking-wider text-slate-500">Qty</th>
-                                                    <th className="pb-3 pt-2 text-right font-bold uppercase text-[11px] tracking-wider text-slate-500">Rate</th>
-                                                    <th className="pb-3 pt-2 text-right font-bold uppercase text-[11px] tracking-wider text-slate-500">Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-slate-100">
-                                                {billingSelectedOrder.items.map((item, idx) => {
-                                                    const itemPrice = item.price || 0; 
-                                                    const lineTotal = itemPrice * item.quantity;
-                                                    return (
-                                                        <tr key={idx} className="group hover:bg-slate-50/50 transition-colors">
-                                                            <td className="py-3 font-semibold text-slate-800">{item.name}</td>
-                                                            <td className="py-3 text-center text-slate-600 font-medium">{item.quantity}</td>
-                                                            <td className="py-3 text-right text-slate-600">₹{itemPrice.toFixed(2)}</td>
-                                                            <td className="py-3 text-right font-bold text-slate-900">₹{lineTotal.toFixed(2)}</td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    {/* Calculations */}
-                                    <div className="border-t-2 border-dashed border-slate-200 pt-6 space-y-3">
-                                        <div className="flex justify-between text-slate-600 font-medium">
-                                            <span>Subtotal</span>
-                                            <span>₹{calculatedSubtotal.toFixed(2)}</span>
-                                        </div>
-                                        <div className="flex justify-between text-slate-600 font-medium text-sm">
-                                            <span>GST (5%)</span>
-                                            <span>₹{taxAmount.toFixed(2)}</span>
-                                        </div>
-                                        <div className="flex justify-between text-slate-600 font-medium text-sm">
-                                            <span>Service Charge (2%)</span>
-                                            <span>₹{serviceCharge.toFixed(2)}</span>
-                                        </div>
-                                        {billingAppliedDiscount > 0 && (
-                                            <div className="flex justify-between text-green-600 font-bold">
-                                                <span>Discount Applied</span>
-                                                <span>- ₹{billingAppliedDiscount.toFixed(2)}</span>
-                                            </div>
-                                        )}
-                                        <div className="flex justify-between items-center border-t-2 border-slate-900 pt-4 mt-2">
-                                            <span className="text-xl font-black text-slate-900 uppercase tracking-widest">Grand Total</span>
-                                            <span className="text-3xl font-black text-slate-900">₹{finalTotal.toFixed(2)}</span>
-                                        </div>
-                                        
-                                        {/* Print Mode payment status */}
-                                        <div className="hidden print:flex justify-between items-center pt-6 mt-6 border-t border-slate-200 font-bold uppercase tracking-wider text-sm">
-                                            <span>Payment Status:</span>
-                                            <span className="text-slate-500">Pending Settlement</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="mt-8 text-center text-sm font-medium text-slate-400 border-t border-slate-100 pt-6 print:block">
-                                        <p>Thank you for dining with us!</p>
-                                        <p className="text-xs mt-1 uppercase tracking-widest">Please visit again</p>
-                                    </div>
-                                </div>
-                                
-                                {/* Actions Area */}
-                                <div className="flex flex-col gap-6 print:hidden">
-                                  {/* Discount Section */}
-                                  <div className="bg-card rounded-2xl shadow-sm border border-slate-200 p-6">
-                                      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
-                                          <Percent className="w-4 h-4" /> Apply Discount
-                                      </h3>
-                                      <div className="flex gap-2">
-                                          <div className="relative flex-1">
-                                              <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₹</span>
-                                              <input 
-                                                  type="number"
-                                                  value={billingDiscount}
-                                                  onChange={(e) => setBillingDiscount(e.target.value)}
-                                                  placeholder="Amount"
-                                                  className="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/10 font-semibold transition-all"
-                                              />
-                                          </div>
-                                          <button 
-                                              onClick={handleApplyDiscount}
-                                              className="px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-sm"
-                                          >
-                                              Apply
-                                          </button>
-                                      </div>
-                                  </div>
-
-                                  {/* Payment Options */}
-                                  <div className="bg-card rounded-2xl shadow-sm border border-slate-200 p-6">
-                                      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4">Payment Method</h3>
-                                      <div className="grid grid-cols-3 gap-3">
-                                          <button 
-                                              onClick={() => setBillingPaymentMethod('Cash')}
-                                              className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${
-                                                  billingPaymentMethod === 'Cash' ? 'border-primary bg-primary/5 text-primary' : 'border-slate-100 hover:border-slate-300 text-slate-600'
-                                              }`}
-                                          >
-                                              <Banknote className="w-5 h-5 mb-1" />
-                                              <span className="font-bold text-xs">Cash</span>
-                                          </button>
-                                          <button 
-                                              onClick={() => setBillingPaymentMethod('UPI')}
-                                              className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${
-                                                  billingPaymentMethod === 'UPI' ? 'border-primary bg-primary/5 text-primary' : 'border-slate-100 hover:border-slate-300 text-slate-600'
-                                              }`}
-                                          >
-                                              <Smartphone className="w-5 h-5 mb-1" />
-                                              <span className="font-bold text-xs">UPI</span>
-                                          </button>
-                                          <button 
-                                              onClick={() => setBillingPaymentMethod('Card')}
-                                              className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${
-                                                  billingPaymentMethod === 'Card' ? 'border-primary bg-primary/5 text-primary' : 'border-slate-100 hover:border-slate-300 text-slate-600'
-                                              }`}
-                                          >
-                                              <CreditCard className="w-5 h-5 mb-1" />
-                                              <span className="font-bold text-xs">Card</span>
-                                          </button>
-                                      </div>
-                                  </div>
-
-                                  <div className="mt-auto space-y-3">
-                                      <button 
-                                          onClick={handlePrint}
-                                          className="w-full py-4 bg-card border-2 border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2 shadow-sm"
-                                      >
-                                          <Printer className="w-5 h-5" />
-                                          Print Bill
-                                      </button>
-                                      <button 
-                                          onClick={handleMarkPaid}
-                                          className="w-full py-5 bg-emerald-600 text-white font-black text-lg rounded-xl hover:bg-emerald-700 transition-all shadow-lg hover:shadow-emerald-600/20 flex items-center justify-center gap-2"
-                                      >
-                                          <CheckCircle2 className="w-6 h-6" />
-                                          Settle & Complete
-                                      </button>
-                                  </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="flex-1 h-full flex flex-col items-center justify-center text-slate-400 print:hidden p-8 text-center bg-transparent">
-                                <div className="bg-card p-6 rounded-full shadow-sm mb-6 border border-slate-200">
-                                    <Receipt className="w-16 h-16 opacity-40 text-primary" />
-                                </div>
-                                <h2 className="text-2xl font-bold text-slate-700 mb-2">Ready for Checkout</h2>
-                                <p className="text-slate-500 font-medium max-w-sm">Select an active order from the left to generate a bill, apply discounts, and process payment.</p>
-                            </div>
-                        )}
-                      </div>
+            return (
+              <div className="flex flex-col lg:flex-row gap-6 h-full print:block">
+                {/* Left: Orders List */}
+                <div className="w-full lg:w-[350px] bg-card border border-slate-200 rounded-2xl flex flex-col shrink-0 overflow-hidden print:hidden" style={{ maxHeight: 'calc(100vh - 120px)' }}>
+                  <div className="p-4 border-b border-slate-200 bg-card sticky top-0 z-10">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                      <input
+                        type="text"
+                        placeholder="Search table or order ID..."
+                        value={billingSearchQuery}
+                        onChange={(e) => setBillingSearchQuery(e.target.value)}
+                        className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/5 transition-shadow"
+                      />
+                    </div>
                   </div>
-              );
+
+                  <div className="flex-1 overflow-y-auto p-3 space-y-2">
+                    {filteredOrders.length === 0 ? (
+                      <div className="text-center py-10 opacity-50">
+                        <Receipt className="w-12 h-12 mx-auto mb-3 text-slate-400" />
+                        <p>No actionable orders found</p>
+                      </div>
+                    ) : (
+                      filteredOrders.map(order => (
+                        <div
+                          key={order._id}
+                          onClick={() => {
+                            setBillingSelectedOrder(order);
+                            setBillingAppliedDiscount(0);
+                            setBillingDiscount('');
+                          }}
+                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${billingSelectedOrder?._id === order._id
+                              ? 'border-primary bg-primary/5'
+                              : 'border-transparent bg-slate-50 hover:border-border shadow-sm'
+                            }`}
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h3 className="font-bold text-lg leading-tight">Table {order.tableNumber}</h3>
+                              <p className="text-xs text-slate-500 font-mono mt-1">#{order._id.slice(-6)}</p>
+                            </div>
+                            <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' :
+                                order.status === 'Ready' ? 'bg-blue-100 text-blue-700' :
+                                  'bg-orange-100 text-orange-700'
+                              }`}>
+                              {order.status}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-slate-600 font-medium">{order.items.length} items</span>
+                            <span className="font-bold text-slate-900 border border-slate-200 px-2 py-1 rounded bg-card">₹{order.totalAmount.toFixed(2)}</span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+
+                {/* Right: Bill Preview & Actions */}
+                <div className="flex-1 overflow-y-auto print:overflow-visible print:block">
+                  {billingSelectedOrder ? (
+                    <div className="grid grid-cols-1 xl:grid-cols-[1.2fr_1fr] gap-6 print:block">
+                      {/* Receipt Column */}
+                      <div className="bg-card rounded-2xl shadow-sm border border-slate-200 p-8 flex flex-col print:shadow-none print:border-none print:p-0">
+                        <div className="text-center mb-6 pb-6 border-b-2 border-dashed border-slate-200">
+                          <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-2">Hotel Delish - Fine Dining</h2>
+                          <p className="text-slate-500 text-sm">45 Gourmet Avenue, Downtown</p>
+                          <p className="text-slate-500 text-sm">Phone: +91 98765 12345 | Web: www.hoteldelish.com</p>
+                          <p className="text-slate-500 text-sm font-semibold mt-4 uppercase tracking-widest text-[10px]">Tax Invoice / Receipt</p>
+                        </div>
+
+                        {/* Order Info */}
+                        <div className="flex justify-between text-sm mb-6 bg-slate-50 rounded-lg p-4 font-medium print:bg-transparent print:p-0 print:border-none border border-slate-100">
+                          <div>
+                            <p className="text-slate-500 mb-1">Order ID: <span className="text-slate-900 font-bold ml-1 font-mono">#{billingSelectedOrder._id.slice(-8)}</span></p>
+                            <p className="text-slate-500">Date: <span className="text-slate-900 font-bold ml-1">{new Date(billingSelectedOrder.createdAt).toLocaleDateString()}</span></p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-slate-500 mb-1">Table: <span className="text-slate-900 font-bold text-xl ml-1">{billingSelectedOrder.tableNumber}</span></p>
+                            <p className="text-slate-500">Time: <span className="text-slate-900 font-bold ml-1">{new Date(billingSelectedOrder.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></p>
+                          </div>
+                        </div>
+
+                        {/* Itemized List */}
+                        <div className="flex-1 mb-6">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="border-b-2 border-slate-900 text-left">
+                                <th className="pb-3 pt-2 font-bold uppercase text-[11px] tracking-wider text-slate-500">Item Name</th>
+                                <th className="pb-3 pt-2 text-center font-bold uppercase text-[11px] tracking-wider text-slate-500">Qty</th>
+                                <th className="pb-3 pt-2 text-right font-bold uppercase text-[11px] tracking-wider text-slate-500">Rate</th>
+                                <th className="pb-3 pt-2 text-right font-bold uppercase text-[11px] tracking-wider text-slate-500">Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100">
+                              {billingSelectedOrder.items.map((item, idx) => {
+                                const itemPrice = item.price || 0;
+                                const lineTotal = itemPrice * item.quantity;
+                                return (
+                                  <tr key={idx} className="group hover:bg-slate-50/50 transition-colors">
+                                    <td className="py-3 font-semibold text-slate-800">{item.name}</td>
+                                    <td className="py-3 text-center text-slate-600 font-medium">{item.quantity}</td>
+                                    <td className="py-3 text-right text-slate-600">₹{itemPrice.toFixed(2)}</td>
+                                    <td className="py-3 text-right font-bold text-slate-900">₹{lineTotal.toFixed(2)}</td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+
+                        {/* Calculations */}
+                        <div className="border-t-2 border-dashed border-slate-200 pt-6 space-y-3">
+                          <div className="flex justify-between text-slate-600 font-medium">
+                            <span>Subtotal</span>
+                            <span>₹{calculatedSubtotal.toFixed(2)}</span>
+                          </div>
+                          <div className="flex justify-between text-slate-600 font-medium text-sm">
+                            <span>GST (5%)</span>
+                            <span>₹{taxAmount.toFixed(2)}</span>
+                          </div>
+                          <div className="flex justify-between text-slate-600 font-medium text-sm">
+                            <span>Service Charge (2%)</span>
+                            <span>₹{serviceCharge.toFixed(2)}</span>
+                          </div>
+                          {billingAppliedDiscount > 0 && (
+                            <div className="flex justify-between text-green-600 font-bold">
+                              <span>Discount Applied</span>
+                              <span>- ₹{billingAppliedDiscount.toFixed(2)}</span>
+                            </div>
+                          )}
+                          <div className="flex justify-between items-center border-t-2 border-slate-900 pt-4 mt-2">
+                            <span className="text-xl font-black text-slate-900 uppercase tracking-widest">Grand Total</span>
+                            <span className="text-3xl font-black text-slate-900">₹{finalTotal.toFixed(2)}</span>
+                          </div>
+
+                          {/* Print Mode payment status */}
+                          <div className="hidden print:flex justify-between items-center pt-6 mt-6 border-t border-slate-200 font-bold uppercase tracking-wider text-sm">
+                            <span>Payment Status:</span>
+                            <span className="text-slate-500">Pending Settlement</span>
+                          </div>
+                        </div>
+
+                        <div className="mt-8 text-center text-sm font-medium text-slate-400 border-t border-slate-100 pt-6 print:block">
+                          <p>Thank you for dining with us!</p>
+                          <p className="text-xs mt-1 uppercase tracking-widest">Please visit again</p>
+                        </div>
+                      </div>
+
+                      {/* Actions Area */}
+                      <div className="flex flex-col gap-6 print:hidden">
+                        {/* Discount Section */}
+                        <div className="bg-card rounded-2xl shadow-sm border border-slate-200 p-6">
+                          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
+                            <Percent className="w-4 h-4" /> Apply Discount
+                          </h3>
+                          <div className="flex gap-2">
+                            <div className="relative flex-1">
+                              <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₹</span>
+                              <input
+                                type="number"
+                                value={billingDiscount}
+                                onChange={(e) => setBillingDiscount(e.target.value)}
+                                placeholder="Amount"
+                                className="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/10 font-semibold transition-all"
+                              />
+                            </div>
+                            <button
+                              onClick={handleApplyDiscount}
+                              className="px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-sm"
+                            >
+                              Apply
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Payment Options */}
+                        <div className="bg-card rounded-2xl shadow-sm border border-slate-200 p-6">
+                          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4">Payment Method</h3>
+                          <div className="grid grid-cols-3 gap-3">
+                            <button
+                              onClick={() => setBillingPaymentMethod('Cash')}
+                              className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${billingPaymentMethod === 'Cash' ? 'border-primary bg-primary/5 text-primary' : 'border-slate-100 hover:border-slate-300 text-slate-600'
+                                }`}
+                            >
+                              <Banknote className="w-5 h-5 mb-1" />
+                              <span className="font-bold text-xs">Cash</span>
+                            </button>
+                            <button
+                              onClick={() => setBillingPaymentMethod('UPI')}
+                              className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${billingPaymentMethod === 'UPI' ? 'border-primary bg-primary/5 text-primary' : 'border-slate-100 hover:border-slate-300 text-slate-600'
+                                }`}
+                            >
+                              <Smartphone className="w-5 h-5 mb-1" />
+                              <span className="font-bold text-xs">UPI</span>
+                            </button>
+                            <button
+                              onClick={() => setBillingPaymentMethod('Card')}
+                              className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${billingPaymentMethod === 'Card' ? 'border-primary bg-primary/5 text-primary' : 'border-slate-100 hover:border-slate-300 text-slate-600'
+                                }`}
+                            >
+                              <CreditCard className="w-5 h-5 mb-1" />
+                              <span className="font-bold text-xs">Card</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="mt-auto space-y-3">
+                          <button
+                            onClick={handlePrint}
+                            className="w-full py-4 bg-card border-2 border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2 shadow-sm"
+                          >
+                            <Printer className="w-5 h-5" />
+                            Print Bill
+                          </button>
+                          <button
+                            onClick={handleMarkPaid}
+                            className="w-full py-4 bg-emerald-600 text-white font-bold text-base rounded-xl hover:bg-emerald-700 transition-all shadow-md flex items-center justify-center gap-2"
+                          >
+                            <CheckCircle2 className="w-5 h-5" />
+                            Complete Payment
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex-1 h-full flex flex-col items-center justify-center text-slate-400 print:hidden p-8 text-center bg-transparent">
+                      <div className="bg-card p-6 rounded-full shadow-sm mb-6 border border-slate-200">
+                        <Receipt className="w-16 h-16 opacity-40 text-primary" />
+                      </div>
+                      <h2 className="text-2xl font-bold text-slate-700 mb-2">Ready for Checkout</h2>
+                      <p className="text-slate-500 font-medium max-w-sm">Select an active order from the left to generate a bill, apply discounts, and process payment.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
           })()}
 
           {activeSection === "reports" && (() => {
@@ -2038,16 +1909,16 @@ export default function AdminDashboard() {
 
             const itemCounts: Record<string, number> = {};
             const dailyStats: Record<string, { revenue: number; orders: number }> = {};
-            
+
             deliveredOrders.forEach((o) => {
               o.items.forEach((item) => {
                 itemCounts[item.name] = (itemCounts[item.name] || 0) + item.quantity;
               });
-              
+
               const dateObj = new Date(o.createdAt);
               // Format to YYYY-MM-DD for grouping
               const dateKey = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
-              
+
               if (!dailyStats[dateKey]) {
                 dailyStats[dateKey] = { revenue: 0, orders: 0 };
               }
@@ -2058,10 +1929,10 @@ export default function AdminDashboard() {
             const topItems = Object.entries(itemCounts)
               .sort((a, b) => b[1] - a[1])
               .slice(0, 5);
-              
+
             // Sort dates descending
             const dailyReports = Object.entries(dailyStats).sort((a, b) => b[0].localeCompare(a[0]));
-            
+
             // Prepare data for chart (ascending for chronological order)
             const chartData = Object.entries(dailyStats).map(([date, stats]) => ({
               date: new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
@@ -2070,48 +1941,48 @@ export default function AdminDashboard() {
               originalDate: date
             })).sort((a, b) => a.originalDate.localeCompare(b.originalDate));
 
-            const avgRating = ratings.length 
-              ? (ratings.reduce((sum: number, r: any) => sum + r.rating, 0) / ratings.length).toFixed(1) 
+            const avgRating = ratings.length
+              ? (ratings.reduce((sum: number, r: any) => sum + r.rating, 0) / ratings.length).toFixed(1)
               : "0.0";
 
             return (
               <div className="space-y-6">
                 {/* Summary Cards */}
                 <div className="bg-card border border-border rounded-xl p-6">
-                  <h2 className="text-lg font-bold text-foreground">Financial & Experience Reports</h2>
-                  <p className="text-xs text-muted-foreground">Overview of completed orders and customer satisfaction</p>
+                  <h2 className="text-xl font-bold text-foreground">Financial & Experience Reports</h2>
+                  <p className="text-sm text-muted-foreground mt-1">Overview of completed orders and customer satisfaction</p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-                    <div className="bg-muted p-6 rounded-xl border border-border shadow-sm">
-                      <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+                    <div className="bg-muted/50 p-6 rounded-xl border border-border shadow-sm">
+                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
                         Total Revenue
                       </p>
-                      <p className="text-3xl font-black text-green-600 mt-2">
+                      <p className="text-2xl font-bold text-emerald-600 mt-2">
                         ₹{totalRevenue.toFixed(2)}
                       </p>
                     </div>
-                    <div className="bg-muted p-6 rounded-xl border border-border shadow-sm">
-                      <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+                    <div className="bg-muted/50 p-6 rounded-xl border border-border shadow-sm">
+                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
                         Total Orders
                       </p>
-                      <p className="text-3xl font-black text-foreground mt-2">
+                      <p className="text-2xl font-bold text-foreground mt-2">
                         {deliveredOrders.length}
                       </p>
                     </div>
-                    <div className="bg-muted p-6 rounded-xl border border-border shadow-sm">
-                      <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+                    <div className="bg-muted/50 p-6 rounded-xl border border-border shadow-sm">
+                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
                         Avg Order Value
                       </p>
-                      <p className="text-3xl font-black text-primary mt-2">
+                      <p className="text-2xl font-bold text-primary mt-2">
                         ₹{deliveredOrders.length ? (totalRevenue / deliveredOrders.length).toFixed(2) : "0.00"}
                       </p>
                     </div>
-                    <div className="bg-muted p-6 rounded-xl border border-border shadow-sm border-l-4 border-l-yellow-400">
-                      <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+                    <div className="bg-muted/50 p-6 rounded-xl border border-border shadow-sm border-l-4 border-l-yellow-400">
+                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
                         Customer Rating
                       </p>
                       <div className="flex items-center gap-2 mt-2">
-                        <p className="text-3xl font-black text-yellow-500">{avgRating}</p>
+                        <p className="text-2xl font-bold text-yellow-500">{avgRating}</p>
                         <span className="text-xl">⭐</span>
                         <span className="text-xs font-bold text-muted-foreground ml-1">({ratings.length} reviews)</span>
                       </div>
@@ -2127,75 +1998,75 @@ export default function AdminDashboard() {
                       <p className="text-xs text-muted-foreground mt-0.5">Revenue and order volume trends over time</p>
                     </div>
                     <div className="flex gap-2">
-                       <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-[10px] font-bold text-green-700 border border-green-100">
-                          <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                          Revenue
-                       </div>
-                       <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-[10px] font-bold text-indigo-700 border border-indigo-100">
-                          <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
-                          Orders
-                       </div>
+                      <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-[10px] font-bold text-green-700 border border-green-100">
+                        <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                        Revenue
+                      </div>
+                      <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-[10px] font-bold text-indigo-700 border border-indigo-100">
+                        <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                        Orders
+                      </div>
                     </div>
                   </div>
-                  
+
                   <div className="h-[350px] w-full">
                     {chartData.length > 0 ? (
                       <ResponsiveContainer width="100%" height="100%">
                         <ComposedChart data={chartData}>
                           <defs>
                             <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#10b981" stopOpacity={0.1}/>
-                              <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                              <stop offset="5%" stopColor="#10b981" stopOpacity={0.1} />
+                              <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                             </linearGradient>
                           </defs>
                           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                          <XAxis 
-                            dataKey="date" 
-                            axisLine={false} 
-                            tickLine={false} 
-                            tick={{fontSize: 12, fontWeight: 600, fill: '#64748b'}} 
+                          <XAxis
+                            dataKey="date"
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 12, fontWeight: 600, fill: '#64748b' }}
                             dy={10}
                           />
-                          <YAxis 
+                          <YAxis
                             yAxisId="left"
-                            axisLine={false} 
-                            tickLine={false} 
-                            tick={{fontSize: 12, fontWeight: 600, fill: '#64748b'}} 
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 12, fontWeight: 600, fill: '#64748b' }}
                             tickFormatter={(value) => `₹${value}`}
                           />
-                          <YAxis 
-                            yAxisId="right" 
-                            orientation="right" 
-                            axisLine={false} 
-                            tickLine={false} 
-                            tick={{fontSize: 12, fontWeight: 600, fill: '#64748b'}} 
+                          <YAxis
+                            yAxisId="right"
+                            orientation="right"
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 12, fontWeight: 600, fill: '#64748b' }}
                           />
-                          <Tooltip 
-                            contentStyle={{ 
-                              backgroundColor: '#ffffff', 
-                              borderRadius: '12px', 
-                              border: '1px solid #e2e8f0', 
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: '#ffffff',
+                              borderRadius: '12px',
+                              border: '1px solid #e2e8f0',
                               boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
                               fontSize: '12px',
                               fontWeight: '600'
                             }}
                           />
-                          <Area 
+                          <Area
                             yAxisId="left"
-                            type="monotone" 
-                            dataKey="revenue" 
-                            stroke="#10b981" 
+                            type="monotone"
+                            dataKey="revenue"
+                            stroke="#10b981"
                             strokeWidth={3}
-                            fillOpacity={1} 
-                            fill="url(#colorRevenue)" 
+                            fillOpacity={1}
+                            fill="url(#colorRevenue)"
                             name="Revenue"
                           />
-                          <Bar 
+                          <Bar
                             yAxisId="right"
-                            dataKey="orders" 
-                            fill="#4f46e5" 
-                            radius={[4, 4, 0, 0]} 
-                            barSize={20} 
+                            dataKey="orders"
+                            fill="#4f46e5"
+                            radius={[4, 4, 0, 0]}
+                            barSize={20}
                             name="Orders"
                           />
                         </ComposedChart>
@@ -2224,8 +2095,8 @@ export default function AdminDashboard() {
                             <span className="text-xs font-semibold text-muted-foreground mt-0.5">{stats.orders} orders</span>
                           </div>
                           <div className="text-right">
-                             <span className="font-black text-green-600">₹{stats.revenue.toFixed(2)}</span>
-                             <div className="text-xs font-bold text-muted-foreground mt-0.5">Avg: ₹{(stats.revenue / stats.orders).toFixed(0)}</div>
+                            <span className="font-black text-green-600">₹{stats.revenue.toFixed(2)}</span>
+                            <div className="text-xs font-bold text-muted-foreground mt-0.5">Avg: ₹{(stats.revenue / stats.orders).toFixed(0)}</div>
                           </div>
                         </div>
                       ))}
@@ -2266,17 +2137,17 @@ export default function AdminDashboard() {
           {activeSection === "feedback" && (
             <div className="space-y-6">
               <div className="flex justify-between items-center bg-card border border-border p-6 rounded-xl">
-                 <div>
-                    <h2 className="text-xl font-bold text-foreground">Customer Feedback</h2>
-                    <p className="text-xs text-muted-foreground mt-1">Manage and respond to customer reviews</p>
-                 </div>
-                 <button 
+                <div>
+                  <h2 className="text-xl font-bold text-foreground">Customer Feedback</h2>
+                  <p className="text-xs text-muted-foreground mt-1">Manage and respond to customer reviews</p>
+                </div>
+                <button
                   onClick={fetchRatings}
                   disabled={isRefreshingRatings}
                   className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-muted transition-colors"
-                 >
-                   {isRefreshingRatings ? "Refreshing..." : "Refresh Feed"}
-                 </button>
+                >
+                  {isRefreshingRatings ? "Refreshing..." : "Refresh Feed"}
+                </button>
               </div>
 
               <div className="grid gap-4">
@@ -2304,7 +2175,7 @@ export default function AdminDashboard() {
                           {new Date(r.createdAt).toLocaleString()}
                         </span>
                       </div>
-                      
+
                       {r.comment ? (
                         <p className="text-sm text-foreground leading-relaxed italic bg-muted/50 p-4 rounded-xl border border-border">
                           "{r.comment}"
@@ -2312,7 +2183,7 @@ export default function AdminDashboard() {
                       ) : (
                         <p className="text-xs text-muted-foreground italic">No written comment provided.</p>
                       )}
-                      
+
                       <div className="mt-4 flex justify-end gap-2">
                         <span className="text-[10px] font-mono text-muted-foreground">Session: {r.sessionId?.slice(-8) || "Direct"}</span>
                       </div>
@@ -2441,8 +2312,8 @@ export default function AdminDashboard() {
             activeSection !== "menu" &&
             activeSection !== "orders" &&
             activeSection !== "kitchen" &&
-            activeSection !== "billing" && 
-            activeSection !== "reports" && 
+            activeSection !== "billing" &&
+            activeSection !== "reports" &&
             activeSection !== "settings" && (
               <div className="bg-card rounded-xl shadow-md p-12 text-center border border-border">
                 <div className="text-6xl mb-4">
@@ -2459,325 +2330,287 @@ export default function AdminDashboard() {
         </main>
       </div>
 
-      {/* Menu Modal */}
       {showMenuModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-card rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-primary text-primary-foreground px-6 py-4 flex justify-between items-center">
-              <h3 className="text-xl font-black tracking-tight flex items-center gap-3">
-                <span className="w-10 h-10 bg-card/20 rounded-xl flex items-center justify-center text-lg">
-                  {editingItem ? "✏️" : "✨"}
-                </span>
-                {editingItem ? "Edit Menu Item" : "Create New Dish"}
-              </h3>
-              <button
-                onClick={() => {
-                  setShowMenuModal(false);
-                  resetMenuForm();
-                }}
-                className="text-white hover:bg-card/20 rounded-full p-2 transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 flex flex-col md:flex-row max-h-[90vh] border border-slate-200 dark:border-slate-800">
+            {/* Left Side: Image Upload & Preview Section */}
+            <div className="w-full md:w-2/5 bg-slate-50 dark:bg-slate-800/20 p-8 border-r border-slate-200 dark:border-slate-800 flex flex-col items-center justify-between min-h-[350px] md:min-h-0">
+              <div className="self-start w-full">
+                <h3 className="text-lg font-bold text-foreground">Dish Image</h3>
+                <p className="text-xs text-muted-foreground font-medium mt-1">Upload a clear photo of the culinary item</p>
+              </div>
+
+              <div className="relative group w-full aspect-square max-w-[240px] my-6">
+                <div className={`w-full h-full rounded-2xl bg-white dark:bg-slate-800 border-2 border-dashed flex flex-col items-center justify-center overflow-hidden transition-all duration-300 ${
+                  imagePreview || menuFormData.image ? "border-primary" : "border-slate-200 dark:border-slate-700 hover:border-primary/50"
+                }`}>
+                  {imagePreview || menuFormData.image ? (
+                    <img src={imagePreview || menuFormData.image} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="flex flex-col items-center gap-3 text-muted-foreground text-center p-4">
+                      <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                        <Camera className="w-6 h-6" />
+                      </div>
+                      <p className="text-xs font-semibold">Choose Image File</p>
+                    </div>
+                  )}
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                  disabled={uploadingImage}
+                />
+                {uploadingImage && (
+                  <div className="absolute inset-x-4 bottom-4 bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden border border-border shadow-sm">
+                    <div className="h-full bg-primary transition-all duration-500" style={{ width: `${uploadProgress}%` }}></div>
+                  </div>
+                )}
+              </div>
+
+              <div className="w-full space-y-4">
+                <div className="relative">
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1.5 ml-1">
+                    Or Paste Image URL
+                  </label>
+                  <input
+                    type="url"
+                    value={menuFormData.image}
+                    onChange={(e) => setMenuFormData({ ...menuFormData, image: e.target.value })}
+                    className="w-full px-4 py-2.5 text-xs rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:outline-none transition-all"
+                    placeholder="https://example.com/image.jpg"
+                  />
+                </div>
+                <div className="p-4 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-2xl border border-indigo-100/50 dark:border-indigo-900/30 text-[11px] text-indigo-600 dark:text-indigo-400 font-medium leading-relaxed">
+                  Images are automatically optimized for fast loading on the customer menu.
+                </div>
+              </div>
             </div>
 
-            <form onSubmit={handleMenuSubmit} className="p-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="md:col-span-2">
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5 ml-1">
-                    Dish Name
+            {/* Right Side: Form Configuration Section */}
+            <div className="w-full md:w-3/5 bg-white dark:bg-slate-900 flex flex-col overflow-hidden">
+              <div className="p-8 pb-4 flex justify-between items-center border-b border-slate-100 dark:border-slate-800">
+                <div>
+                  <h2 className="text-xl font-bold text-foreground">{editingItem ? "Edit Menu Item" : "Create New Dish"}</h2>
+                  <p className="text-xs text-muted-foreground font-medium mt-1">Configure asset details and production rules</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowMenuModal(false);
+                    resetMenuForm();
+                  }}
+                  className="p-2 rounded-xl bg-slate-100 dark:bg-slate-850 hover:bg-rose-50 dark:hover:bg-rose-950/30 hover:text-rose-500 transition-all text-slate-500"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleMenuSubmit} className="flex-1 overflow-y-auto p-8 pt-6 space-y-5 custom-scrollbar">
+                {/* Dish Name */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-500 flex items-center gap-2">
+                    <Utensils className="w-3.5 h-3.5" /> Dish Name
                   </label>
                   <input
                     type="text"
                     required
                     value={menuFormData.name}
-                    onChange={(e) =>
-                      setMenuFormData({ ...menuFormData, name: e.target.value })
-                    }
-                    className="w-full px-4 py-3 bg-muted border border-border rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/5 focus:outline-none transition-all placeholder:text-gray-300 font-medium"
+                    onChange={(e) => setMenuFormData({ ...menuFormData, name: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/60 focus:border-primary focus:bg-white dark:focus:bg-slate-800 transition-all outline-none font-semibold text-foreground placeholder:text-slate-400/50"
                     placeholder="e.g., Signature Butter Chicken"
                   />
                 </div>
 
-                <div className="md:col-span-2">
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5 ml-1">
-                    Description
+                {/* Description */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-500 flex items-center gap-2">
+                    <AlignLeft className="w-3.5 h-3.5" /> Description
                   </label>
                   <textarea
                     required
                     value={menuFormData.description}
-                    onChange={(e) =>
-                      setMenuFormData({
-                        ...menuFormData,
-                        description: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-3 bg-muted border border-border rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/5 focus:outline-none transition-all placeholder:text-gray-300 font-medium"
+                    onChange={(e) => setMenuFormData({ ...menuFormData, description: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/60 focus:border-primary focus:bg-white dark:focus:bg-slate-800 transition-all outline-none font-medium text-sm text-foreground resize-none"
                     rows={3}
                     placeholder="Briefly describe the ingredients and taste..."
                   />
                 </div>
 
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5 ml-1">
-                    Price (₹)
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setMenuFormData({ ...menuFormData, price: Math.max(0, (parseFloat(menuFormData.price) || 0) - 10).toString() })}
-                      className="w-12 h-12 flex items-center justify-center rounded-xl border border-border bg-card hover:bg-muted transition-colors text-muted-foreground"
-                    >
-                      <Minus className="w-4 h-4" />
-                    </button>
+                {/* Price & Prep Time Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 flex items-center gap-2">
+                      <IndianRupee className="w-3.5 h-3.5" /> Base Price (₹)
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setMenuFormData({ ...menuFormData, price: Math.max(0, (parseFloat(menuFormData.price) || 0) - 10).toString() })}
+                        className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-500 transition-colors"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <input
+                        type="number"
+                        step="0.01"
+                        required
+                        value={menuFormData.price}
+                        onChange={(e) => setMenuFormData({ ...menuFormData, price: e.target.value })}
+                        className="flex-1 text-center py-2 bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-primary focus:bg-white dark:focus:bg-slate-800 transition-all font-bold text-base outline-none text-foreground"
+                        placeholder="0.00"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setMenuFormData({ ...menuFormData, price: ((parseFloat(menuFormData.price) || 0) + 10).toString() })}
+                        className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-500 transition-colors"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 flex items-center gap-2">
+                      <Clock className="w-3.5 h-3.5" /> Lead Time (mins)
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setMenuFormData({ ...menuFormData, prepTime: Math.max(1, (parseInt(menuFormData.prepTime) || 15) - 1).toString() })}
+                        className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-500 transition-colors"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <input
+                        type="number"
+                        required
+                        min="1"
+                        value={menuFormData.prepTime}
+                        onChange={(e) => setMenuFormData({ ...menuFormData, prepTime: e.target.value })}
+                        className="flex-1 text-center py-2 bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/60 rounded-xl focus:border-primary focus:bg-white dark:focus:bg-slate-800 transition-all font-bold text-base outline-none text-foreground"
+                        placeholder="15"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setMenuFormData({ ...menuFormData, prepTime: ((parseInt(menuFormData.prepTime) || 15) + 1).toString() })}
+                        className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-500 transition-colors"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Category & Sub Category Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 flex items-center gap-2">
+                      <Tag className="w-3.5 h-3.5" /> Category
+                    </label>
+                    <div className="relative group">
+                      <select
+                        required
+                        value={menuFormData.category}
+                        onChange={(e) => setMenuFormData({ ...menuFormData, category: e.target.value })}
+                        className="w-full appearance-none px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/60 focus:border-primary focus:bg-white dark:focus:bg-slate-800 transition-all outline-none font-semibold text-foreground cursor-pointer"
+                      >
+                        <option value="">Select category</option>
+                        <option value="Starters">Starters</option>
+                        <option value="Main Course">Main Course</option>
+                        <option value="Desserts">Desserts</option>
+                        <option value="Beverages">Beverages</option>
+                        <option value="Breads">Breads</option>
+                        <option value="Rice">Rice</option>
+                      </select>
+                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none group-hover:text-primary transition-colors" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 flex items-center gap-2">
+                      <Sparkles className="w-3.5 h-3.5" /> Sub Category
+                    </label>
                     <input
-                      type="number"
-                      step="0.01"
-                      required
-                      value={menuFormData.price}
-                      onChange={(e) =>
-                        setMenuFormData({
-                          ...menuFormData,
-                          price: e.target.value,
-                        })
-                      }
-                      className="flex-1 text-center px-4 py-3 bg-muted border border-border rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/5 focus:outline-none transition-all font-bold text-lg"
-                      placeholder="0.00"
+                      type="text"
+                      value={menuFormData.subCategory}
+                      onChange={(e) => setMenuFormData({ ...menuFormData, subCategory: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/60 focus:border-primary focus:bg-white dark:focus:bg-slate-800 transition-all outline-none font-semibold text-foreground placeholder:text-slate-400/50"
+                      placeholder="e.g., Spicy, Cold, Indian"
                     />
-                    <button
-                      type="button"
-                      onClick={() => setMenuFormData({ ...menuFormData, price: ((parseFloat(menuFormData.price) || 0) + 10).toString() })}
-                      className="w-12 h-12 flex items-center justify-center rounded-xl border border-border bg-card hover:bg-muted transition-colors text-muted-foreground"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5 ml-1">
-                    Prep Time (mins)
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setMenuFormData({ ...menuFormData, prepTime: Math.max(1, (parseInt(menuFormData.prepTime) || 15) - 1).toString() })}
-                      className="w-12 h-12 flex items-center justify-center rounded-xl border border-border bg-card hover:bg-muted transition-colors text-muted-foreground"
-                    >
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <input
-                      type="number"
-                      required
-                      min="1"
-                      value={menuFormData.prepTime}
-                      onChange={(e) =>
-                        setMenuFormData({
-                          ...menuFormData,
-                          prepTime: e.target.value,
-                        })
-                      }
-                      className="flex-1 text-center px-4 py-3 bg-muted border border-border rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/5 focus:outline-none transition-all font-bold text-lg"
-                      placeholder="15"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setMenuFormData({ ...menuFormData, prepTime: ((parseInt(menuFormData.prepTime) || 15) + 1).toString() })}
-                      className="w-12 h-12 flex items-center justify-center rounded-xl border border-border bg-card hover:bg-muted transition-colors text-muted-foreground"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5 ml-1">
-                    Category
-                  </label>
-                  <div className="relative group">
-                    <select
-                      required
-                      value={menuFormData.category}
-                      onChange={(e) =>
-                        setMenuFormData({
-                          ...menuFormData,
-                          category: e.target.value,
-                        })
-                      }
-                      className="w-full appearance-none px-4 py-3 bg-muted border border-border rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/5 focus:outline-none transition-all font-medium cursor-pointer"
-                    >
-                      <option value="">Select category</option>
-                      <option value="Starters">Starters</option>
-                      <option value="Main Course">Main Course</option>
-                      <option value="Desserts">Desserts</option>
-                      <option value="Beverages">Beverages</option>
-                      <option value="Breads">Breads</option>
-                      <option value="Rice">Rice</option>
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none group-hover:text-primary transition-colors" />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5 ml-1">
-                    Sub Category
-                  </label>
-                  <input
-                    type="text"
-                    value={menuFormData.subCategory}
-                    onChange={(e) =>
-                      setMenuFormData({
-                        ...menuFormData,
-                        subCategory: e.target.value,
-                      })
-                    }
-                    className="w-full px-4 py-3 bg-muted border border-border rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/5 focus:outline-none transition-all placeholder:text-gray-300 font-medium"
-                    placeholder="e.g., Spicy, Cold, Indian"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5 ml-1">
-                    Spice Level
+                {/* Spice Level Selection */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-500 flex items-center gap-2">
+                    <Flame className="w-3.5 h-3.5" /> Spice Level
                   </label>
                   <div className="relative group">
                     <select
                       value={menuFormData.spiceLevel}
-                      onChange={(e) =>
-                        setMenuFormData({
-                          ...menuFormData,
-                          spiceLevel: e.target.value as "Nil" | "Mild" | "Medium" | "Hot",
-                        })
-                      }
-                      className="w-full appearance-none px-4 py-3 bg-muted border border-border rounded-xl focus:border-primary focus:ring-4 focus:ring-primary/5 focus:outline-none transition-all font-medium cursor-pointer"
+                      onChange={(e) => setMenuFormData({ ...menuFormData, spiceLevel: e.target.value as "Nil" | "Mild" | "Medium" | "Hot" })}
+                      className="w-full appearance-none px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/60 focus:border-primary focus:bg-white dark:focus:bg-slate-800 transition-all outline-none font-semibold text-foreground cursor-pointer"
                     >
                       <option value="Nil">🌿 Nil</option>
                       <option value="Mild">🌶️ Mild</option>
                       <option value="Medium">🌶️🌶️ Medium</option>
                       <option value="Hot">🌶️🌶️🌶️ Hot</option>
                     </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none group-hover:text-primary transition-colors" />
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none group-hover:text-primary transition-colors" />
                   </div>
                 </div>
 
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-bold text-muted-foreground mb-2">
-                    Image
-                  </label>
-                  <div className="flex items-center gap-4">
-                    {imagePreview && (
-                      <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-border">
-                        <img
-                          src={imagePreview}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="flex-1">
+                {/* Toggles */}
+                <div className="flex gap-4 p-4 bg-slate-50 dark:bg-slate-800/20 rounded-2xl border border-slate-200 dark:border-slate-700">
+                  <label className="flex items-center gap-3 cursor-pointer group flex-1">
+                    <div className="relative">
                       <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90 cursor-pointer"
-                        disabled={uploadingImage}
+                        type="checkbox"
+                        checked={menuFormData.isVeg}
+                        onChange={(e) => setMenuFormData({ ...menuFormData, isVeg: e.target.checked })}
+                        className="sr-only peer"
                       />
-                      {uploadingImage ? (
-                        <div className="mt-2 w-full">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-semibold text-primary">
-                              Uploading...
-                            </span>
-                            <span className="text-xs font-semibold text-primary">
-                              {uploadProgress}%
-                            </span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2.5">
-                            <div
-                              className="bg-primary h-2.5 rounded-full transition-all duration-300"
-                              style={{ width: `${uploadProgress}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      ) : (
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Upload from your device
-                        </p>
-                      )}
+                      <div className="w-10 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-emerald-500 transition-colors"></div>
+                      <div className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-4"></div>
                     </div>
-                  </div>
-                  <div className="mt-2">
-                    <p className="text-xs text-center text-muted-foreground my-2">
-                      -- OR --
-                    </p>
-                    <input
-                      type="url"
-                      value={menuFormData.image}
-                      onChange={(e) =>
-                        setMenuFormData({
-                          ...menuFormData,
-                          image: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 border-2 border-border rounded-lg focus:border-primary focus:outline-none"
-                      placeholder="Paste image URL here"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 bg-muted p-4 rounded-xl border border-border">
-                  <label className="flex items-center gap-3 cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      checked={menuFormData.isVeg}
-                      onChange={(e) =>
-                        setMenuFormData({
-                          ...menuFormData,
-                          isVeg: e.target.checked,
-                        })
-                      }
-                      className="w-5 h-5 accent-primary rounded cursor-pointer"
-                    />
-                    <span className="text-sm font-black text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">
-                      🥬 Vegetarian
+                    <span className="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5 whitespace-nowrap">
+                      <Leaf className="w-3.5 h-3.5 text-emerald-500" /> Vegetarian
                     </span>
                   </label>
-                </div>
 
-                <div className="flex items-center gap-4 bg-muted p-4 rounded-xl border border-border">
-                  <label className="flex items-center gap-3 cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      checked={menuFormData.isAvailable}
-                      onChange={(e) =>
-                        setMenuFormData({
-                          ...menuFormData,
-                          isAvailable: e.target.checked,
-                        })
-                      }
-                      className="w-5 h-5 accent-primary rounded cursor-pointer"
-                    />
-                    <span className="text-sm font-black text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">
+                  <label className="flex items-center gap-3 cursor-pointer group flex-1">
+                    <div className="relative">
+                      <input
+                        type="checkbox"
+                        checked={menuFormData.isAvailable}
+                        onChange={(e) => setMenuFormData({ ...menuFormData, isAvailable: e.target.checked })}
+                        className="sr-only peer"
+                      />
+                      <div className="w-10 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-primary transition-colors"></div>
+                      <div className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-4"></div>
+                    </div>
+                    <span className="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5 whitespace-nowrap">
                       ✓ In Stock
                     </span>
                   </label>
                 </div>
-              </div>
+              </form>
 
-              <div className="flex gap-3 pt-6">
+              {/* Submit Section */}
+              <div className="p-8 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/10 flex gap-3">
                 <button
-                  type="submit"
+                  type="button"
                   disabled={uploadingImage || !menuFormData.image}
-                  className={`flex-1 px-6 py-4 font-black uppercase tracking-widest text-sm rounded-xl transition-all duration-300 ${uploadingImage || !menuFormData.image
-                    ? "bg-gray-200 text-muted-foreground cursor-not-allowed"
-                    : "bg-gray-900 text-white hover:bg-black shadow-[0_10px_20px_-10px_rgba(0,0,0,0.3)] hover:-translate-y-1 active:translate-y-0"
-                    }`}
+                  onClick={handleMenuSubmit}
+                  className={`flex-1 py-4 font-bold uppercase tracking-wider text-xs rounded-xl transition-all duration-300 ${
+                    uploadingImage || !menuFormData.image
+                      ? "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed"
+                      : "bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/20 active:scale-95 cursor-pointer"
+                  }`}
                 >
-                  {uploadingImage
-                    ? "⏳ Processing..."
-                    : editingItem
-                      ? "Save Changes"
-                      : "Confirm & Add"}
+                  {uploadingImage ? "Processing..." : editingItem ? "Save Changes" : "Add to Menu"}
                 </button>
                 <button
                   type="button"
@@ -2785,12 +2618,12 @@ export default function AdminDashboard() {
                     setShowMenuModal(false);
                     resetMenuForm();
                   }}
-                  className="px-8 py-4 bg-background text-muted-foreground font-black uppercase tracking-widest text-sm rounded-xl hover:bg-gray-200 transition-all"
+                  className="px-8 py-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider text-xs rounded-xl transition-all"
                 >
                   Cancel
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}
@@ -2799,20 +2632,20 @@ export default function AdminDashboard() {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4 animate-in fade-in duration-200">
           <div className="bg-card border border-border rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="p-8 text-center">
-              <div className="w-20 h-20 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <LogOut className="w-10 h-10" />
+              <div className="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <LogOut className="w-8 h-8" />
               </div>
-              <h3 className="text-2xl font-black text-foreground mb-2">Wait a moment!</h3>
-              <p className="text-muted-foreground font-medium">Are you sure you want to log out of the admin panel?</p>
+              <h3 className="text-xl font-bold text-foreground mb-2">Wait a moment!</h3>
+              <p className="text-sm text-muted-foreground font-medium">Are you sure you want to log out of the admin panel?</p>
             </div>
             <div className="flex p-4 gap-3 bg-muted/50 border-t border-border">
-              <button 
+              <button
                 onClick={() => setShowLogoutModal(false)}
                 className="flex-1 px-6 py-4 rounded-2xl bg-card border border-border text-foreground font-bold hover:bg-muted transition-all active:scale-95"
               >
                 No, Stay
               </button>
-              <button 
+              <button
                 onClick={handleLogoutConfirm}
                 className="flex-1 px-6 py-4 rounded-2xl bg-red-600 text-white font-bold hover:bg-red-700 shadow-lg shadow-red-600/20 transition-all active:scale-95"
               >

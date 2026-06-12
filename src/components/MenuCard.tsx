@@ -1,6 +1,6 @@
 import { MenuItem } from "@/types";
 import { Plus } from "lucide-react";
-import { forwardRef, useState } from "react";
+import { forwardRef } from "react";
 
 interface MenuCardProps {
   item: MenuItem;
@@ -10,39 +10,35 @@ interface MenuCardProps {
 
 const MenuCard = forwardRef<HTMLDivElement, MenuCardProps>(
   ({ item, onAdd, onViewDetail }, ref) => {
-    const [imageLoaded, setImageLoaded] = useState(false);
-
     return (
       <div
         ref={ref}
-        className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground transition-all hover:border-foreground/20 cursor-pointer"
-        onClick={() => onViewDetail(item)}
+        className={`group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground transition-all hover:border-foreground/20 cursor-pointer ${
+          !item.isAvailable ? "opacity-60 grayscale-[0.5]" : ""
+        }`}
+        onClick={() => item.isAvailable && onViewDetail(item)}
       >
         <div className="aspect-[16/10] relative w-full overflow-hidden bg-muted">
           {item.image ? (
-            <>
-              {!imageLoaded && (
-                <div className="absolute inset-0 bg-muted animate-pulse" />
-              )}
-              <img
-                src={item.image}
-                alt={item.name}
-                onLoad={() => setImageLoaded(true)}
-                className={`object-cover w-full h-full transition-all duration-700 group-hover:scale-105 ${!item.isAvailable && 'grayscale opacity-60'} ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-              />
-            </>
+            <img
+              src={item.image}
+              alt={item.name}
+              className={`object-cover w-full h-full transition-transform duration-500 ${item.isAvailable ? "group-hover:scale-105" : ""}`}
+            />
           ) : (
             <div className="flex h-full items-center justify-center bg-secondary/50 text-muted-foreground text-sm font-medium">
               No Images
             </div>
           )}
+          
           {!item.isAvailable && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
-              <span className="bg-white/90 text-red-600 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-xl">
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center backdrop-blur-[2px]">
+              <span className="bg-white/90 text-black px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-xl">
                 Sold Out
               </span>
             </div>
           )}
+
           <div className="absolute top-2 right-2">
             <span
               className={`px-2 py-0.5 text-[10px] font-medium rounded-full border bg-background/90 backdrop-blur-sm ${
@@ -58,10 +54,10 @@ const MenuCard = forwardRef<HTMLDivElement, MenuCardProps>(
 
         <div className="flex flex-1 flex-col p-4">
           <div className="flex justify-between items-start gap-2 mb-2">
-            <h3 className={`font-medium text-base text-foreground line-clamp-1 ${!item.isAvailable && 'text-gray-400'}`}>
+            <h3 className="font-medium text-base text-foreground line-clamp-1 text-inherit">
               {item.name}
             </h3>
-            <span className={`font-semibold text-sm text-foreground ${!item.isAvailable && 'text-gray-400'}`}>
+            <span className="font-semibold text-sm text-foreground">
               ₹{item.price.toFixed(2)}
             </span>
           </div>
@@ -78,22 +74,21 @@ const MenuCard = forwardRef<HTMLDivElement, MenuCardProps>(
                 </span>
               )}
             </div>
-            {item.isAvailable ? (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onAdd(item);
-                }}
-                className="h-8 px-3 flex items-center gap-1.5 rounded-full bg-foreground text-background text-xs font-semibold hover:opacity-90 transition-opacity"
-              >
-                <Plus className="h-3.5 w-3.5" />
-                Add to cart
-              </button>
-            ) : (
-              <span className="text-[10px] font-bold text-red-500 uppercase tracking-tight px-3 py-1 bg-red-50 rounded-full border border-red-100">
-                Out of Stock
-              </span>
-            )}
+            <button
+              disabled={!item.isAvailable}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (item.isAvailable) onAdd(item);
+              }}
+              className={`h-8 px-3 flex items-center gap-1.5 rounded-full transition-all text-xs font-semibold ${
+                item.isAvailable 
+                ? "bg-foreground text-background hover:opacity-90" 
+                : "bg-muted text-muted-foreground cursor-not-allowed border border-border"
+              }`}
+            >
+              <Plus className="h-3.5 w-3.5" />
+              {item.isAvailable ? "Add to cart" : "Unavailable"}
+            </button>
           </div>
         </div>
       </div>

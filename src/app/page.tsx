@@ -259,50 +259,28 @@ function MenuContent() {
   const seedData = async () => {
     setInitialLoading(true);
     try {
-      console.log("Starting seed process...");
-      // Using absolute origin to prevent "Failed to fetch" in some Next/Turbopack environments
-      const apiUrl = `${window.location.origin}/api/seed`;
-      console.log(`Fetching: ${apiUrl}`);
-      
-      const res = await fetch(apiUrl, { 
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      console.log(`Response status: ${res.status}`);
+      const res = await fetch("/api/seed", { method: "POST" });
       const data = await res.json();
-      
-      if (!res.ok) {
-        throw new Error(data.details || data.error || "Failed to seed");
-      }
+      if (!res.ok) throw new Error(data.details || "Failed to seed");
 
-      toast.success("Sample menu loaded successfully!");
-      
       // Reset and reload
       setPage(1);
       setHasMore(true);
-      
-      // Reload categories
-      await fetchCategories();
-      
       const queryParams = new URLSearchParams({
         page: "1",
         limit: limit.toString(),
         category: selectedCategory,
         veg: vegFilter,
       });
-      console.log("Reloading menu items...");
       const menuRes = await fetch(`/api/menu/list?${queryParams}`);
       if (menuRes.ok) {
         const menuData = await menuRes.json();
         setMenuItems(menuData.items);
         setHasMore(menuData.hasMore);
-        console.log(`Loaded ${menuData.items.length} items`);
       }
+      await fetchCategories();
     } catch (error: any) {
-      console.error("Seed error details:", error);
+      console.error(error);
       toast.error(`Failed to seed data: ${error.message}`);
     } finally {
       setInitialLoading(false);
@@ -448,15 +426,8 @@ function MenuContent() {
                         {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover" />}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-bold truncate ${!item.isAvailable ? 'text-gray-400' : 'text-foreground'}`}>
-                          {item.name}
-                        </p>
-                        <div className="flex items-center gap-2">
-                          <p className={`text-xs ${!item.isAvailable ? 'text-gray-300' : 'text-muted-foreground'}`}>₹{item.price}</p>
-                          {!item.isAvailable && (
-                            <span className="text-[8px] font-black uppercase text-red-500 bg-red-50 px-1.5 py-0.5 rounded border border-red-100">Sold Out</span>
-                          )}
-                        </div>
+                        <p className="text-sm font-bold text-foreground truncate">{item.name}</p>
+                        <p className="text-xs text-muted-foreground">₹{item.price}</p>
                       </div>
                       <div className={`w-2 h-2 rounded-full ${item.isVeg ? "bg-green-500" : "bg-red-500"}`} />
                     </button>
@@ -615,8 +586,8 @@ function MenuContent() {
           <div className="bg-card w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
             <div className="p-8 pb-4 flex justify-between items-center border-b border-border">
               <div>
-                <h3 className="text-2xl font-black text-foreground tracking-tight">Stock Status</h3>
-                <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Live Kitchen Availability</p>
+                <h3 className="text-2xl font-black text-foreground tracking-tight">Available Today</h3>
+                <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Fresh from the kitchen</p>
               </div>
               <button 
                 onClick={() => setIsStockModalOpen(false)}
@@ -626,87 +597,42 @@ function MenuContent() {
               </button>
             </div>
             
-            <div className="p-4 max-h-[60vh] overflow-y-auto space-y-8">
-              {/* Available Section */}
-              <div>
-                <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-600 mb-4 px-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Currently Available
-                </h4>
-                <div className="space-y-3">
-                  {menuItems.filter(i => i.isAvailable).length === 0 ? (
-                    <div className="text-center py-4 bg-muted/20 rounded-2xl border border-dashed border-border text-xs text-muted-foreground">
-                      No items available at the moment.
-                    </div>
-                  ) : (
-                    menuItems.filter(i => i.isAvailable).map((item) => (
-                      <div 
-                        key={item._id as string}
-                        className="flex items-center gap-4 p-3 rounded-2xl bg-muted/30 border border-border/50 hover:bg-muted/60 transition-all group"
-                      >
-                        <div className="w-14 h-14 rounded-xl overflow-hidden bg-muted flex-shrink-0">
-                          {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-black text-foreground truncate">{item.name}</p>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className={`w-2 h-2 rounded-full ${item.isVeg ? "bg-green-500" : "bg-red-500"}`}></span>
-                            <span className="text-[10px] font-bold text-muted-foreground uppercase">{item.category}</span>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-sm font-black text-primary">₹{item.price}</p>
-                          <button 
-                            onClick={() => {
-                              addToCart(item);
-                              setIsStockModalOpen(false);
-                            }}
-                            className="text-[10px] font-black uppercase text-indigo-500 hover:text-indigo-700 mt-1"
-                          >
-                            + Quick Add
-                          </button>
-                        </div>
-                      </div>
-                    ))
-                  )}
+            <div className="p-4 max-h-[60vh] overflow-y-auto space-y-3">
+              {menuItems.filter(i => i.isAvailable).length === 0 ? (
+                <div className="text-center py-10">
+                  <p className="text-muted-foreground">Refreshing stock list...</p>
                 </div>
-              </div>
-
-              {/* Unavailable Section */}
-              <div>
-                <h4 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-red-500 mb-4 px-2">
-                  <span className="w-2 h-2 rounded-full bg-red-400"></span>
-                  Temporarily Unavailable
-                </h4>
-                <div className="space-y-3">
-                  {menuItems.filter(i => !i.isAvailable).length === 0 ? (
-                    <div className="text-center py-4 text-xs text-muted-foreground">
-                      All items are available! 😋
+              ) : (
+                menuItems.filter(i => i.isAvailable).map((item) => (
+                  <div 
+                    key={item._id as string}
+                    className="flex items-center gap-4 p-3 rounded-2xl bg-muted/30 border border-border/50 hover:bg-muted/60 transition-all group"
+                  >
+                    <div className="w-14 h-14 rounded-xl overflow-hidden bg-muted flex-shrink-0">
+                      {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
                     </div>
-                  ) : (
-                    menuItems.filter(i => !i.isAvailable).map((item) => (
-                      <div 
-                        key={item._id as string}
-                        className="flex items-center gap-4 p-3 rounded-2xl bg-gray-50/50 border border-border/50 grayscale opacity-60"
-                      >
-                        <div className="w-14 h-14 rounded-xl overflow-hidden bg-gray-200 flex-shrink-0">
-                          {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover" />}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-black text-gray-400 truncate">{item.name}</p>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className="w-2 h-2 rounded-full bg-gray-300"></span>
-                            <span className="text-[10px] font-bold text-gray-300 uppercase">{item.category}</span>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                           <span className="text-[10px] font-black uppercase text-gray-400">Sold Out</span>
-                        </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-black text-foreground truncate">{item.name}</p>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className={`w-2 h-2 rounded-full ${item.isVeg ? "bg-green-500" : "bg-red-500"}`}></span>
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase">{item.category}</span>
                       </div>
-                    ))
-                  )}
-                </div>
-              </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-black text-primary">₹{item.price}</p>
+                      <button 
+                        onClick={() => {
+                          addToCart(item);
+                          setIsStockModalOpen(false);
+                        }}
+                        className="text-[10px] font-black uppercase text-indigo-500 hover:text-indigo-700 mt-1"
+                      >
+                        + Quick Add
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
 
             <div className="p-6 bg-muted/10 border-t border-border">
