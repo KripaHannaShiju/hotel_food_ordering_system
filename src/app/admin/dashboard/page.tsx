@@ -2382,9 +2382,6 @@ export default function AdminDashboard() {
                     placeholder="https://example.com/image.jpg"
                   />
                 </div>
-                <div className="p-4 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-2xl border border-indigo-100/50 dark:border-indigo-900/30 text-[11px] text-indigo-600 dark:text-indigo-400 font-medium leading-relaxed">
-                  Images are automatically optimized for fast loading on the customer menu.
-                </div>
               </div>
             </div>
 

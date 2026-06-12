@@ -229,10 +229,22 @@ export default function KitchenDashboard() {
 
         setUploadingImage(true);
         setUploadProgress(0);
-        
+
+        // Show local preview immediately via FileReader
         const reader = new FileReader();
         reader.onloadend = () => setImagePreview(reader.result as string);
         reader.readAsDataURL(file);
+
+        // Simulate progress animation while uploading
+        let progress = 0;
+        const progressInterval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress >= 90) {
+                progress = 90;
+                clearInterval(progressInterval);
+            }
+            setUploadProgress(Math.round(progress));
+        }, 200);
 
         try {
             const formData = new FormData();
@@ -244,15 +256,26 @@ export default function KitchenDashboard() {
                 body: formData,
             });
 
+            clearInterval(progressInterval);
+            setUploadProgress(100);
+
             if (res.ok) {
                 const data = await res.json();
                 setMenuFormData((prev) => ({ ...prev, image: data.secure_url }));
-                toast.success("Binary encrypted & synced");
+                // Replace local base64 preview with the final Cloudinary URL
+                setImagePreview(data.secure_url);
+                toast.success("Image uploaded successfully");
+            } else {
+                toast.error("Image upload failed");
             }
         } catch (error) {
-            toast.error("Payload sync failed");
+            clearInterval(progressInterval);
+            toast.error("Image upload failed");
         } finally {
-            setUploadingImage(false);
+            setTimeout(() => {
+                setUploadingImage(false);
+                setUploadProgress(0);
+            }, 500);
         }
     };
 

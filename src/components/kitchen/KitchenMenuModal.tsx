@@ -44,7 +44,31 @@ export default function KitchenMenuModal({
                             imagePreview || formData.image ? "border-primary" : "border-slate-200 dark:border-slate-700 hover:border-primary/50"
                         }`}>
                             {imagePreview || formData.image ? (
-                                <img src={imagePreview || formData.image} alt="Preview" className="w-full h-full object-cover" />
+                                <>
+                                    <img
+                                        src={imagePreview || formData.image}
+                                        alt="Preview"
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            // Hide broken image — let the input click reveal the placeholder
+                                            (e.currentTarget as HTMLImageElement).style.display = 'none';
+                                            (e.currentTarget.nextElementSibling as HTMLElement)?.classList.remove('hidden');
+                                        }}
+                                    />
+                                    {/* Fallback shown if image fails */}
+                                    <div className="hidden flex-col items-center gap-4 text-muted-foreground">
+                                        <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                                            <Camera className="w-8 h-8" />
+                                        </div>
+                                        <p className="text-xs font-semibold text-rose-500">Image failed to load</p>
+                                        <p className="text-[10px] text-muted-foreground">Click to choose a new one</p>
+                                    </div>
+                                    {/* Hover overlay for changing image */}
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                                        <Camera className="w-8 h-8 text-white" />
+                                        <p className="text-white text-xs font-bold">Change Image</p>
+                                    </div>
+                                </>
                             ) : (
                                 <div className="flex flex-col items-center gap-4 text-muted-foreground">
                                     <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
@@ -66,10 +90,6 @@ export default function KitchenMenuModal({
                                 <div className="h-full bg-primary transition-all duration-500" style={{ width: `${uploadProgress}%` }}></div>
                             </div>
                         )}
-                    </div>
-                    
-                    <div className="mt-4 p-4 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-2xl border border-indigo-100/50 dark:border-indigo-900/30 text-[11px] text-indigo-600 dark:text-indigo-400 font-medium leading-relaxed">
-                         Images are automatically optimized for fast loading on the customer menu.
                     </div>
                 </div>
 
