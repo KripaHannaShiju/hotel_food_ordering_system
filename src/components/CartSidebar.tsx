@@ -1,6 +1,7 @@
+'use client';
 import { MenuItem } from "@/types";
-import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { X, ShoppingBag, Trash2, Plus, Minus, ChevronRight, UtensilsCrossed, Receipt } from "lucide-react";
 
 export interface CartItem {
   menuItem: MenuItem;
@@ -28,233 +29,226 @@ export default function CartSidebar({
 }: CartSidebarProps) {
   const [customerName, setCustomerName] = useState("");
   const [notes, setNotes] = useState("");
-  const total = cart.reduce(
-    (acc, item) => acc + item.menuItem.price * item.quantity,
-    0,
-  );
+  const [removingId, setRemovingId] = useState<string | null>(null);
+
+  const total = cart.reduce((acc, item) => acc + item.menuItem.price * item.quantity, 0);
+  const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
+    return () => { document.body.style.overflow = "auto"; };
   }, [isOpen]);
+
+  const handleRemove = (id: string) => {
+    setRemovingId(id);
+    setTimeout(() => {
+      onRemove(id);
+      setRemovingId(null);
+    }, 300);
+  };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
-      {/* Overlay */}
+      {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 transition-opacity backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
         onClick={onClose}
       />
 
-      {/* Sidebar */}
-      <div className="relative flex h-full w-full max-w-md flex-col bg-background animate-in slide-in-from-right duration-300 border-l border-border">
-        <div className="flex h-16 items-center justify-between border-b border-border px-6">
-          <h2 className="text-lg font-semibold text-foreground">Your Order</h2>
+      {/* Panel */}
+      <div className="relative flex h-full w-full max-w-[420px] flex-col bg-white dark:bg-slate-900 shadow-2xl animate-in slide-in-from-right duration-300 border-l border-slate-200 dark:border-slate-800">
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center">
+              <ShoppingBag className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">Your Order</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                {itemCount === 0 ? "No items yet" : `${itemCount} item${itemCount > 1 ? "s" : ""} selected`}
+              </p>
+            </div>
+          </div>
           <button
             onClick={onClose}
-            className="text-muted-foreground hover:text-foreground"
+            className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:bg-rose-50 hover:text-rose-500 dark:hover:bg-rose-950/40 dark:hover:text-rose-400 transition-all"
           >
-            <span className="sr-only">Close panel</span>
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 py-4">
+        {/* Cart Items */}
+        <div className="flex-1 overflow-y-auto">
           {cart.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
-              <svg
-                className="h-12 w-12 text-muted-foreground/50"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                />
-              </svg>
-              <p className="text-muted-foreground">Your cart is empty.</p>
+            // Empty State
+            <div className="flex flex-col items-center justify-center h-full text-center px-8 gap-5">
+              <div className="w-24 h-24 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                <UtensilsCrossed className="w-10 h-10 text-slate-300 dark:text-slate-600" />
+              </div>
+              <div>
+                <p className="text-lg font-black text-slate-800 dark:text-white">Your plate is empty</p>
+                <p className="text-sm text-slate-400 dark:text-slate-500 mt-1 font-medium">Add delicious items from the menu</p>
+              </div>
               <button
                 onClick={onClose}
-                className="text-primary hover:text-primary/80 font-medium"
+                className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-bold text-sm hover:bg-primary/90 transition-all active:scale-95"
               >
-                Go back to menu
+                Browse Menu <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <ul className="space-y-6">
-              {cart.map((item) => (
-                <li key={item.menuItem._id} className="flex py-2">
-                  <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-border bg-muted">
+            <div className="p-4 space-y-3">
+              {cart.map((item, idx) => (
+                <div
+                  key={item.menuItem._id as string}
+                  className={`flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60 transition-all duration-300 ${
+                    removingId === item.menuItem._id ? "opacity-0 scale-95 -translate-x-4" : "opacity-100"
+                  }`}
+                  style={{ animationDelay: `${idx * 50}ms` }}
+                >
+                  {/* Image */}
+                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-200 dark:bg-slate-700 flex-shrink-0 border border-slate-200 dark:border-slate-600">
                     {item.menuItem.image ? (
                       <img
                         src={item.menuItem.image}
                         alt={item.menuItem.name}
-                        className="h-full w-full object-cover object-center"
+                        className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="h-full w-full flex items-center justify-center text-xs text-muted-foreground">
-                        No Img
+                      <div className="w-full h-full flex items-center justify-center">
+                        <UtensilsCrossed className="w-6 h-6 text-slate-400" />
                       </div>
                     )}
                   </div>
 
-                  <div className="ml-4 flex flex-1 flex-col">
-                    <div>
-                      <div className="flex justify-between text-base font-medium text-foreground">
-                        <h3>{item.menuItem.name}</h3>
-                        <p className="ml-4 text-primary font-bold">
-                          ₹{(item.menuItem.price * item.quantity).toFixed(2)}
-                        </p>
-                      </div>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {item.menuItem.isVeg ? "Veg" : "Non-Veg"}
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-1">
+                      <p className="text-sm font-bold text-slate-800 dark:text-white leading-tight truncate pr-1">
+                        {item.menuItem.name}
                       </p>
+                      <button
+                        onClick={() => handleRemove(item.menuItem._id as string)}
+                        className="flex-shrink-0 w-6 h-6 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-400 hover:text-rose-600 hover:bg-rose-100 dark:hover:bg-rose-900/60 flex items-center justify-center transition-all"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
                     </div>
-                    <div className="flex flex-1 items-end justify-between text-sm">
-                      <div className="flex items-center space-x-2 border border-border rounded-md">
+
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <span className={`w-2 h-2 rounded-full flex-shrink-0 ${item.menuItem.isVeg ? "bg-emerald-500" : "bg-rose-500"}`} />
+                      <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">
+                        {item.menuItem.isVeg ? "Veg" : "Non-Veg"}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between mt-2">
+                      {/* Quantity Controls */}
+                      <div className="flex items-center gap-1 bg-white dark:bg-slate-700 rounded-xl border border-slate-200 dark:border-slate-600 p-0.5">
                         <button
-                          onClick={() =>
-                            onUpdateQuantity(
-                              item.menuItem._id,
-                              Math.max(1, item.quantity - 1),
-                            )
-                          }
-                          className="px-2 py-1 hover:bg-accent hover:text-accent-foreground"
+                          onClick={() => onUpdateQuantity(item.menuItem._id as string, Math.max(1, item.quantity - 1))}
+                          className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-600 hover:bg-primary hover:text-white flex items-center justify-center transition-all active:scale-90"
                         >
-                          -
+                          <Minus className="w-3 h-3" />
                         </button>
-                        <span className="font-medium text-foreground">
+                        <span className="w-7 text-center text-sm font-black text-slate-800 dark:text-white">
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() =>
-                            onUpdateQuantity(
-                              item.menuItem._id,
-                              item.quantity + 1,
-                            )
-                          }
-                          className="px-2 py-1 hover:bg-accent hover:text-accent-foreground"
+                          onClick={() => onUpdateQuantity(item.menuItem._id as string, item.quantity + 1)}
+                          className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-600 hover:bg-primary hover:text-white flex items-center justify-center transition-all active:scale-90"
                         >
-                          +
+                          <Plus className="w-3 h-3" />
                         </button>
                       </div>
-
-                      <button
-                        type="button"
-                        onClick={() => onRemove(item.menuItem._id)}
-                        className="font-medium text-destructive hover:text-destructive/80"
-                      >
-                        Remove
-                      </button>
+                      {/* Item Total */}
+                      <p className="text-sm font-black text-primary">
+                        ₹{(item.menuItem.price * item.quantity).toFixed(2)}
+                      </p>
                     </div>
                   </div>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </div>
 
+        {/* Footer (only when cart has items) */}
         {cart.length > 0 && (
-          <div className="border-t border-border px-6 py-6 bg-muted/20">
-            <div className="flex justify-between text-base font-medium text-foreground mb-4">
-              <p>Subtotal</p>
-              <p className="text-xl font-bold text-primary">
-                ₹{total.toFixed(2)}
-              </p>
+          <div className="border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4">
+
+            {/* Order Summary */}
+            <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 space-y-2.5 border border-slate-100 dark:border-slate-700/50">
+              <div className="flex items-center gap-2 mb-1">
+                <Receipt className="w-3.5 h-3.5 text-slate-400" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Order Summary</span>
+              </div>
+              {cart.map((item) => (
+                <div key={item.menuItem._id as string} className="flex justify-between items-center text-xs">
+                  <span className="text-slate-500 dark:text-slate-400 font-medium truncate max-w-[55%]">
+                    {item.menuItem.name} × {item.quantity}
+                  </span>
+                  <span className="font-bold text-slate-700 dark:text-slate-200">
+                    ₹{(item.menuItem.price * item.quantity).toFixed(2)}
+                  </span>
+                </div>
+              ))}
+              <div className="border-t border-slate-200 dark:border-slate-700 pt-2 flex justify-between items-center">
+                <span className="text-sm font-black text-slate-800 dark:text-white">Total</span>
+                <span className="text-lg font-black text-primary">₹{total.toFixed(2)}</span>
+              </div>
             </div>
 
-            <div className="space-y-4 mb-4">
+            {/* Customer Info */}
+            <div className="space-y-3">
               <div>
-                <label
-                  htmlFor="customerName"
-                  className="block text-sm font-medium text-muted-foreground"
-                >
-                  Name (Optional)
+                <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">
+                  Your Name (Optional)
                 </label>
                 <input
                   type="text"
-                  id="customerName"
-                  className="mt-1 block w-full rounded-md border-border bg-background text-foreground focus:border-primary focus:ring-primary sm:text-sm p-2 border"
-                  placeholder="John Doe"
+                  placeholder="e.g. Alex"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-800 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                 />
               </div>
               <div>
-                <label
-                  htmlFor="notes"
-                  className="block text-sm font-medium text-muted-foreground"
-                >
-                  Notes (Optional)
+                <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">
+                  Special Requests (Optional)
                 </label>
                 <textarea
-                  id="notes"
                   rows={2}
-                  className="mt-1 block w-full rounded-md border-border bg-background text-foreground shadow-sm focus:border-primary focus:ring-primary sm:text-sm p-2 border"
-                  placeholder="Allergies, special requests..."
+                  placeholder="Allergies, extra spicy, no onion..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-800 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
                 />
               </div>
             </div>
 
+            {/* Order Now Button */}
             <button
+              id="btn-order-now"
               onClick={() => onProceedToPayment(customerName, notes)}
               disabled={isOrdering}
-              id="btn-order-now"
-              className="flex w-full items-center justify-center gap-2 rounded-[1.5rem] border border-transparent bg-gray-900 dark:bg-indigo-600 px-6 py-5 text-lg font-black text-white shadow-xl hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="w-full py-4 rounded-2xl bg-primary text-white font-black text-base tracking-wide shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2.5}
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                />
-              </svg>
-              {isOrdering ? "Processing..." : "Order Now"}
+              <ShoppingBag className="w-5 h-5" />
+              {isOrdering ? "Placing Order..." : `Place Order · ₹${total.toFixed(2)}`}
             </button>
-            <div className="mt-6 flex justify-center text-center text-sm text-muted-foreground">
-              <p>
-                or{" "}
-                <button
-                  type="button"
-                  className="font-medium text-primary hover:text-primary/80"
-                  onClick={onClose}
-                >
-                  Continue Ordering
-                  <span aria-hidden="true"> &rarr;</span>
-                </button>
-              </p>
-            </div>
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-full text-center text-xs font-bold text-slate-400 hover:text-primary transition-colors py-1"
+            >
+              ← Continue Browsing
+            </button>
           </div>
         )}
       </div>

@@ -335,21 +335,21 @@ function MenuContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       <Header
         cartCount={cart.reduce((acc, i) => acc + i.quantity, 0)}
         openCart={() => setIsCartOpen(true)}
         tableNumber={tableNumber}
       />
 
-      {/* Floating Stock Toggle for Quick View */}
-      <button 
+      {/* Live Stock Floating Button */}
+      <button
         onClick={() => setIsStockModalOpen(true)}
-        className="fixed bottom-28 right-6 z-40 bg-emerald-600 text-white p-4 rounded-2xl shadow-2xl hover:scale-110 active:scale-95 transition-all flex items-center gap-2 group border-2 border-white/20"
+        className="fixed bottom-28 right-5 z-40 bg-emerald-500 text-white p-3.5 rounded-2xl shadow-2xl shadow-emerald-500/30 hover:scale-110 active:scale-95 transition-all flex items-center gap-2 group border-2 border-white/30"
       >
         <div className="relative">
-          <ShoppingBag className="w-6 h-6" />
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-white border-2 border-emerald-600 rounded-full animate-ping"></span>
+          <ShoppingBag className="w-5 h-5" />
+          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white border-2 border-emerald-500 rounded-full animate-ping" />
         </div>
         <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 font-black whitespace-nowrap text-xs uppercase tracking-widest">
           Live Stock
@@ -357,170 +357,153 @@ function MenuContent() {
       </button>
 
       <main className="container mx-auto px-4 py-6 sm:py-8 flex-1">
-        {/* Category Tabs & Veg Filter */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8">
-          <div className="flex overflow-x-auto pb-1 gap-2 scrollbar-hide w-full sm:w-auto">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all ${
-                  selectedCategory === cat
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-card text-card-foreground hover:bg-accent hover:text-accent-foreground border border-border"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
 
-          <div 
-            ref={searchRef}
-            className="flex-1 sm:max-w-sm w-full relative group"
-          >
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search dishes..."
-                value={searchQuery}
-                onFocus={() => searchQuery.length > 1 && setShowResults(true)}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 rounded-full bg-card border border-border focus:ring-2 focus:ring-primary focus:outline-none transition-all shadow-sm"
-              />
-              <svg 
-                className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24" 
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              {searchQuery && (
-                <button 
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            {/* Results Box */}
-            {showResults && searchResults.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-2xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200">
-                <div className="p-2 border-b border-border bg-muted/50">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground px-2">Suggestions</p>
-                </div>
-                <div className="max-h-[300px] overflow-y-auto">
-                  {searchResults.map((item) => (
-                    <button
-                      key={item._id as string}
-                      onClick={() => {
-                        setSelectedItemForModal(item);
-                        setShowResults(false);
-                      }}
-                      className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-primary/5 transition-colors text-left border-b border-border/50 last:border-0"
-                    >
-                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted flex-shrink-0">
-                        {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover" />}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-foreground truncate">{item.name}</p>
-                        <p className="text-xs text-muted-foreground">₹{item.price}</p>
-                      </div>
-                      <div className={`w-2 h-2 rounded-full ${item.isVeg ? "bg-green-500" : "bg-red-500"}`} />
-                    </button>
-                  ))}
-                </div>
-                <div className="p-2 bg-muted/20 text-center">
-                   <button 
-                    onClick={() => setShowResults(false)}
-                    className="text-[10px] font-bold text-primary hover:underline"
-                   >
-                     Show all results
-                   </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="flex items-center justify-center sm:justify-start gap-2 border border-border rounded-full p-1 bg-card self-center sm:self-auto">
-            <button
-              onClick={() => setVegFilter("all")}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                vegFilter === "all"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => setVegFilter("veg")}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                vegFilter === "veg"
-                  ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Veg
-            </button>
-            <button
-              onClick={() => setVegFilter("non-veg")}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                vegFilter === "non-veg"
-                  ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Non-Veg
-            </button>
+        {/* Hero Greeting */}
+        <div className="mb-8 p-6 rounded-3xl bg-gradient-to-br from-primary/90 to-primary/70 dark:from-primary/80 dark:to-primary/50 text-white shadow-xl shadow-primary/20 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+          <div className="relative z-10">
+            <p className="text-white/80 text-xs font-black uppercase tracking-widest mb-1">Welcome to Table {tableNumber}</p>
+            <h1 className="text-2xl sm:text-3xl font-black leading-tight">What would you<br />like to eat today? 🍽️</h1>
+            <p className="text-white/70 text-sm mt-2 font-medium">Browse our freshly prepared dishes below</p>
           </div>
         </div>
 
-        {initialLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <MenuCardSkeleton key={i} />
+        {/* Filters Bar */}
+        <div className="flex flex-col gap-4 mb-8">
+
+          {/* Top Row: Categories + Search */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            {/* Category Tabs */}
+            <div className="flex overflow-x-auto gap-2 scrollbar-hide pb-0.5">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-4 py-2 rounded-xl whitespace-nowrap text-xs font-black uppercase tracking-wider transition-all ${
+                    selectedCategory === cat
+                      ? "bg-primary text-white shadow-md shadow-primary/30 scale-[1.03]"
+                      : "bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-primary hover:bg-primary/5 border border-slate-200 dark:border-slate-800"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Search */}
+            <div ref={searchRef} className="flex-1 sm:max-w-sm w-full relative">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search dishes..."
+                  value={searchQuery}
+                  onFocus={() => searchQuery.length > 1 && setShowResults(true)}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm font-medium text-slate-800 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary/30 focus:border-primary focus:outline-none transition-all shadow-sm"
+                />
+                <svg className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                {searchQuery && (
+                  <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 hover:bg-slate-300 dark:hover:bg-slate-600 transition-all text-xs font-bold">
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {/* Search Results */}
+              {showResults && searchResults.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-1 duration-200">
+                  <div className="p-2.5 border-b border-slate-100 dark:border-slate-800">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 px-2">Suggestions</p>
+                  </div>
+                  <div className="max-h-[280px] overflow-y-auto">
+                    {searchResults.map((item) => (
+                      <button
+                        key={item._id as string}
+                        onClick={() => { setSelectedItemForModal(item); setShowResults(false); }}
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-primary/5 transition-colors text-left border-b border-slate-100 dark:border-slate-800 last:border-0"
+                      >
+                        <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
+                          {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold text-slate-800 dark:text-white truncate">{item.name}</p>
+                          <p className="text-xs font-semibold text-primary">₹{item.price}</p>
+                        </div>
+                        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${item.isVeg ? "bg-emerald-500" : "bg-rose-500"}`} />
+                      </button>
+                    ))}
+                  </div>
+                  <div className="p-2.5 text-center bg-slate-50 dark:bg-slate-800/50">
+                    <button onClick={() => setShowResults(false)} className="text-[10px] font-black text-primary hover:underline uppercase tracking-wider">
+                      Show all results →
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Bottom Row: Veg Filter */}
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mr-1">Filter:</span>
+            {(["all", "veg", "non-veg"] as const).map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setVegFilter(filter)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
+                  vegFilter === filter
+                    ? filter === "all"
+                      ? "bg-primary text-white shadow-md shadow-primary/20"
+                      : filter === "veg"
+                      ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20"
+                      : "bg-rose-500 text-white shadow-md shadow-rose-500/20"
+                    : "bg-white dark:bg-slate-900 text-slate-500 border border-slate-200 dark:border-slate-800 hover:text-slate-700"
+                }`}
+              >
+                {filter === "all" ? "All" : filter === "veg" ? "🌿 Veg" : "🍖 Non-Veg"}
+              </button>
             ))}
+            {debouncedSearch && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="ml-auto flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-rose-500 transition-colors"
+              >
+                <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-md font-black">"{debouncedSearch}"</span>
+                ✕ Clear
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Menu Grid */}
+        {initialLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {Array.from({ length: 8 }).map((_, i) => <MenuCardSkeleton key={i} />)}
           </div>
         ) : menuItems.length === 0 && !loading ? (
-          <div className="text-center py-20">
-            <h2 className="text-2xl font-bold text-foreground mb-4">
-              No menu items found
-            </h2>
+          <div className="flex flex-col items-center justify-center py-24 text-center gap-4">
+            <div className="w-24 h-24 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-5xl">
+              🍽️
+            </div>
+            <div>
+              <h2 className="text-xl font-black text-slate-800 dark:text-white">No dishes found</h2>
+              <p className="text-sm text-slate-400 mt-1">Try a different category or load sample items</p>
+            </div>
             <button
               onClick={seedData}
-              className="px-6 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-md"
+              className="px-6 py-3 rounded-xl bg-primary text-white font-bold text-sm hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 active:scale-95"
             >
               Load Sample Menu
             </button>
           </div>
         ) : (
           <>
-            {debouncedSearch && (
-              <div className="mb-4 p-3 bg-primary/5 rounded-xl border border-primary/10 flex items-center gap-2">
-                 <span className="text-sm font-medium text-muted-foreground italic">
-                   Showing results for: 
-                 </span>
-                 <span className="text-sm font-bold text-primary px-2 py-0.5 bg-primary/10 rounded-md">
-                   {debouncedSearch}
-                 </span>
-                 <button 
-                  onClick={() => setSearchQuery("")}
-                  className="ml-auto text-xs text-primary hover:underline font-bold"
-                 >
-                   Clear Search
-                 </button>
-              </div>
-            )}
-            {/* Menu Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {menuItems.map((item, index) => {
-                // Trigger fetch when we are at the very last item
                 const isTrigger = index === menuItems.length - 1;
-
                 return (
                   <MenuCard
                     ref={isTrigger ? lastMenuItemRef : null}
@@ -532,10 +515,9 @@ function MenuContent() {
                 );
               })}
             </div>
-            {/* Loading Indicator for Infinite Scroll */}
             {loading && !initialLoading && (
-              <div className="col-span-full flex justify-center py-4">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              <div className="flex justify-center py-8">
+                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               </div>
             )}
           </>
@@ -572,76 +554,58 @@ function MenuContent() {
         onOrderSuccess={handlePaymentSuccess}
         onOrderFailure={handlePaymentFailure}
       />
-      
-      <GameZone />
-      <CompensationModal 
-        isOpen={isCompModalOpen} 
-        onClose={() => setIsCompModalOpen(false)} 
-        note={compensationNote} 
-      />
 
-      {/* Stock Availability Modal */}
+      <GameZone />
+      <CompensationModal isOpen={isCompModalOpen} onClose={() => setIsCompModalOpen(false)} note={compensationNote} />
+
+      {/* Stock Modal */}
       {isStockModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
-          <div className="bg-card w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
-            <div className="p-8 pb-4 flex justify-between items-center border-b border-border">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 border border-slate-200 dark:border-slate-800">
+            <div className="p-6 flex justify-between items-center border-b border-slate-100 dark:border-slate-800">
               <div>
-                <h3 className="text-2xl font-black text-foreground tracking-tight">Available Today</h3>
-                <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Fresh from the kitchen</p>
+                <h3 className="text-xl font-black text-slate-900 dark:text-white">Available Today</h3>
+                <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">Fresh from the kitchen</p>
               </div>
-              <button 
+              <button
                 onClick={() => setIsStockModalOpen(false)}
-                className="w-10 h-10 rounded-full bg-muted border border-border flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all font-black"
+                className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-rose-50 hover:text-rose-500 transition-all text-slate-500"
               >
                 ✕
               </button>
             </div>
-            
-            <div className="p-4 max-h-[60vh] overflow-y-auto space-y-3">
-              {menuItems.filter(i => i.isAvailable).length === 0 ? (
-                <div className="text-center py-10">
-                  <p className="text-muted-foreground">Refreshing stock list...</p>
-                </div>
-              ) : (
-                menuItems.filter(i => i.isAvailable).map((item) => (
-                  <div 
-                    key={item._id as string}
-                    className="flex items-center gap-4 p-3 rounded-2xl bg-muted/30 border border-border/50 hover:bg-muted/60 transition-all group"
-                  >
-                    <div className="w-14 h-14 rounded-xl overflow-hidden bg-muted flex-shrink-0">
-                      {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-black text-foreground truncate">{item.name}</p>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className={`w-2 h-2 rounded-full ${item.isVeg ? "bg-green-500" : "bg-red-500"}`}></span>
-                        <span className="text-[10px] font-bold text-muted-foreground uppercase">{item.category}</span>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-black text-primary">₹{item.price}</p>
-                      <button 
-                        onClick={() => {
-                          addToCart(item);
-                          setIsStockModalOpen(false);
-                        }}
-                        className="text-[10px] font-black uppercase text-indigo-500 hover:text-indigo-700 mt-1"
-                      >
-                        + Quick Add
-                      </button>
+            <div className="p-4 max-h-[55vh] overflow-y-auto space-y-2">
+              {menuItems.filter(i => i.isAvailable).map((item) => (
+                <div key={item._id as string} className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/50 hover:border-primary/30 transition-all group">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-200 dark:bg-slate-700 flex-shrink-0">
+                    {item.image && <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-black text-slate-800 dark:text-white truncate">{item.name}</p>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <span className={`w-1.5 h-1.5 rounded-full ${item.isVeg ? "bg-emerald-500" : "bg-rose-500"}`} />
+                      <span className="text-[10px] font-bold text-slate-400 uppercase">{item.category}</span>
                     </div>
                   </div>
-                ))
-              )}
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-sm font-black text-primary">₹{item.price}</p>
+                    <button
+                      onClick={() => { addToCart(item); setIsStockModalOpen(false); }}
+                      className="text-[10px] font-black uppercase text-primary hover:text-primary/70 mt-0.5 transition-colors"
+                    >
+                      + Add
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-
-            <div className="p-6 bg-muted/10 border-t border-border">
-               <button 
+            <div className="p-5 border-t border-slate-100 dark:border-slate-800">
+              <button
                 onClick={() => setIsStockModalOpen(false)}
-                className="w-full py-4 rounded-2xl bg-gray-900 text-white font-black uppercase tracking-widest text-xs hover:opacity-90 transition-all shadow-xl"
-               >
-                 Close & Browse Menu
-               </button>
+                className="w-full py-3.5 rounded-2xl bg-slate-900 dark:bg-slate-800 text-white font-black uppercase tracking-widest text-xs hover:opacity-90 transition-all"
+              >
+                Close & Browse Menu
+              </button>
             </div>
           </div>
         </div>

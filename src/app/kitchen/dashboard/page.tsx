@@ -227,6 +227,18 @@ export default function KitchenDashboard() {
         const file = e.target.files?.[0];
         if (!file) return;
 
+        // Validate file type
+        if (!file.type.startsWith("image/")) {
+            toast.error("Please select an image file");
+            return;
+        }
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error("Image size should be less than 5MB");
+            return;
+        }
+
         setUploadingImage(true);
         setUploadProgress(0);
 
@@ -235,47 +247,61 @@ export default function KitchenDashboard() {
         reader.onloadend = () => setImagePreview(reader.result as string);
         reader.readAsDataURL(file);
 
-        // Simulate progress animation while uploading
-        let progress = 0;
-        const progressInterval = setInterval(() => {
-            progress += Math.random() * 15;
-            if (progress >= 90) {
-                progress = 90;
-                clearInterval(progressInterval);
-            }
-            setUploadProgress(Math.round(progress));
-        }, 200);
-
         try {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("upload_preset", "hotel_menu");
+            const API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
 
-            const res = await fetch(`https://api.cloudinary.com/v1_1/dvkgs1zqy/image/upload`, {
-                method: "POST",
-                body: formData,
-            });
-
-            clearInterval(progressInterval);
-            setUploadProgress(100);
-
-            if (res.ok) {
-                const data = await res.json();
-                setMenuFormData((prev) => ({ ...prev, image: data.secure_url }));
-                // Replace local base64 preview with the final Cloudinary URL
-                setImagePreview(data.secure_url);
-                toast.success("Image uploaded successfully");
-            } else {
-                toast.error("Image upload failed");
+            if (!API_KEY || API_KEY === "your_imgbb_api_key_here") {
+                toast.error("Image API key not configured");
+                setUploadingImage(false);
+                return;
             }
-        } catch (error) {
-            clearInterval(progressInterval);
-            toast.error("Image upload failed");
-        } finally {
-            setTimeout(() => {
+
+            const formData = new FormData();
+            formData.append("image", file);
+
+            // Use XMLHttpRequest for real progress tracking
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", `https://api.imgbb.com/1/upload?key=${API_KEY}`);
+
+            xhr.upload.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    const percentComplete = (event.loaded / event.total) * 100;
+                    setUploadProgress(Math.round(percentComplete));
+                }
+            };
+
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    if (data.success) {
+                        setMenuFormData((prev) => ({ ...prev, image: data.data.url }));
+                        setImagePreview(data.data.url);
+                        toast.success("Image uploaded successfully!");
+                    } else {
+                        toast.error("Upload failed: " + (data.error?.message || "Unknown error"));
+                        setImagePreview("");
+                    }
+                } else {
+                    toast.error("Upload failed with status " + xhr.status);
+                    setImagePreview("");
+                }
                 setUploadingImage(false);
                 setUploadProgress(0);
-            }, 500);
+            };
+
+            xhr.onerror = () => {
+                toast.error("Failed to upload image. Please try again.");
+                setUploadingImage(false);
+                setUploadProgress(0);
+                setImagePreview("");
+            };
+
+            xhr.send(formData);
+        } catch (error) {
+            console.error("Image upload error:", error);
+            toast.error("Failed to upload image. Please try again.");
+            setUploadingImage(false);
+            setUploadProgress(0);
         }
     };
 

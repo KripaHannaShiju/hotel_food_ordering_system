@@ -2345,7 +2345,30 @@ export default function AdminDashboard() {
                   imagePreview || menuFormData.image ? "border-primary" : "border-slate-200 dark:border-slate-700 hover:border-primary/50"
                 }`}>
                   {imagePreview || menuFormData.image ? (
-                    <img src={imagePreview || menuFormData.image} alt="Preview" className="w-full h-full object-cover" />
+                    <>
+                      <img
+                        src={imagePreview || menuFormData.image}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.display = 'none';
+                          (e.currentTarget.nextElementSibling as HTMLElement)?.classList.remove('hidden');
+                        }}
+                      />
+                      {/* Fallback shown if image fails to load */}
+                      <div className="hidden flex-col items-center gap-3 text-muted-foreground text-center p-4">
+                        <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+                          <Camera className="w-6 h-6" />
+                        </div>
+                        <p className="text-xs font-semibold text-rose-500">Image failed to load</p>
+                        <p className="text-[10px] text-muted-foreground">Click to choose a new one</p>
+                      </div>
+                      {/* Hover overlay to change image */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                        <Camera className="w-8 h-8 text-white" />
+                        <p className="text-white text-xs font-bold">Change Image</p>
+                      </div>
+                    </>
                   ) : (
                     <div className="flex flex-col items-center gap-3 text-muted-foreground text-center p-4">
                       <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">

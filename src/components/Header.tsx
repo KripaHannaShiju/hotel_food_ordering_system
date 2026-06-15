@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-
 import { ThemeToggle } from "./ThemeToggle";
 import { UtensilsCrossed, ShoppingBag, Clock, Receipt } from "lucide-react";
 
@@ -14,52 +13,68 @@ export default function Header({
   openCart?: () => void;
   tableNumber?: string;
 }) {
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-3 sm:px-4">
-        <div className="flex items-center gap-2 sm:gap-4">
-          <Link href={`/?table=${tableNumber}`} className="flex items-center space-x-2">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center">
-              <UtensilsCrossed className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
-            </div>
-            <span className="text-base sm:text-lg lg:text-xl font-black tracking-tight text-foreground transition-all">
-              Hotel Delish <span className="text-primary hidden md:inline-block">- Fine Dining</span>
-            </span>
-          </Link>
-        </div>
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl shadow-sm">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
 
-        <div className="flex items-center gap-1 sm:gap-3">
+        {/* Logo */}
+        <Link href={`/?table=${tableNumber}`} className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 group-hover:scale-105 transition-transform">
+            <UtensilsCrossed className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white">
+              Hotel Delish
+            </span>
+            <span className="hidden md:block text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest -mt-0.5">
+              Fine Dining Experience
+            </span>
+          </div>
+        </Link>
+
+        {/* Table Badge */}
+        {tableNumber && (
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-primary/8 dark:bg-primary/10 border border-primary/20 rounded-xl">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-black text-slate-600 dark:text-slate-400">
+              Table <span className="text-primary">{tableNumber}</span>
+            </span>
+          </div>
+        )}
+
+        {/* Right Controls */}
+        <div className="flex items-center gap-1 sm:gap-2">
           {tableNumber && (
             <>
-              <Link 
+              <Link
                 href={`/order-status?table=${tableNumber}`}
-                className="flex items-center gap-1.5 px-2 py-2 sm:px-4 sm:gap-2 rounded-xl text-sm font-bold text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all"
+                className="flex items-center gap-1.5 px-2.5 py-2 sm:px-3 rounded-xl text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary hover:bg-primary/8 dark:hover:bg-primary/10 transition-all"
               >
                 <Clock className="w-4 h-4" />
-                <span className="hidden md:inline">Track Order</span>
+                <span className="hidden md:inline text-xs">Track</span>
               </Link>
-              <Link 
+              <Link
                 href={`/bill?table=${tableNumber}`}
-                className="flex items-center gap-1.5 px-2 py-2 sm:px-4 sm:gap-2 rounded-xl text-sm font-bold text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all"
+                className="flex items-center gap-1.5 px-2.5 py-2 sm:px-3 rounded-xl text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary hover:bg-primary/8 dark:hover:bg-primary/10 transition-all"
               >
                 <Receipt className="w-4 h-4" />
-                <span className="hidden md:inline">View Bill</span>
+                <span className="hidden md:inline text-xs">Bill</span>
               </Link>
             </>
           )}
 
-          <div className="flex items-center gap-1.5 sm:gap-2 border-l border-border pl-2 sm:pl-3">
+          <div className="flex items-center gap-1.5 sm:gap-2 pl-2 border-l border-slate-200 dark:border-slate-800">
             <ThemeToggle />
+
             {openCart && (
               <button
                 onClick={openCart}
-                className="group flex items-center justify-center p-2 rounded-xl hover:bg-primary/10 transition-all relative"
+                className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white dark:hover:bg-primary transition-all group active:scale-95"
               >
-                <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6 text-foreground group-hover:text-primary transition-colors" />
+                <ShoppingBag className="w-5 h-5 text-slate-600 dark:text-slate-300 group-hover:text-white transition-colors" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-4 w-4 sm:h-5 sm:w-5 items-center justify-center rounded-full bg-primary text-[9px] sm:text-[10px] font-black text-primary-foreground ring-2 ring-background">
-                    {cartCount}
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-black text-white ring-2 ring-white dark:ring-slate-950 shadow-md animate-in zoom-in duration-200">
+                    {cartCount > 9 ? "9+" : cartCount}
                   </span>
                 )}
               </button>
