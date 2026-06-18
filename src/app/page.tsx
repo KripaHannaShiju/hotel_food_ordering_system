@@ -363,7 +363,6 @@ function MenuContent() {
           <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
           <div className="relative z-10">
-            <p className="text-white/80 text-xs font-black uppercase tracking-widest mb-1">Welcome to Table {tableNumber}</p>
             <h1 className="text-2xl sm:text-3xl font-black leading-tight">What would you<br />like to eat today? 🍽️</h1>
             <p className="text-white/70 text-sm mt-2 font-medium">Browse our freshly prepared dishes below</p>
           </div>

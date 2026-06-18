@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ThemeToggle } from "./ThemeToggle";
+
 import { UtensilsCrossed, ShoppingBag, Clock, Receipt } from "lucide-react";
 
 export default function Header({
@@ -34,10 +34,12 @@ export default function Header({
 
         {/* Table Badge */}
         {tableNumber && (
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-primary/8 dark:bg-primary/10 border border-primary/20 rounded-xl">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-black text-slate-600 dark:text-slate-400">
-              Table <span className="text-primary">{tableNumber}</span>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+            <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+              <span className="text-[10px] text-white font-black">#</span>
+            </div>
+            <span className="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
+              Table {tableNumber}
             </span>
           </div>
         )}
@@ -64,7 +66,7 @@ export default function Header({
           )}
 
           <div className="flex items-center gap-1.5 sm:gap-2 pl-2 border-l border-slate-200 dark:border-slate-800">
-            <ThemeToggle />
+
 
             {openCart && (
               <button

@@ -30,7 +30,7 @@ interface Order {
 export default function BillingDashboard() {
     const router = useRouter();
     const [orders, setOrders] = useState<Order[]>([]);
-    const [billingSelectedOrder, setBillingSelectedOrder] = useState<Order | null>(null);
+    const [billingSelectedTable, setBillingSelectedTable] = useState<string | null>(null);
     const [billingDiscount, setBillingDiscount] = useState<string>('');
     const [billingAppliedDiscount, setBillingAppliedDiscount] = useState<number>(0);
     const [billingPaymentMethod, setBillingPaymentMethod] = useState<'Cash' | 'UPI' | 'Card'>('Cash');
@@ -56,28 +56,53 @@ export default function BillingDashboard() {
         return () => clearInterval(interval);
     }, []);
 
-    const updateStatus = async (id: string, newStatus: string) => {
-        try {
-            const res = await fetch(`/api/orders/${id}`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status: newStatus }),
-            });
-            if (res.ok) {
-                fetchOrders();
-            }
-        } catch (error) {
-            console.error("Failed to update status:", error);
-        }
-    };
-
     const logout = async () => {
         await fetch("/api/admin/logout", { method: "POST" });
         router.replace("/billing/login");
     };
 
-    const itemSubtotal = billingSelectedOrder?.items.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0) || 0;
-    const calculatedSubtotal = itemSubtotal > 0 ? itemSubtotal : (billingSelectedOrder?.totalAmount || 0);
+    const activeOrders = orders.filter(o => 
+        ['Preparing', 'Ready', 'Delivered'].includes(o.status) && 
+        o.paymentStatus !== 'Paid'
+    );
+
+    const tableGroups = activeOrders.reduce((acc, order) => {
+        if (!acc[order.tableNumber]) acc[order.tableNumber] = [];
+        acc[order.tableNumber].push(order);
+        return acc;
+    }, {} as Record<string, Order[]>);
+
+    const tables = Object.keys(tableGroups).map(tableNumber => ({
+        tableNumber,
+        orders: tableGroups[tableNumber],
+        itemCount: tableGroups[tableNumber].reduce((sum, o) => sum + o.items.length, 0),
+        total: tableGroups[tableNumber].reduce((sum, o) => sum + o.totalAmount, 0),
+        primaryOrder: tableGroups[tableNumber][0]
+    }));
+
+    const filteredTables = tables.filter(t => 
+        t.tableNumber.toLowerCase().includes(billingSearchQuery.toLowerCase()) ||
+        t.orders.some(o => o._id.toLowerCase().includes(billingSearchQuery.toLowerCase()))
+    );
+
+    const selectedOrders = billingSelectedTable ? tableGroups[billingSelectedTable] : null;
+
+    let aggregatedItems: { name: string; quantity: number; price: number }[] = [];
+    if (selectedOrders) {
+        selectedOrders.forEach(order => {
+            order.items.forEach(item => {
+                const existing = aggregatedItems.find(i => i.name === item.name && i.price === (item.price || 0));
+                if (existing) {
+                    existing.quantity += item.quantity;
+                } else {
+                    aggregatedItems.push({ name: item.name, quantity: item.quantity, price: item.price || 0 });
+                }
+            });
+        });
+    }
+
+    const itemSubtotal = aggregatedItems.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
+    const calculatedSubtotal = itemSubtotal > 0 ? itemSubtotal : (selectedOrders?.reduce((sum, o) => sum + o.totalAmount, 0) || 0);
 
     const taxAmount = calculatedSubtotal * 0.05; // 5% GST
     const serviceCharge = calculatedSubtotal * 0.02; // 2% Service Charge
@@ -97,19 +122,24 @@ export default function BillingDashboard() {
         window.print();
     };
 
-    const handleMarkPaid = () => {
-        if (billingSelectedOrder) {
-            updateStatus(billingSelectedOrder._id, 'Paid');
-            setBillingSelectedOrder(null);
-            toast.success("Transaction settled successfully!");
+    const handleMarkPaid = async () => {
+        if (selectedOrders) {
+            try {
+                await Promise.all(selectedOrders.map(o => 
+                    fetch(`/api/orders/${o._id}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ paymentStatus: 'Paid' }),
+                    })
+                ));
+                setBillingSelectedTable(null);
+                fetchOrders();
+                toast.success("Transaction settled successfully!");
+            } catch (error) {
+                toast.error("Failed to settle transaction");
+            }
         }
     };
-
-    const billingOrders = orders.filter((o) => ['Preparing', 'Ready', 'Delivered'].includes(o.status));
-    const filteredOrders = billingOrders.filter(o => 
-        o.tableNumber.toString().includes(billingSearchQuery) ||
-        o._id.toLowerCase().includes(billingSearchQuery.toLowerCase())
-    );
 
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
@@ -159,42 +189,38 @@ export default function BillingDashboard() {
                                     <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                                     <p className="font-bold">Loading orders...</p>
                                 </div>
-                            ) : filteredOrders.length === 0 ? (
+                            ) : filteredTables.length === 0 ? (
                                 <div className="text-center py-20 opacity-50">
                                     <Receipt className="w-12 h-12 mx-auto mb-3 text-slate-400" />
                                     <p className="font-bold">No active bills</p>
                                 </div>
                             ) : (
-                                filteredOrders.map(order => (
+                                filteredTables.map(table => (
                                     <div 
-                                        key={order._id}
+                                        key={table.tableNumber}
                                         onClick={() => {
-                                            setBillingSelectedOrder(order);
+                                            setBillingSelectedTable(table.tableNumber);
                                             setBillingAppliedDiscount(0);
                                             setBillingDiscount('');
                                         }}
                                         className={`p-5 rounded-2xl border-2 cursor-pointer transition-all duration-200 ${
-                                            billingSelectedOrder?._id === order._id 
+                                            billingSelectedTable === table.tableNumber 
                                                 ? 'border-indigo-600 bg-indigo-50 shadow-md' 
                                                 : 'border-transparent bg-slate-50 hover:border-slate-200'
                                         }`}
                                     >
                                         <div className="flex justify-between items-start mb-2">
                                             <div>
-                                                <h3 className="font-black text-xl text-slate-800">Table {order.tableNumber}</h3>
-                                                <p className="text-[10px] text-slate-400 font-black mt-1 uppercase tracking-widest">#{order._id.slice(-6)}</p>
+                                                <h3 className="font-black text-xl text-slate-800">Table {table.tableNumber}</h3>
+                                                <p className="text-[10px] text-slate-400 font-black mt-1 uppercase tracking-widest">{table.orders.length} Order(s)</p>
                                             </div>
-                                            <span className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-wider rounded-lg border ${
-                                                order.status === 'Delivered' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
-                                                order.status === 'Ready' ? 'bg-blue-50 text-blue-700 border-blue-100' :
-                                                'bg-orange-50 text-orange-700 border-orange-100'
-                                            }`}>
-                                                {order.status}
+                                            <span className="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider rounded-lg border bg-blue-50 text-blue-700 border-blue-100">
+                                                Active
                                             </span>
                                         </div>
                                         <div className="flex justify-between items-center pt-2 mt-2 border-t border-slate-200/50">
-                                            <span className="text-slate-500 font-bold text-xs uppercase tracking-wide">{order.items.length} items</span>
-                                            <span className="font-black text-slate-900 bg-white px-2 py-1 rounded-lg border border-slate-200">₹{order.totalAmount.toFixed(2)}</span>
+                                            <span className="text-slate-500 font-bold text-xs uppercase tracking-wide">{table.itemCount} items</span>
+                                            <span className="font-black text-slate-900 bg-white px-2 py-1 rounded-lg border border-slate-200">₹{table.total.toFixed(2)}</span>
                                         </div>
                                     </div>
                                 ))
@@ -204,97 +230,77 @@ export default function BillingDashboard() {
                     
                     {/* Right: Bill Preview & Actions */}
                     <div className="flex-1 h-full overflow-hidden flex flex-col print:block print:overflow-visible">
-                      {billingSelectedOrder ? (
+                      {selectedOrders ? (
                           <div className="grid grid-cols-1 xl:grid-cols-[1.2fr_1fr] gap-6 h-full print:block">
                               {/* Receipt Column */}
-                              <div className="bg-white rounded-[2rem] shadow-xl border border-slate-100 p-10 flex flex-col overflow-y-auto print:shadow-none print:border-none print:p-0 print:overflow-visible">
-                                  <div className="text-center mb-8 pb-8 border-b-2 border-dashed border-slate-200">
-                                      <h2 className="text-4xl font-black text-slate-900 tracking-tighter mb-2 italic">Hotel Delish</h2>
-                                      <p className="text-slate-400 text-xs font-bold uppercase tracking-[0.3em]">Fine Dining Experience</p>
-                                      <div className="mt-6 space-y-1 text-slate-500 text-sm font-medium">
-                                          <p>45 Gourmet Avenue, Downtown</p>
-                                          <p>Phone: +91 98765 12345 | Web: www.hoteldelish.com</p>
-                                      </div>
-                                      <div className="mt-8 inline-block px-6 py-2 bg-slate-900 text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em]">Tax Invoice / Receipt</div>
-                                  </div>
+                              <div className="bg-white rounded-[2.5rem] border border-gray-200 overflow-hidden shadow-2xl print:shadow-none print:border-none print:rounded-none flex flex-col">
+                                <div className="p-8 pb-6 text-center border-b-2 border-dashed border-gray-200 mb-6 bg-gray-50/50 print:bg-white print:p-4">
+                                    <h2 className="text-4xl font-black text-gray-900 tracking-tighter mb-1">Hotel Delish</h2>
+                                    <p className="text-gray-400 text-[10px] uppercase font-black tracking-[0.2em] mb-4">Fine Dining Experience</p>
+                                    <div className="flex justify-center gap-6 text-[11px] font-bold text-gray-600">
+                                      <span className="py-1">{new Date(selectedOrders[0].createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
 
-                                  {/* Order Info */}
-                                  <div className="flex justify-between text-xs mb-8 bg-slate-50 rounded-[1.5rem] p-6 font-bold uppercase tracking-wider print:bg-transparent print:p-0 print:border-none border border-slate-100">
-                                      <div className="space-y-2">
-                                          <p className="text-slate-400">Order ID: <span className="text-slate-900 font-black ml-2 font-mono">#{billingSelectedOrder._id.slice(-12).toUpperCase()}</span></p>
-                                          <p className="text-slate-400">Date: <span className="text-slate-900 font-black ml-2">{new Date(billingSelectedOrder.createdAt).toLocaleDateString(undefined, {year: 'numeric', month: 'long', day: 'numeric'})}</span></p>
-                                      </div>
-                                      <div className="text-right space-y-2">
-                                          <p className="text-slate-400 text-sm">Table Number</p>
-                                          <p className="text-slate-900 font-black text-4xl italic -mt-1">{billingSelectedOrder.tableNumber}</p>
-                                      </div>
-                                  </div>
+                                <div className="px-8 mb-8 print:px-4 flex-1 overflow-y-auto">
+                                    <table className="w-full">
+                                        <thead>
+                                            <tr className="border-b-2 border-gray-900">
+                                                <th className="pb-4 text-left font-black uppercase text-[10px] tracking-widest text-gray-400">Description</th>
+                                                <th className="pb-4 text-center font-black uppercase text-[10px] tracking-widest text-gray-400">Qty</th>
+                                                <th className="pb-4 text-right font-black uppercase text-[10px] tracking-widest text-gray-400">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-100">
+                                            {aggregatedItems.map((item, idx) => (
+                                                <tr key={idx} className="group">
+                                                    <td className="py-5">
+                                                      <span className="font-bold text-gray-800 block leading-tight">{item.name}</span>
+                                                      <span className="text-[10px] text-gray-400 font-medium">₹{(item.price || 0).toFixed(2)} / unit</span>
+                                                    </td>
+                                                    <td className="py-5 text-center text-gray-600 font-bold">{item.quantity}</td>
+                                                    <td className="py-5 text-right font-black text-gray-900">₹{((item.price || 0) * item.quantity).toFixed(2)}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                                  {/* Itemized List */}
-                                  <div className="flex-1 mb-8">
-                                      <table className="w-full text-base">
-                                          <thead>
-                                              <tr className="border-b-2 border-slate-900 text-left">
-                                                  <th className="pb-4 pt-2 font-black uppercase text-[11px] tracking-widest text-slate-400">Description</th>
-                                                  <th className="pb-4 pt-2 text-center font-black uppercase text-[11px] tracking-widest text-slate-400">Qty</th>
-                                                  <th className="pb-4 pt-2 text-right font-black uppercase text-[11px] tracking-widest text-slate-400">Price</th>
-                                                  <th className="pb-4 pt-2 text-right font-black uppercase text-[11px] tracking-widest text-slate-400">Total</th>
-                                              </tr>
-                                          </thead>
-                                          <tbody className="divide-y divide-slate-100 font-bold">
-                                              {billingSelectedOrder.items.map((item, idx) => {
-                                                  const itemPrice = item.price || 0; 
-                                                  const lineTotal = itemPrice * item.quantity;
-                                                  return (
-                                                      <tr key={idx} className="group hover:bg-slate-50/50 transition-colors">
-                                                          <td className="py-4 text-slate-800">{item.name}</td>
-                                                          <td className="py-4 text-center text-slate-600">
-                                                              <span className="bg-slate-100 px-2.5 py-1 rounded-lg text-xs">{item.quantity}</span>
-                                                          </td>
-                                                          <td className="py-4 text-right text-slate-500">₹{itemPrice.toFixed(2)}</td>
-                                                          <td className="py-4 text-right text-slate-900">₹{lineTotal.toFixed(2)}</td>
-                                                      </tr>
-                                                  );
-                                              })}
-                                          </tbody>
-                                      </table>
-                                  </div>
+                                <div className="px-8 py-8 space-y-3 bg-gray-50 print:bg-white print:px-4 border-t-2 border-dashed border-gray-100 mt-auto">
+                                    <div className="flex justify-between text-gray-500 font-bold text-sm">
+                                        <span>Subtotal</span>
+                                        <span className="text-gray-900">₹{calculatedSubtotal.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-gray-500 font-bold text-sm">
+                                        <span>GST (5%)</span>
+                                        <span className="text-gray-900">₹{taxAmount.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-gray-500 font-bold text-sm pb-4 border-b border-gray-200">
+                                        <span>Service Charge (2%)</span>
+                                        <span className="text-gray-900">₹{serviceCharge.toFixed(2)}</span>
+                                    </div>
+                                    {billingAppliedDiscount > 0 && (
+                                        <div className="flex justify-between text-emerald-600 font-black text-sm p-3 bg-emerald-50 rounded-xl border border-emerald-100">
+                                            <span>DISCOUNT APPLIED</span>
+                                            <span>- ₹{billingAppliedDiscount.toFixed(2)}</span>
+                                        </div>
+                                    )}
+                                    <div className="flex justify-between items-center pt-4">
+                                        <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Total Payable</span>
+                                        <span className="text-4xl font-black text-gray-900 tracking-tighter">₹{finalTotal.toFixed(2)}</span>
+                                    </div>
+                                    
+                                    {/* Print Mode payment status */}
+                                    <div className="hidden print:flex justify-between items-center pt-8 mt-8 border-t border-gray-200 font-black uppercase tracking-widest text-[10px]">
+                                        <span>Settlement Status</span>
+                                        <span className="bg-gray-100 px-4 py-2 rounded-full">Pending Physical Receipt</span>
+                                    </div>
+                                </div>
 
-                                  {/* Calculations */}
-                                  <div className="border-t-2 border-dashed border-slate-200 pt-8 space-y-4">
-                                      <div className="flex justify-between text-slate-500 font-bold text-sm uppercase tracking-wide">
-                                          <span>Subtotal</span>
-                                          <span className="text-slate-900 font-black">₹{calculatedSubtotal.toFixed(2)}</span>
-                                      </div>
-                                      <div className="flex justify-between text-slate-400 font-bold text-xs uppercase tracking-wide">
-                                          <span>Tax (GST 5%)</span>
-                                          <span className="text-slate-900">₹{taxAmount.toFixed(2)}</span>
-                                      </div>
-                                      <div className="flex justify-between text-slate-400 font-bold text-xs uppercase tracking-wide">
-                                          <span>Service Charge (2%)</span>
-                                          <span className="text-slate-900">₹{serviceCharge.toFixed(2)}</span>
-                                      </div>
-                                      {billingAppliedDiscount > 0 && (
-                                          <div className="flex justify-between text-emerald-600 font-black text-sm p-3 bg-emerald-50 rounded-xl border border-emerald-100">
-                                              <span>DISCOUNT APPLIED</span>
-                                              <span>- ₹{billingAppliedDiscount.toFixed(2)}</span>
-                                          </div>
-                                      )}
-                                      <div className="flex justify-between items-center border-t-2 border-slate-900 pt-6 mt-4">
-                                          <span className="text-2xl font-black text-slate-900 uppercase tracking-tighter italic">Total Amount Due</span>
-                                          <span className="text-4xl font-black text-indigo-600 tracking-tight">₹{finalTotal.toFixed(2)}</span>
-                                      </div>
-                                      
-                                      {/* Print Mode payment status */}
-                                      <div className="hidden print:flex justify-between items-center pt-8 mt-8 border-t border-slate-200 font-black uppercase tracking-widest text-[10px]">
-                                          <span>Settlement Status</span>
-                                          <span className="bg-slate-100 px-4 py-2 rounded-full">Pending Physical Receipt</span>
-                                      </div>
-                                  </div>
-                                  
-                                  <div className="mt-10 text-center text-[10px] font-black text-slate-300 border-t border-slate-100 pt-8 print:block uppercase tracking-[0.5em]">
-                                      Thank you for dining with us
-                                  </div>
+                                <div className="hidden print:block text-center p-8 border-t-2 border-dashed border-gray-100">
+                                    <p className="font-bold text-gray-900">Thank You for Dining!</p>
+                                    <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Please Visit Again</p>
+                                </div>
                               </div>
                               
                               {/* Actions Area */}

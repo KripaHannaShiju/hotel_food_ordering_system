@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeToggle } from "@/components/ThemeToggle";
+
 import { User, LogOut, Menu, X } from "lucide-react";
 
 interface AdminTopNavProps {
@@ -48,15 +48,15 @@ export default function AdminTopNav({
                             <p className="text-xs font-bold text-foreground">
                                 Super Admin
                             </p>
-                            <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-tight">Active Session</p>
+                            <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-tight">Active Session</p>
                         </div>
                         
                         <div className="flex items-center gap-2">
-                            <ThemeToggle />
+
                             <div className="w-px h-8 bg-border mx-1 hidden sm:block"></div>
                             <button 
                                 onClick={onLogout}
-                                className="w-10 h-10 rounded-xl bg-card text-muted-foreground border border-border hover:bg-rose-50 hover:text-rose-600 hover:border-rose-100 transition-all duration-300 flex items-center justify-center group active:scale-95 shadow-sm"
+                                className="w-10 h-10 rounded-xl bg-card text-muted-foreground border border-border hover:bg-rose-50 dark:hover:bg-rose-900/30 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-100 dark:hover:border-rose-800/40 transition-all duration-300 flex items-center justify-center group active:scale-95 shadow-sm"
                                 title="Sign Out"
                             >
                                 <LogOut className="w-4 h-4 group-hover:scale-110 transition-transform" />

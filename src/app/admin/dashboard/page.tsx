@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { ThemeToggle } from "@/components/ThemeToggle";
+
 import { ChevronDown, Plus, Minus, Trash2, Edit3, Camera, X, Printer, CreditCard, Banknote, Smartphone, Percent, CheckCircle2, Receipt, Search, LogOut, User, BarChart2, TrendingUp, Calendar, Menu, LayoutDashboard, Utensils, ShoppingBag, PieChart, Settings, MessageSquare, IndianRupee, Clock, Tag, AlignLeft, Leaf, Sparkles, Flame } from "lucide-react";
 
 // Modular Components
