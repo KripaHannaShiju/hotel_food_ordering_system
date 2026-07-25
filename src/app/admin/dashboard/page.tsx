@@ -9,6 +9,7 @@ import { ChevronDown, Plus, Minus, Trash2, Edit3, Camera, X, Printer, CreditCard
 // Modular Components
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminTopNav from "@/components/admin/AdminTopNav";
+import { QRCodeSVG } from 'qrcode.react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   AreaChart, Area, ComposedChart, Line
@@ -541,6 +542,7 @@ export default function AdminDashboard() {
     { id: "feedback", name: "Customer Feedback", icon: "⭐", badge: ratings.length },
     { id: "reports", name: "Reports", icon: "📈" },
     { id: "settings", name: "Settings", icon: "⚙️" },
+    { id: "tables", name: "Table QR Codes", icon: "📱" },
   ];
 
   // Get unique table numbers from orders
@@ -2307,6 +2309,42 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {activeSection === "tables" && (
+            <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="bg-card border border-border rounded-xl p-6">
+                <div className="flex justify-between items-center mb-6 print:hidden">
+                  <div>
+                    <h2 className="text-lg font-bold text-foreground">Table QR Codes</h2>
+                    <p className="text-xs text-muted-foreground mt-1">Generate and print QR codes for all 15 tables</p>
+                  </div>
+                  <button onClick={() => window.print()} className="px-6 py-2.5 bg-primary text-primary-foreground rounded-lg font-bold hover:bg-primary/90 flex items-center gap-2">
+                    <Printer className="w-4 h-4" /> Print QR Codes
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 print:grid-cols-3">
+                  {Array.from({ length: 15 }, (_, i) => i + 1).map((tableNum) => (
+                    <div key={tableNum} className="flex flex-col items-center justify-center p-6 border border-border rounded-2xl bg-slate-50 dark:bg-slate-900/50 page-break-inside-avoid shadow-sm hover:shadow-md transition-all">
+                      <h3 className="text-xl font-black mb-4 text-foreground">Table {tableNum}</h3>
+                      <div className="bg-white p-3 rounded-xl shadow-sm mb-3">
+                        <QRCodeSVG
+                          value={`${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/?table=${tableNum}`}
+                          size={120}
+                          bgColor="#ffffff"
+                          fgColor="#000000"
+                          level="Q"
+                        />
+                      </div>
+                      <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider text-center">
+                        Scan to order
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Fallback for completely unknown sections */}
           {activeSection !== "dashboard" &&
             activeSection !== "menu" &&
@@ -2314,7 +2352,8 @@ export default function AdminDashboard() {
             activeSection !== "kitchen" &&
             activeSection !== "billing" &&
             activeSection !== "reports" &&
-            activeSection !== "settings" && (
+            activeSection !== "settings" &&
+            activeSection !== "tables" && (
               <div className="bg-card rounded-xl shadow-md p-12 text-center border border-border">
                 <div className="text-6xl mb-4">
                   {navigationItems.find((item) => item.id === activeSection)?.icon || "🚧"}
