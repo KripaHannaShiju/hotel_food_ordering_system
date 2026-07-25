@@ -105,7 +105,49 @@ export default function AdminDashboard() {
       const res = await fetch(`/api/orders?t=${Date.now()}`, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
-        setOrders(data);
+        
+        // Group orders by table and date (session approximation)
+        const groupedOrdersMap = new Map<string, any>();
+        
+        data.forEach((order: any) => {
+            const dateKey = new Date(order.createdAt).toLocaleDateString();
+            const groupKey = `${order.tableNumber}-${dateKey}`;
+            
+            if (!groupedOrdersMap.has(groupKey)) {
+                const newGroup = JSON.parse(JSON.stringify(order));
+                newGroup.originalOrderIds = [order._id];
+                groupedOrdersMap.set(groupKey, newGroup);
+            } else {
+                const existingGroup = groupedOrdersMap.get(groupKey)!;
+                existingGroup.items.push(...order.items);
+                existingGroup.totalAmount += order.totalAmount;
+                
+                const statusPriority = { "Pending": 1, "Confirmed": 2, "Preparing": 3, "Ready": 4, "Delivered": 5, "Cancelled": 6 };
+                if ((statusPriority as any)[order.status] < (statusPriority as any)[existingGroup.status]) {
+                    existingGroup.status = order.status;
+                }
+                
+                if (new Date(order.createdAt) < new Date(existingGroup.createdAt)) {
+                    existingGroup.createdAt = order.createdAt;
+                }
+                
+                if (order.estimatedPrepTime > existingGroup.estimatedPrepTime) {
+                    existingGroup.estimatedPrepTime = order.estimatedPrepTime;
+                }
+                
+                existingGroup.originalOrderIds.push(order._id);
+            }
+        });
+        
+        const groupedOrders = Array.from(groupedOrdersMap.values()).map(group => {
+            group._id = group.originalOrderIds.join(',');
+            return group;
+        });
+        
+        // Sort newest first
+        groupedOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+        setOrders(groupedOrders);
       }
     } catch (error) {
       console.error("Failed to fetch orders:", error);
@@ -172,39 +214,39 @@ export default function AdminDashboard() {
     setPrevOrderIds(currentIds);
   }, [orders]);
 
-  const updateStatus = async (id: string, newStatus: string) => {
+  const updateStatus = async (idString: string, newStatus: string) => {
     try {
-      const res = await fetch(`/api/orders/${id}`, {
+      const ids = idString.split(',');
+      await Promise.all(ids.map(id => fetch(`/api/orders/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
-      });
-      if (res.ok) {
-        fetchOrders();
+      })));
+      fetchOrders();
+      toast.success(`Order status updated to ${newStatus}`);
+      if (selectedKitchenOrder && selectedKitchenOrder._id === idString && (newStatus === 'Delivered' || newStatus === 'Cancelled')) {
+          setSelectedKitchenOrder(null);
       }
     } catch (error) {
-      console.error("Failed to update status:", error);
+      toast.error("Failed to update status");
     }
   };
 
-  const updateOrderPrepTime = async (id: string, newTime: number) => {
+  const updateOrderPrepTime = async (idString: string, newTime: number) => {
     try {
-      const res = await fetch(`/api/orders/${id}`, {
+      const ids = idString.split(',');
+      await Promise.all(ids.map(id => fetch(`/api/orders/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ estimatedPrepTime: newTime }),
-      });
-      if (res.ok) {
-        const updatedOrder = await res.json();
-        setOrders(prev => prev.map(o => o._id === id ? updatedOrder : o));
-        if (selectedKitchenOrder?._id === id) {
-          setSelectedKitchenOrder(updatedOrder);
-        }
-        toast.success(`Prep time updated to ${newTime}m`);
+      })));
+      fetchOrders();
+      if (selectedKitchenOrder && selectedKitchenOrder._id === idString) {
+          setSelectedKitchenOrder({ ...selectedKitchenOrder, estimatedPrepTime: newTime });
       }
+      toast.success("Preparation time adjusted");
     } catch (error) {
-      console.error("Failed to update prep time:", error);
-      toast.error("Fixed time update failed");
+      toast.error("Cloud synchronization failed");
     }
   };
 

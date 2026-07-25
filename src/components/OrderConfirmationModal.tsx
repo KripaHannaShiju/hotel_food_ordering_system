@@ -167,18 +167,12 @@ export default function OrderConfirmationModal({
                 ))}
               </div>
               
-              <div className="border-t-2 border-dashed border-gray-200 dark:border-gray-800 mt-6 pt-6 flex justify-between items-end">
+              <div className="border-t-2 border-dashed border-gray-200 dark:border-gray-800 mt-6 pt-6">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 block mb-1">
                     Order Total
                   </span>
                   <p className="text-4xl font-black text-indigo-600">₹{total.toFixed(2)}</p>
-                </div>
-                <div className="text-right">
-                   <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 block mb-1">
-                    Table
-                  </span>
-                  <p className="text-xl font-black text-gray-900 dark:text-white">#{tableNumber}</p>
                 </div>
               </div>
             </div>
@@ -245,10 +239,7 @@ export default function OrderConfirmationModal({
             </p>
             
             <div className="w-full bg-gray-50 dark:bg-gray-900 rounded-3xl p-6 mb-8 border border-gray-100 dark:border-gray-800 text-left">
-              <div className="flex justify-between py-1">
-                <span className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Order ID</span>
-                <span className="font-mono text-xs text-gray-900 dark:text-white font-bold">#{successOrderId.slice(-8).toUpperCase()}</span>
-              </div>
+
               <div className="flex justify-between py-1">
                 <span className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Payment Status</span>
                 <span className="text-[10px] font-black text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full uppercase tracking-tighter">Pay Later</span>

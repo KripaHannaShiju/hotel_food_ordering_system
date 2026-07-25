@@ -235,16 +235,8 @@ function OrderStatusContent() {
             <div className="flex flex-col gap-12 mb-12">
               <div className="bg-white rounded-[2.5rem] border border-gray-200 overflow-hidden shadow-xl">
                 {/* Header with Table info */}
-                <div className="p-8 pb-4 bg-gray-50 border-b border-gray-100 flex justify-between items-end">
-                  <div>
-                    <span className="text-[10px] uppercase font-black tracking-widest text-gray-400 block mb-1">
-                      Table Session
-                    </span>
-                    <h3 className="text-2xl font-black text-gray-900">
-                      #{tableNumber} - {orders.length} Order{orders.length > 1 ? "s" : ""}
-                    </h3>
-                  </div>
-                  <div className="text-right">
+                <div className="p-8 pb-4 bg-gray-50 border-b border-gray-100">
+                  <div className="text-center">
                     <span className="text-[10px] uppercase font-black tracking-widest text-gray-400 block mb-1">
                       Total Amount
                     </span>

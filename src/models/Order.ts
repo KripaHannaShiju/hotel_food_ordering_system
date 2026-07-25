@@ -26,6 +26,7 @@ export interface IOrder extends Document {
     compensationNote?: string;
     createdAt: Date;
     updatedAt: Date;
+    billId?: mongoose.Types.ObjectId; // NEW: Reference to the Bill
 }
 
 const OrderSchema: Schema = new Schema(
@@ -61,6 +62,7 @@ const OrderSchema: Schema = new Schema(
         preparationStartedAt: { type: Date }, // NEW: Track when the timer actually starts
         isDelayedCompensationApplied: { type: Boolean, default: false },
         compensationNote: { type: String },
+        billId: { type: Schema.Types.ObjectId, ref: 'Bill' },
     },
     { timestamps: true }
 );

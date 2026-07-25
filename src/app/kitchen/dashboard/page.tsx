@@ -135,35 +135,37 @@ export default function KitchenDashboard() {
     }, []);
 
     // Handlers: Orders
-    const updateStatus = async (id: string, newStatus: string) => {
+    const updateStatus = async (idString: string, newStatus: string) => {
         try {
-            const res = await fetch(`/api/orders/${id}`, {
+            const ids = idString.split(',');
+            await Promise.all(ids.map(id => fetch(`/api/orders/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: newStatus }),
-            });
-            if (res.ok) {
-                fetchOrders();
-                toast.success(`Order status updated to ${newStatus}`);
+            })));
+            fetchOrders();
+            toast.success(`Order status updated to ${newStatus}`);
+            if (selectedKitchenOrder && selectedKitchenOrder._id === idString && (newStatus === 'Delivered' || newStatus === 'Cancelled')) {
+                setSelectedKitchenOrder(null);
             }
         } catch (error) {
             toast.error("Failed to update status");
         }
     };
 
-    const updateOrderPrepTime = async (id: string, newTime: number) => {
+    const updateOrderPrepTime = async (idString: string, newTime: number) => {
         try {
-            const res = await fetch(`/api/orders/${id}`, {
+            const ids = idString.split(',');
+            await Promise.all(ids.map(id => fetch(`/api/orders/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ estimatedPrepTime: newTime }),
-            });
-            if (res.ok) {
-                const updatedOrder = await res.json();
-                setOrders(prev => prev.map(o => o._id === id ? updatedOrder : o));
-                if (selectedKitchenOrder?._id === id) setSelectedKitchenOrder(updatedOrder);
-                toast.success("Preparation time adjusted");
+            })));
+            fetchOrders();
+            if (selectedKitchenOrder && selectedKitchenOrder._id === idString) {
+                setSelectedKitchenOrder({ ...selectedKitchenOrder, estimatedPrepTime: newTime });
             }
+            toast.success("Preparation time adjusted");
         } catch (error) {
             toast.error("Cloud synchronization failed");
         }
@@ -428,7 +430,41 @@ export default function KitchenDashboard() {
     const nextStatusLabel = { Pending: "Confirm", Confirmed: "Start Preparing", Preparing: "Mark as Ready", Ready: "Mark Delivered" };
     const nextStatusColor = { Pending: "bg-sky-500 hover:bg-sky-600", Confirmed: "bg-orange-400 hover:bg-orange-500", Preparing: "bg-emerald-500 hover:bg-emerald-600", Ready: "bg-slate-600 hover:bg-slate-700" };
 
-    const kitchenOrders = orders.filter((o) => !["Delivered", "Cancelled"].includes(o.status));
+    const rawKitchenOrders = orders.filter((o) => !["Delivered", "Cancelled"].includes(o.status));
+
+    const groupedOrdersMap = new Map<string, any>();
+    
+    rawKitchenOrders.forEach(order => {
+        if (!groupedOrdersMap.has(order.tableNumber)) {
+            const newGroup = JSON.parse(JSON.stringify(order));
+            newGroup.originalOrderIds = [order._id];
+            groupedOrdersMap.set(order.tableNumber, newGroup);
+        } else {
+            const existingGroup = groupedOrdersMap.get(order.tableNumber)!;
+            existingGroup.items.push(...order.items);
+            existingGroup.totalAmount += order.totalAmount;
+            
+            const statusPriority = { "Pending": 1, "Confirmed": 2, "Preparing": 3, "Ready": 4 };
+            if ((statusPriority as any)[order.status] < (statusPriority as any)[existingGroup.status]) {
+                existingGroup.status = order.status;
+            }
+            
+            if (new Date(order.createdAt) < new Date(existingGroup.createdAt)) {
+                existingGroup.createdAt = order.createdAt;
+            }
+            
+            if (order.estimatedPrepTime > existingGroup.estimatedPrepTime) {
+                existingGroup.estimatedPrepTime = order.estimatedPrepTime;
+            }
+            
+            existingGroup.originalOrderIds.push(order._id);
+        }
+    });
+
+    const kitchenOrders = Array.from(groupedOrdersMap.values()).map(group => {
+        group._id = group.originalOrderIds.join(',');
+        return group as Order;
+    });
 
     let filteredKitchenOrders = kitchenFilter === "active"
         ? kitchenOrders

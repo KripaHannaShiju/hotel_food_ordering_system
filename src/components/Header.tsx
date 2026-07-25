@@ -53,43 +53,7 @@ export default function Header({
           </div>
         </Link>
 
-        {/* Table Badge */}
-        {tableNumber && (
-          <div className="relative" ref={dropdownRef}>
-            <button 
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-            >
-              <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-[10px] text-white font-black">#</span>
-              </div>
-              <span className="text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300">
-                Table {tableNumber}
-              </span>
-              <ChevronDown className={`w-3 h-3 text-slate-500 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
-            </button>
-            
-            {isDropdownOpen && (
-              <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl z-50 overflow-hidden py-2 animate-in fade-in slide-in-from-top-2">
-                <div className="max-h-64 overflow-y-auto custom-scrollbar">
-                  {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
-                    <button
-                      key={num}
-                      onClick={() => handleTableSelect(num.toString())}
-                      className={`w-full text-left px-4 py-2.5 text-sm font-bold transition-colors ${
-                        tableNumber === num.toString()
-                          ? "bg-primary/10 text-primary"
-                          : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
-                      }`}
-                    >
-                      Table {num}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+
 
         {/* Right Controls */}
         <div className="flex items-center gap-1 sm:gap-2">

@@ -93,8 +93,8 @@ export default function RatingSection({ tableNumber, sessionId }: RatingSectionP
       <div className="space-y-4">
         <div className="relative">
           <textarea
-            placeholder="Tell us what you liked or what we can improve..."
-            className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-5 text-sm focus:ring-4 focus:ring-primary/5 focus:border-primary focus:outline-none transition-all min-h-[120px] resize-none font-medium"
+            placeholder="Any suggestions? (Optional)"
+            className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-5 text-sm focus:ring-4 focus:ring-primary/5 focus:border-primary focus:outline-none transition-all min-h-[120px] resize-none font-medium text-gray-900 placeholder:text-gray-400"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />

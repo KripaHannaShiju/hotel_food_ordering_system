@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
     const pathname = usePathname();
-    const isAdmin = pathname?.startsWith("/admin");
+    const isAdmin = pathname?.startsWith("/admin") || pathname?.startsWith("/kitchen") || pathname?.startsWith("/billing");
     const storageKey = isAdmin ? "hotel-admin-theme" : "hotel-customer-theme";
 
     return (
