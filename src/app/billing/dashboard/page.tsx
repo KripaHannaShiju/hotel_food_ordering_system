@@ -21,7 +21,7 @@ export default function BillingDashboard() {
     const [isLoading, setIsLoading] = useState(true);
 
     // Active Orders State
-    const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+    const [selectedTableNumber, setSelectedTableNumber] = useState<string | null>(null);
     const [discount, setDiscount] = useState<string>('');
     const [coupon, setCoupon] = useState<string>('');
     const [appliedDiscount, setAppliedDiscount] = useState<number>(0);
@@ -55,7 +55,7 @@ export default function BillingDashboard() {
 
     useEffect(() => {
         fetchData();
-        const interval = setInterval(fetchData, 15000);
+        const interval = setInterval(fetchData, 3000);
         return () => clearInterval(interval);
     }, [activeTab]);
 
@@ -71,11 +71,35 @@ export default function BillingDashboard() {
         o.paymentStatus !== 'Paid' && !o.billId
     );
 
-    const selectedOrderData = activeOrders.find(o => o._id === selectedOrderId);
+    // Group active orders by table
+    const tableGroups = activeOrders.reduce((acc, order) => {
+        const tableStr = order.tableNumber.toString();
+        if (!acc[tableStr]) {
+            acc[tableStr] = {
+                tableNumber: order.tableNumber,
+                orderIds: [],
+                items: [],
+            };
+        }
+        acc[tableStr].orderIds.push(order._id);
+        order.items.forEach((item: any) => {
+            const existingItem = acc[tableStr].items.find((i: any) => i.name === item.name);
+            if (existingItem) {
+                existingItem.quantity += item.quantity;
+            } else {
+                acc[tableStr].items.push({ ...item });
+            }
+        });
+        return acc;
+    }, {} as Record<string, any>);
+
+    const groupedActiveOrders = Object.values(tableGroups);
+
+    const selectedTableData = groupedActiveOrders.find(g => g.tableNumber.toString() === selectedTableNumber);
     
     let subtotal = 0;
-    if (selectedOrderData) {
-        subtotal = selectedOrderData.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+    if (selectedTableData) {
+        subtotal = selectedTableData.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
     }
     const gstAmount = subtotal * 0.05;
     const serviceChargeAmount = subtotal * 0.02;
@@ -90,11 +114,11 @@ export default function BillingDashboard() {
     };
 
     const handleGenerateBill = async (payments: any[]) => {
-        if (!selectedOrderData) return;
+        if (!selectedTableData) return;
 
         const payload = {
-            tableNumber: selectedOrderData.tableNumber,
-            orders: [selectedOrderData._id],
+            tableNumber: selectedTableData.tableNumber,
+            orders: selectedTableData.orderIds,
             subtotal,
             gstAmount,
             serviceChargeAmount,
@@ -115,7 +139,7 @@ export default function BillingDashboard() {
             if (res.ok) {
                 const newBill = await res.json();
                 toast.success('Bill generated and settled!');
-                setSelectedOrderId(null);
+                setSelectedTableNumber(null);
                 setAppliedDiscount(0);
                 setDiscount('');
                 setCoupon('');
@@ -216,32 +240,32 @@ export default function BillingDashboard() {
                                         <p className="text-lg font-bold">All orders billed up!</p>
                                     </div>
                                 ) : (
-                                    activeOrders.map(order => (
+                                    groupedActiveOrders.map(group => (
                                         <button 
-                                            key={order._id}
+                                            key={group.tableNumber}
                                             onClick={() => {
-                                                setSelectedOrderId(order._id);
+                                                setSelectedTableNumber(group.tableNumber.toString());
                                                 setAppliedDiscount(0);
                                                 setDiscount('');
                                                 setCoupon('');
                                             }}
                                             className={`p-6 rounded-3xl border-2 text-left transition-all duration-300 flex flex-col justify-between ${
-                                                selectedOrderId === order._id
+                                                selectedTableNumber === group.tableNumber.toString()
                                                     ? 'border-indigo-600 bg-white shadow-xl shadow-indigo-100 scale-[1.02]'
                                                     : 'border-slate-200 bg-white hover:border-indigo-300 shadow-sm'
                                             }`}
                                         >
                                             <div className="w-full">
                                                 <div className="flex justify-between items-center mb-2">
-                                                    <h3 className="text-2xl font-black text-slate-800">Table {order.tableNumber}</h3>
+                                                    <h3 className="text-2xl font-black text-slate-800">Table {group.tableNumber}</h3>
                                                     <span className="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded-full uppercase tracking-widest">
                                                         Unbilled
                                                     </span>
                                                 </div>
-                                                <p className="text-xs font-mono text-slate-400 mb-4">#{order._id.slice(-6)}</p>
+                                                <p className="text-xs font-mono text-slate-400 mb-4">Orders: {group.orderIds.map((id: string) => '#' + id.slice(-6)).join(', ')}</p>
                                             </div>
                                             <div className="text-slate-500 font-medium">
-                                                {order.items.length} items ordered
+                                                {group.items.length} items ordered
                                             </div>
                                         </button>
                                     ))
@@ -249,17 +273,17 @@ export default function BillingDashboard() {
                             </div>
 
                             {/* Billing Panel */}
-                            {selectedOrderData && (
+                            {selectedTableData && (
                                 <div className="w-[450px] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden shrink-0">
                                     <div className="p-6 border-b border-slate-100 bg-slate-900 text-white">
                                         <h3 className="text-xl font-black mb-1">Invoice Summary</h3>
-                                        <p className="text-sm text-slate-400">Table {selectedOrderData.tableNumber} • Order #{selectedOrderData._id.slice(-6)}</p>
+                                        <p className="text-sm text-slate-400">Table {selectedTableData.tableNumber} • Orders: {selectedTableData.orderIds.map((id: string) => '#' + id.slice(-6)).join(', ')}</p>
                                     </div>
                                     
                                     <div className="flex-1 overflow-y-auto p-6 space-y-4">
                                         {/* Order Items */}
                                         <div className="space-y-3">
-                                            {selectedOrderData.items.map((item: any, idx: number) => (
+                                            {selectedTableData.items.map((item: any, idx: number) => (
                                                 <div key={idx} className="flex justify-between text-sm">
                                                     <div>
                                                         <p className="font-bold text-slate-800">{item.name}</p>
@@ -336,9 +360,9 @@ export default function BillingDashboard() {
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
                                     {bills.map(bill => {
-                                        const allItems = bill.orders?.flatMap((o: any) => o.items) || [];
+                                        const allItems = bill.orders?.flatMap((o: any) => o?.items || []) || [];
                                         const itemsSummary = allItems.length > 0 
-                                            ? allItems.slice(0, 3).map((i: any) => `${i.quantity}x ${i.name}`).join(', ') + (allItems.length > 3 ? '...' : '')
+                                            ? allItems.slice(0, 3).map((i: any) => `${i?.quantity || 0}x ${i?.name || 'Item'}`).join(', ') + (allItems.length > 3 ? '...' : '')
                                             : 'No items';
 
                                         return (

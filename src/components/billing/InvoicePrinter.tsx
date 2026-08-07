@@ -30,16 +30,14 @@ export default function InvoicePrinter({ bill, businessInfo }: InvoicePrinterPro
                     <h1 className="text-3xl font-black uppercase mb-1">{info.name}</h1>
                     <p className="text-xs">{info.address}</p>
                     <p className="text-xs">Ph: {info.phone}</p>
-                    <p className="text-xs mt-1">GSTIN: {info.gstin}</p>
                 </div>
 
                 <div className="flex justify-between mb-4 text-xs font-bold">
                     <div>
-                        <p>Bill No: #{bill._id.slice(-6).toUpperCase()}</p>
+                        <p>Bill No: #{bill._id?.slice(-6).toUpperCase()}</p>
                         <p>Date: {new Date(bill.createdAt).toLocaleDateString()} {new Date(bill.createdAt).toLocaleTimeString()}</p>
                     </div>
                     <div className="text-right">
-                        <p>Table: {bill.tableNumber}</p>
                         <p>Status: {bill.paymentStatus}</p>
                     </div>
                 </div>
@@ -54,11 +52,11 @@ export default function InvoicePrinter({ bill, businessInfo }: InvoicePrinterPro
                     </thead>
                     <tbody className="divide-y divide-gray-200 border-b border-gray-400">
                         {/* We aggregate all items from the linked orders */}
-                        {bill.orders.flatMap((o: any) => o.items).map((item: any, idx: number) => (
+                        {bill.orders?.flatMap((o: any) => o?.items || [])?.map((item: any, idx: number) => (
                             <tr key={idx}>
-                                <td className="py-2 pr-2">{item.name}</td>
-                                <td className="text-center py-2">{item.quantity}</td>
-                                <td className="text-right py-2">₹{(item.price * item.quantity).toFixed(2)}</td>
+                                <td className="py-2 pr-2">{item?.name}</td>
+                                <td className="text-center py-2">{item?.quantity}</td>
+                                <td className="text-right py-2">₹{((item?.price || 0) * (item?.quantity || 1)).toFixed(2)}</td>
                             </tr>
                         ))}
                     </tbody>

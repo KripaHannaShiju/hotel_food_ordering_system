@@ -119,7 +119,17 @@ export default function AdminDashboard() {
                 groupedOrdersMap.set(groupKey, newGroup);
             } else {
                 const existingGroup = groupedOrdersMap.get(groupKey)!;
-                existingGroup.items.push(...order.items);
+                order.items.forEach((item: any) => {
+                    const existingItem = existingGroup.items.find((i: any) => i.name === item.name);
+                    if (existingItem) {
+                        existingItem.quantity += item.quantity;
+                        if (item.notes) {
+                            existingItem.notes = existingItem.notes ? `${existingItem.notes}, ${item.notes}` : item.notes;
+                        }
+                    } else {
+                        existingGroup.items.push({ ...item });
+                    }
+                });
                 existingGroup.totalAmount += order.totalAmount;
                 
                 const statusPriority = { "Pending": 1, "Confirmed": 2, "Preparing": 3, "Ready": 4, "Delivered": 5, "Cancelled": 6 };
@@ -178,9 +188,10 @@ export default function AdminDashboard() {
       if (activeSection === 'reports' || activeSection === 'feedback') {
         fetchRatings();
       }
-    }, 10000); // 10s polling interval
+    }, 3000); // 3s polling interval for near real-time sync
+
     return () => clearInterval(interval);
-  }, []);
+  }, [activeSection]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -1674,7 +1685,7 @@ export default function AdminDashboard() {
           })()}
 
           {activeSection === "billing" && (() => {
-            const billingOrders = orders.filter((o) => ['Preparing', 'Ready', 'Delivered'].includes(o.status));
+            const billingOrders = orders.filter((o) => ['Preparing', 'Ready', 'Delivered'].includes(o.status) && o.paymentStatus !== 'Paid' && !o.billId);
             const filteredOrders = billingOrders.filter(o =>
               o.tableNumber.toString().includes(billingSearchQuery) ||
               o._id.toLowerCase().includes(billingSearchQuery.toLowerCase())
@@ -1700,10 +1711,41 @@ export default function AdminDashboard() {
               window.print();
             };
 
-            const handleMarkPaid = () => {
+            const handleMarkPaid = async () => {
               if (billingSelectedOrder) {
-                updateStatus(billingSelectedOrder._id, 'Paid');
-                setBillingSelectedOrder(null);
+                const payload = {
+                    tableNumber: billingSelectedOrder.tableNumber,
+                    orders: (billingSelectedOrder as any).originalOrderIds || [billingSelectedOrder._id],
+                    subtotal: calculatedSubtotal,
+                    gstAmount: taxAmount,
+                    serviceChargeAmount: serviceCharge,
+                    discountAmount: billingAppliedDiscount,
+                    couponCode: '',
+                    totalAmount: finalTotal,
+                    paymentStatus: 'Paid',
+                    splitPayments: [{ method: billingPaymentMethod, amount: finalTotal }]
+                };
+
+                try {
+                    const res = await fetch('/api/bills', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (res.ok) {
+                        toast.success('Payment completed and bill generated!');
+                        setBillingSelectedOrder(null);
+                        setBillingAppliedDiscount(0);
+                        setBillingDiscount('');
+                        fetchOrders();
+                    } else {
+                        toast.error('Failed to generate bill');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    toast.error('Error processing payment');
+                }
               }
             };
 

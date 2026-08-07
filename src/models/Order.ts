@@ -62,6 +62,7 @@ const OrderSchema: Schema = new Schema(
         preparationStartedAt: { type: Date }, // NEW: Track when the timer actually starts
         isDelayedCompensationApplied: { type: Boolean, default: false },
         compensationNote: { type: String },
+        sessionEnded: { type: Boolean, default: false }, // NEW: Marks if the table session has ended
         billId: { type: Schema.Types.ObjectId, ref: 'Bill' },
     },
     { timestamps: true }
